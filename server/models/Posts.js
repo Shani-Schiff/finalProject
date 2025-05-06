@@ -1,8 +1,8 @@
 const { Sequelize, DataTypes } = require('sequelize');
-const sequelize= require("../dataBase");  // חיבור למסד נתונים
-const User = require('./User');
+const sequelize = require("../dataBase");  // חיבור למסד נתונים
+const Users = require('./Users');
 
-const Post = sequelize.define('Post', {
+const Posts = sequelize.define('Posts', {
   id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
@@ -18,6 +18,6 @@ const Post = sequelize.define('Post', {
   },
 });
 
-Post.belongsTo(User, { foreignKey: 'userId' });  // קשר עם טבלת User
+Posts.belongsTo(Users, { foreignKey: 'userId' });  // קשר עם טבלת User
 
-module.exports = Post;
+module.exports = Posts;

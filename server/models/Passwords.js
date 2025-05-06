@@ -1,10 +1,10 @@
 const { Sequelize, DataTypes } = require('sequelize');
 const bcrypt = require('bcrypt');
 const sequelize = require("../dataBase");  // חיבור למסד נתונים
-const User = require('./User'); // קשר עם טבלת משתמשים
+const Users = require('./Users'); // קשר עם טבלת משתמשים
 
 // מודל Password
-const Password = sequelize.define('Password', {
+const Passwords = sequelize.define('Passwords', {
   id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
@@ -44,6 +44,6 @@ const Password = sequelize.define('Password', {
 //   return bcrypt.compare(password, this.hashedPassword);
 // };
 
-Password.belongsTo(User, { foreignKey: 'userId' });
+Passwords.belongsTo(Users, { foreignKey: 'userId' });
 
-module.exports = Password;
+module.exports = Passwords;

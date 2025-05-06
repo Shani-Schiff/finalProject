@@ -1,13 +1,13 @@
 const { faker } = require('@faker-js/faker');
-const sequelize  = require('./dataBase');
+const sequelize = require('./dataBase');
 console.log(sequelize);
 
 
-const User = require('./models/User');
-const Post = require('./models/Post');
-const Todo = require('./models/Todo');
-const Comment = require('./models/Comment');
-const Password = require('./models/Password');
+const User = require('./models/Users');
+const Post = require('./models/Posts');
+const Todo = require('./models/Todos');
+const Comment = require('./models/Comments');
+const Password = require('./models/Passwords');
 
 const NUM_USERS = 20;
 const POSTS_PER_USER = 5;

@@ -1,19 +1,24 @@
-const { User, Post, Todo } = require('../models');
+const Users  = require('../models/Users');
+const Posts  = require('../models/Posts');
+const Todos = require('../models/Todos');
 
 const models = {
-    user: User,
-    post: Post,
-    todo: Todo
+    users: Users,
+    posts: Posts,
+    todos: Todos
 };
 
-const getModel = (modelName) => {
-    const model = models[modelName.toLowerCase()];
+const getModel =(modelName) => {
+    console.log(modelName);
+    const model = models[modelName];
     if (!model) throw new Error(`Model '${modelName}' not found`);
     return model;
 };
 
 exports.getAll = async (req, res) => {
     try {
+        console.log(req);
+        
         const model = getModel(req.params.type);
         const data = await model.findAll();
         res.json(data);
