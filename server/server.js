@@ -1,7 +1,8 @@
 const express = require('express');
 const cors = require("cors");
 
-const Router = require('./routers/router');
+const Routes = require('./routers/router');
+
 const sequelize = require('./dataBase');
  
 const app = express();
@@ -12,11 +13,8 @@ app.use(cors());
 const port = 5000;
 const hostname = '127.0.0.1';
 
-app.use('/todos', Router);
-app.use('/', Router);
-app.use('/comments', Router);
+app.use('/', Routes);
 
-app.use('/posts', Router);
 
 sequelize.sync().then(() => {
     app.listen(5000, () => console.log(`"Server is running on port ${port} hostname: ${hostname}"`));

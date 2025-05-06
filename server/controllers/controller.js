@@ -5,7 +5,10 @@ const Todos = require('../models/Todos');
 const models = {
     users: Users,
     posts: Posts,
-    todos: Todos
+    todos: Todos,
+    // home: Posts,
+    // login: Users,
+    // register: Users,
 };
 
 const getModel =(modelName) => {
@@ -60,7 +63,7 @@ exports.update = async (req, res) => {
     }
 };
 
-exports.remove = async (req, res) => {
+exports.delete = async (req, res) => {
     try {
         const model = getModel(req.params.type);
         const item = await model.findByPk(req.params.id);

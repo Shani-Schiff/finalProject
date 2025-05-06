@@ -1,7 +1,5 @@
 const { faker } = require('@faker-js/faker');
 const sequelize = require('./dataBase');
-console.log(sequelize);
-
 
 const User = require('./models/Users');
 const Post = require('./models/Posts');
