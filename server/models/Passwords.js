@@ -14,7 +14,7 @@ const Passwords = sequelize.define('Passwords', {
     type: DataTypes.INTEGER,
     allowNull: false,
     references: {
-      model: User,
+      model: Users,
       key: 'id',
     },
     onDelete: 'CASCADE',
