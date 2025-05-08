@@ -21,53 +21,60 @@ exports.register = async (req, res) => {
             return res.status(409).json({ error: 'Website already in use' });
         }
 
-        // יצירת משתמש חדש
-        const user = await Users.create({
-            name,
-            email,
-            phoneNumber,
-            website
-        });
+        const user = await Users.create({ name, email, phoneNumber, website });
 
-        // שמירת סיסמה בטבלה נפרדת
-        const hashedPassword = await bcrypt.hash(password, 10);
         await Passwords.create({
             userId: user.id,
-            passwordHash: hashedPassword
+            hashedPassword: password
         });
+
+        const token = generateToken(user);
 
         res.status(201).json({
             message: 'User registered successfully',
-            userId: user.id
+            token,
+            user: {
+                id: user.id,
+                name: user.name,
+                email: user.email,
+                phoneNumber: user.phoneNumber,
+                website: user.website
+            }
         });
+
     } catch (err) {
         res.status(500).json({ error: err.message });
     }
 };
 
-
 exports.login = async (req, res) => {
     try {
         const { email, password } = req.body;
+
         if (!email || !password) {
             return res.status(400).json({ error: 'Missing fields' });
         }
 
-        // שלב 1: מצא את המשתמש לפי אימייל
         const user = await Users.findOne({ where: { email } });
         if (!user) return res.status(401).json({ error: 'Invalid credentials' });
 
-        // שלב 2: מצא את הסיסמה שלו בטבלה הנפרדת
         const passwordRecord = await Passwords.findOne({ where: { userId: user.id } });
         if (!passwordRecord) return res.status(401).json({ error: 'Invalid credentials' });
 
-        // שלב 3: השוואת הסיסמה המוזנת עם ההאש
-        const match = await bcrypt.compare(password, passwordRecord.
-            hashedPassword);
+        const match = await bcrypt.compare(password, passwordRecord.hashedPassword);
         if (!match) return res.status(401).json({ error: 'Invalid credentials' });
 
         const token = generateToken(user);
-        res.json({ message: 'Login successful', token });
+
+        res.json({
+              id: user.id,
+              name: user.name,
+              email: user.email,
+              phoneNumber: user.phoneNumber,
+              website: user.website,
+              token
+          });
+          
 
     } catch (err) {
         res.status(500).json({ error: err.message });
