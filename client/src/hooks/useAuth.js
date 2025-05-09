@@ -11,7 +11,7 @@ export const useAuth = () => {
   });
 
   const authActions = {
-    checkExistingUser: async (username, password, verifyPassword) => {
+    checkExistingUser: async (email, password, verifyPassword) => {
       if (password !== verifyPassword) {
         setError("The password is incorrect");
         return false;
@@ -19,15 +19,17 @@ export const useAuth = () => {
 
       try {
         const response = await fetch(
-          `${BASE_URL}/users?username=${username}&website=${password}`
+          `${BASE_URL}/login`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ email, password }),
+          }
         );
 
-        if (!response.ok) throw new Error("Error");
-        const existingUser = await response.json();
-
-        if (existingUser.length > 0) {
-          throw new Error("User already exists");
-        }
+        if (response.ok) throw new Error("Error");
 
         setFlag(true);
         return true;
@@ -39,14 +41,13 @@ export const useAuth = () => {
 
     finalregister: async (data, password) => {
       try {
-        const response = await fetch(`${BASE_URL}/users`, {
+        const response = await fetch(`${BASE_URL}/register`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
             ...data,
-            website: password,
           }),
         });
         if (!response.ok) throw new Error("Error");

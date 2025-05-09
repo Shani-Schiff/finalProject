@@ -1,59 +1,56 @@
-.modalOverlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
+#myInfo{
+    margin-left: 300px;
+    margin-top: 50px;
 }
 
-.modalContainer {
-  background-color: white;
-  border-radius: 10px;
-  width: 80%;
-  max-width: 500px;
-  padding: 25px;
-  box-shadow: var(--shadow-medium);
-  position: relative;
+.user-card {
+    width: 100%;
+    max-width: 400px;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    margin: 20px auto;
+    text-align: left;
+    font-family: 'Arial', sans-serif;
+    margin-top: 8%;
 }
 
-.modalHeader {
-  margin-bottom: 20px;
-  text-align: center;
+.user-card h2 {
+    font-size: 1.8em;
+    color: #514869;
+    margin-bottom: 10px;
 }
 
-.modalTitle {
-  margin: 0;
-  font-size: 24px;
-  color: var(--text-primary);
+.user-card .username {
+    font-style: italic;
+    color: #716c85;
+    margin-bottom: 20px;
 }
 
-.modalContent {
-  margin-bottom: 20px;
+.user-card p {
+    margin: 5px 0;
+    color: #514869;
 }
 
-.infoGroup {
-  margin-bottom: 15px;
-  display: flex;
-  gap: 10px;
+.user-card a {
+    color: #00ff88;
+    text-decoration: none;
 }
 
-.infoLabel {
-  font-weight: bold;
-  width: 100px;
+.user-card a:hover {
+    text-decoration: underline;
 }
 
-.closeButton {
-  position: absolute;
-  top: 15px;
-  right: 15px;
-  background: none;
-  border: none;
-  font-size: 1.5rem;
-  cursor: pointer;
-  color: var(--text-primary);
+.user-card .address, .user-card .company {
+    margin-top: 20px;
+    padding-top: 10px;
+    border-top: 1px solid #ddd;
+}
+
+.user-card h3 {
+    font-size: 1.2em;
+    color: #716c85;
+    margin-bottom: 10px;
 }

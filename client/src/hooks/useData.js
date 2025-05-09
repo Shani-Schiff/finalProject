@@ -20,10 +20,8 @@ export const useData = ({
   const [hasMore, setHasMore] = useState(true);
 
   const parentIdField = {
-    albums: "userId",
     todos: "userId",
     posts: "userId",
-    photos: "albumId",
     comments: "postId",
   }[resourceType];
 
@@ -108,26 +106,16 @@ export const useData = ({
         method: "DELETE",
       });
 
-      if (resourceType === "albums") {
-        const photos = await fetch(`${BASE_URL}/photos?albumId=${id}`).then(
-          (res) => res.json()
-        );
-        for (const photo of photos) {
-          const res = await fetch(`${BASE_URL}/photos/${photo.id}`, {
-            method: "DELETE",
-          });
-          console.log(res.ok);
-        }
-      } else if (resourceType === "posts") {
-        const comments = await fetch(`${BASE_URL}/comments?postId=${id}`).then(
-          (res) => res.json()
-        );
-        for (const comment of comments) {
-          await fetch(`${BASE_URL}/comments/${comment.id}`, {
-            method: "DELETE",
-          });
-        }
-      }
+      // if (resourceType === "posts") {
+      //   const comments = await fetch(`${BASE_URL}/comments?postId=${id}`).then(
+      //     (res) => res.json()
+      //   );
+      //   for (const comment of comments) {
+      //     await fetch(`${BASE_URL}/comments/${comment.id}`, {
+      //       method: "DELETE",
+      //     });
+      //   }
+      // }
 
       setData((prev) => prev.filter((item) => item.id !== id));
     } catch (error) {

@@ -1,4 +1,4 @@
-.pageContainer {
+/* .pageContainer {
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -78,7 +78,6 @@
   background: #e6929a;
 }
 
-/* Item Styles */
 .itemCard {
   border-radius: 0.5rem;
   padding: 0.5rem;
@@ -255,4 +254,4 @@
 
 .formInput {
   min-width: 200px;
-}
+} */

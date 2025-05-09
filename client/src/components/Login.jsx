@@ -23,47 +23,38 @@ function Login() {
   };
 
   return (
-    <div className="formContainer">
-      <div className="formCard">
-        <h2 className="formTitle">Login</h2>
-        <form onSubmit={handleSubmit(onSubmit)} className="form">
-          <div className="formGroup">
-            <label htmlFor="email" className="formLabel">
-              Email
-            </label>
-            <input
-              id="email"
-              type="text"
-              className="formInput"
-              placeholder="Enter email"
-              {...register("email", { required: true })}
-            />
-          </div>
-          <div className="formGroup">
-            <label htmlFor="password" className="formLabel">
-              Password
-            </label>
-            <input
-              id="password"
-              type="password"
-              className="formInput"
-              placeholder="Enter password"
-              {...register("password", { required: true, minLength: 6 })}
-            />
-          </div>
-          <div className="errorMessage">{error}</div>
-          <button type="submit" className="btn btnPrimary">
-            Login
-          </button>
-        </form>
-        <p className="formFooter">
-          Dont have an account?
-          <Link to="/register" className="formLink">
-            Register here
-          </Link>
-        </p>
+    <main className='main-login'>
+      <div className="right-login">
+        <div className="card-login">
+          <h1>Login</h1>
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <div className="textfield">
+              <label htmlFor="user">Email</label>
+              <input
+                type="email"
+                name="user"
+                placeholder="Email"
+                required
+                {...register("email", { required: true })}
+              />
+            </div>
+            <div className="textfield">
+              <label htmlFor="password">Password</label>
+              <input
+                type="password"
+                name="password"
+                placeholder="Password"
+                required
+                {...register("password", { required: true })}
+              />
+            </div>
+            <button className="btn-login" type="submit">Login</button>
+            <Link to="/register" className='signUp'>Dont Have An Account Yet?</Link>
+
+          </form>
+        </div >
       </div>
-    </div>
+    </main >
   );
 }
 

@@ -1,11 +1,11 @@
 const { faker } = require('@faker-js/faker');
 const sequelize = require('./dataBase');
 
-const User = require('./models/Users');
-const Post = require('./models/Posts');
-const Todo = require('./models/Todos');
-const Comment = require('./models/Comments');
-const Password = require('./models/Passwords');
+const User = require('../server/models/Users');
+const Post = require('../server/models/Posts');
+const Todo = require('../server/models/Todos');
+const Comment = require('../server/models/Comments');
+const Password = require('../server/models/Passwords');
 
 const NUM_USERS = 20;
 const POSTS_PER_USER = 5;
@@ -56,9 +56,9 @@ const seed = async () => {
             }
         }
 
-        console.log("✅ Database has been seeded successfully.");
+        console.log("Database has been seeded successfully.");
     } catch (err) {
-        console.error("❌ Seeding error:", err);
+        console.error("Seeding error:", err);
     } finally {
         await sequelize.close();
     }

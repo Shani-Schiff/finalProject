@@ -6,36 +6,15 @@ function Info(props) {
   if (!userInfo) return null;
 
   return (
-    <div className="modalOverlay" onClick={onClose}>
-      <div className="modalContainer">
-        <div className="modalHeader">
-          <h2>User Information</h2>
-        </div>
-        <div className="modalContent">
-          <div className="infoGroup">
-            <label htmlFor="name">Name:</label>
-            <span>{userInfo.name}</span>
-          </div>
-          <div className="infoGroup">
-            <label htmlFor="email">Email:</label>
-            <span>{userInfo.email}</span>
-          </div>
-          <div className="infoGroup">
-            <label htmlFor="phone">Phone:</label>
-            <span>{userInfo.phone}</span>
-          </div>
-          <div className="infoGroup">
-            <label htmlFor="address">Address:</label>
-            <span>
-              {`${userInfo.address?.street}, ${userInfo.address?.city}`}
-            </span>
-          </div>
-          <div className="infoGroup">
-            <label htmlFor="company">Company:</label>
-            <span>
-              {`${userInfo.company?.name}, ${userInfo.company?.catchPhrase}, ${userInfo.company?.bs}`}
-            </span>
-          </div>
+    <div id='myInfo'>
+      <div className="user-card">
+        <h2>{userInfo.name}</h2>
+        <p><b>Email:</b> {userInfo.email}</p>
+        <p><b>Phone:</b> {userInfo.phoneNumber}</p>
+
+        <div className="address">
+          <h3>Address</h3>
+          <p>{userInfo.address}</p>
         </div>
       </div>
     </div>

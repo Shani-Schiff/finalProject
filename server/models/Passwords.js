@@ -1,6 +1,6 @@
 const { Sequelize, DataTypes } = require('sequelize');
 const bcrypt = require('bcrypt');
-const sequelize = require("../dataBase");  // חיבור למסד נתונים
+const sequelize = require("../../dataBase/dataBase");  // חיבור למסד נתונים
 const Users = require('./Users'); // קשר עם טבלת משתמשים
 
 // מודל Password

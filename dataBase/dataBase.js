@@ -5,14 +5,14 @@ const mysql = require('mysql2/promise');
   const connection = await mysql.createConnection({
     host: "localhost",
     user: "root",
-    password: "miri3292",
+    password: "sara",
   });
 
   await connection.query("CREATE DATABASE IF NOT EXISTS `socialNetwork`;");
   await connection.end();
 })();
 
-const sequelize = new Sequelize("socialNetwork", "root", "miri3292", {
+const sequelize = new Sequelize("socialNetwork", "root", "sara", {
   host: "localhost",
   dialect: "mysql",
   port: 3306,

@@ -5,7 +5,6 @@ import Register from "./components/Register";
 import Home from "./components/Home";
 import Error from "./components/Error";
 import Todos from "./components/Todos";
-import Albums from "./components/Albums";
 import Posts from "./components/Posts";
 import MainLayout from "./components/MainLayout";
 
@@ -16,7 +15,6 @@ function App() {
         <Route path="/users/:userId/*" element={<MainLayout />}>
           <Route path="home/*" element={<Home />} />
           <Route path="todos/*" element={<Todos />} />
-          <Route path="albums/*" element={<Albums />} />
           <Route path="posts/*" element={<Posts />} />
         </Route>
         <Route path="/login" element={<Login />} />

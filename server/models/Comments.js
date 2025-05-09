@@ -1,5 +1,5 @@
 const { Sequelize, DataTypes } = require('sequelize');
-const sequelize = require("../dataBase");  // חיבור למסד נתונים
+const sequelize = require("../../dataBase/dataBase");  // חיבור למסד נתונים
 const Posts = require('./Posts');
 
 const Comments = sequelize.define('Comments', {

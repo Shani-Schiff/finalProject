@@ -3,13 +3,14 @@ const Users = require('../models/Users');
 const Passwords = require('../models/Passwords');
 const { generateToken } = require('../middleware/auth');
 
+
 exports.register = async (req, res) => {
     try {
-        const { name, email, phoneNumber, website, password } = req.body;
+        const { userName, email, phoneNumber, website, password } = req.body;
 
-        if (!name || !email || !phoneNumber || !website || !password) {
-            return res.status(400).json({ error: 'Missing required fields' });
-        }
+        // if (!userName || !email || !phoneNumber || !website || !password) {
+        //     return res.status(400).json({ error: 'Missing required fields' });
+        // }
 
         const existingUser = await Users.findOne({ where: { email } });
         if (existingUser) {
@@ -21,7 +22,7 @@ exports.register = async (req, res) => {
             return res.status(409).json({ error: 'Website already in use' });
         }
 
-        const user = await Users.create({ name, email, phoneNumber, website });
+        const user = await Users.create({ userName, email, phoneNumber, website });
 
         await Passwords.create({
             userId: user.id,
@@ -67,14 +68,14 @@ exports.login = async (req, res) => {
         const token = generateToken(user);
 
         res.json({
-              id: user.id,
-              name: user.name,
-              email: user.email,
-              phoneNumber: user.phoneNumber,
-              website: user.website,
-              token
-          });
-          
+            id: user.id,
+            name: user.name,
+            email: user.email,
+            phoneNumber: user.phoneNumber,
+            website: user.website,
+            token
+        });
+
 
     } catch (err) {
         res.status(500).json({ error: err.message });

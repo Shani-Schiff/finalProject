@@ -1,103 +1,42 @@
-.errorContainer {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-top: 5vw;
-}
-
-.errorContent {
+.error-modal {
+  position: fixed;
+  top: -100px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80%;
+  max-width: 400px;
+  background-color: #514869;
+  color: #fff;
+  padding: 15px;
+  border-radius: 5px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   text-align: center;
-  padding: 2rem;
+  font-size: 16px;
+  z-index: 1000000;
+  transition: top 0.5s ease-in-out;
 }
 
-.errorAnimation {
-  position: relative;
-  height: 200px;
-  margin: 2rem 0;
+.error-modal.show {
+  top: 80px;
 }
 
-.error404 {
-  font-size: 80px;
-  font-weight: bold;
-  color: #2d3748;
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  top: 0;
-  animation: float 6s ease-in-out infinite;
+.error-modal p {
+  margin: 0;
 }
 
-.errorGhost {
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  top: 100px;
+::-webkit-scrollbar {
+  width: 10px;
 }
 
-.errorGhostBody {
-  width: 60px;
-  height: 80px;
-  background: #fff;
-  border-radius: 50% 50% 0 0;
-  position: relative;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-  animation: float 6s ease-in-out infinite;
+::-webkit-scrollbar-track {
+  background: #2f2841;
 }
 
-.errorGhostEyes {
-  position: absolute;
-  left: 50%;
-  top: 30%;
-  transform: translateX(-50%);
-  width: 30px;
-  height: 10px;
-  display: flex;
-  justify-content: space-between;
+::-webkit-scrollbar-thumb {
+  background: #514869;
+  border-radius: 5px;
 }
 
-.errorGhostEyes::before,
-.errorGhostEyes::after {
-  content: "";
-  width: 8px;
-  height: 8px;
-  background: #2d3748;
-  border-radius: 50%;
-}
-
-.errorGhostWaves {
-  position: absolute;
-  bottom: -10px;
-  left: 0;
-  right: 0;
-  height: 20px;
-  background: radial-gradient(circle at 50% 100%, transparent 12px, #fff 13px);
-  background-size: 20px 20px;
-  animation: waves 2s linear infinite;
-}
-/*   ולקשר את העמוד לדף HOMEלהוסיף */
-.error {
-  position: fixed; 
-  top: 50%; 
-  left: 50%; 
-  transform: translate(-50%, -50%);
-  margin: 0; 
-}
-
-@keyframes float {
-  0%,
-  100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-20px);
-  }
-}
-
-@keyframes waves {
-  0% {
-    background-position: 0 0;
-  }
-  100% {
-    background-position: 20px 0;
-  }
+::-webkit-scrollbar-thumb:hover {
+  background: #00ff88;
 }
