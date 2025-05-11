@@ -33,7 +33,7 @@ function NavigationBar(props) {
     <header className="mainHeader">
       <div className="headerContent">
         <nav className="navMenu">
-          {["posts", "todos"].map((route) => (
+          {[ "posts", "todos"].map((route) => (
             <NavLink
               key={route}
               className="navLink"

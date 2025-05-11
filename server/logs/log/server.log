@@ -1,0 +1,60 @@
+2025-05-11 21:38:39 [info]: GET /users/3/todos by User ID: 3
+2025-05-11 21:38:40 [error]: Error retrieving todos: Unknown column 'deletedAt' in 'field list'
+2025-05-11 21:38:40 [info]: GET /users/3/todos by User ID: 3
+2025-05-11 21:38:40 [error]: Error retrieving todos: Unknown column 'deletedAt' in 'field list'
+2025-05-11 21:38:42 [info]: GET /users/3/todos by User ID: 3
+2025-05-11 21:38:42 [error]: Error retrieving todos: Unknown column 'deletedAt' in 'field list'
+2025-05-11 21:38:42 [info]: GET /users/3/todos by User ID: 3
+2025-05-11 21:38:42 [error]: Error retrieving todos: Unknown column 'deletedAt' in 'field list'
+2025-05-11 21:38:43 [info]: GET /users/3/posts by User ID: 3
+2025-05-11 21:38:43 [error]: Error retrieving posts: Unknown column 'deletedAt' in 'field list'
+2025-05-11 21:38:43 [info]: GET /users/3/posts by User ID: 3
+2025-05-11 21:38:43 [error]: Error retrieving posts: Unknown column 'deletedAt' in 'field list'
+2025-05-11 21:38:44 [info]: GET /users/3/posts by User ID: 3
+2025-05-11 21:38:44 [error]: Error retrieving posts: Unknown column 'deletedAt' in 'field list'
+2025-05-11 21:38:44 [info]: GET /users/3/posts by User ID: 3
+2025-05-11 21:38:44 [error]: Error retrieving posts: Unknown column 'deletedAt' in 'field list'
+2025-05-11 21:39:07 [info]: GET /users/3/posts by User ID: 3
+2025-05-11 21:39:07 [error]: Error retrieving posts: Unknown column 'deletedAt' in 'field list'
+2025-05-11 21:39:10 [info]: GET /users/3/posts by User ID: 3
+2025-05-11 21:39:11 [error]: Error retrieving posts: Unknown column 'deletedAt' in 'field list'
+2025-05-11 21:39:27 [info]: GET /users/3/posts by User ID: 3
+2025-05-11 21:39:27 [error]: Error retrieving posts: Unknown column 'deletedAt' in 'field list'
+2025-05-11 21:39:28 [info]: GET /users/3/posts by User ID: 3
+2025-05-11 21:39:28 [error]: Error retrieving posts: Unknown column 'deletedAt' in 'field list'
+2025-05-11 21:39:36 [info]: GET /users/3/posts by User ID: 3
+2025-05-11 21:39:36 [error]: Error retrieving posts: Unknown column 'deletedAt' in 'field list'
+2025-05-11 21:40:14 [info]: GET /users/3/posts by User ID: 3
+2025-05-11 21:40:14 [error]: Error retrieving posts: Unknown column 'deletedAt' in 'field list'
+2025-05-11 21:40:15 [info]: GET /users/3/posts by User ID: 3
+2025-05-11 21:40:15 [error]: Error retrieving posts: Unknown column 'deletedAt' in 'field list'
+2025-05-11 21:40:45 [info]: GET /posts by User ID: 3
+2025-05-11 21:40:45 [error]: Error retrieving all posts: Unknown column 'deletedAt' in 'field list'
+2025-05-11 21:41:17 [info]: GET /users/3/posts by User ID: 3
+2025-05-11 21:41:17 [error]: Error retrieving posts: Unknown column 'deletedAt' in 'field list'
+2025-05-11 21:41:17 [info]: GET /users/3/posts by User ID: 3
+2025-05-11 21:41:17 [error]: Error retrieving posts: Unknown column 'deletedAt' in 'field list'
+2025-05-11 21:41:33 [info]: GET /users/3/posts by User ID: 3
+2025-05-11 21:41:55 [error]: Error retrieving posts: Unknown column 'deletedAt' in 'field list'
+2025-05-11 21:41:57 [info]: GET /users/3/posts by User ID: 3
+2025-05-11 21:42:23 [info]: GET /posts by User ID: 3
+2025-05-11 21:42:23 [error]: Error retrieving all posts: Unknown column 'deletedAt' in 'field list'
+2025-05-11 21:42:37 [info]: GET /users/3/posts by User ID: 3
+2025-05-11 21:44:11 [info]: GET /users/3/posts by User ID: 3
+2025-05-11 21:44:24 [info]: GET /posts by User ID: 3
+2025-05-11 21:44:24 [error]: Error retrieving all posts: Unknown column 'deletedAt' in 'field list'
+2025-05-11 21:45:02 [info]: GET /users/3/todos by User ID: 3
+2025-05-11 21:45:02 [error]: Error retrieving todos: Unknown column 'deletedAt' in 'field list'
+2025-05-11 21:45:02 [info]: GET /users/3/todos by User ID: 3
+2025-05-11 21:45:02 [error]: Error retrieving todos: Unknown column 'deletedAt' in 'field list'
+2025-05-11 21:45:24 [info]: GET /users/3/todos by User ID: 3
+2025-05-11 21:45:25 [error]: Error retrieving todos: Unknown column 'deletedAt' in 'field list'
+2025-05-11 21:45:38 [info]: GET /users/3/todos by User ID: 3
+2025-05-11 21:45:38 [error]: Error retrieving todos: Unknown column 'deletedAt' in 'field list'
+2025-05-11 21:45:44 [info]: GET /users/3/posts by User ID: 3
+2025-05-11 21:45:44 [error]: Error retrieving posts: Unknown column 'deletedAt' in 'field list'
+2025-05-11 21:45:44 [info]: GET /users/3/posts by User ID: 3
+2025-05-11 21:45:44 [error]: Error retrieving posts: Unknown column 'deletedAt' in 'field list'
+2025-05-11 21:46:02 [info]: GET /users/3/posts by User ID: 3
+2025-05-11 21:46:04 [info]: User 3 retrieved all posts
+2025-05-11 21:46:10 [info]: GET /users/3/posts by User ID: 3

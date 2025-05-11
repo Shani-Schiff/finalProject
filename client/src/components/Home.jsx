@@ -9,7 +9,7 @@ const Home = () => {
       <h2 className="welcomeMessageTypewriter">
         {userData &&
           [
-            `Welcome ${userData.username} To the site`,
+            `Welcome ${userData.name} To the site`,
             "Ready to start an exciting new project?",
             "Organize tasks effortlessly and create content tailored just for you.",
             "Discover inspiration and unique ideas from our community.",

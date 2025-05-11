@@ -29,6 +29,7 @@ function Posts() {
   const [newPost, setNewPost] = useState({
     title: "",
     body: "",
+    userId: userId
   });
 
   const handleAddPost = async () => {
@@ -50,9 +51,8 @@ function Posts() {
             setIsFormVisible={setIsFormVisible}
           >
             <button
-              className={`btn ${
-                showAllUsersPosts ? "btnPrimary" : "btnSecondary"
-              }`}
+              className={`btn ${showAllUsersPosts ? "btnPrimary" : "btnSecondary"
+                }`}
               onClick={() => {
                 setShowAllUsersPosts((prev) => !prev);
                 getAllPosts(!showAllUsersPosts ? null : userId);

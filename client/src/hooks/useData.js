@@ -1,11 +1,11 @@
 import { useState, useCallback, useEffect } from "react";
+import { useNavigate, useParams, useLocation } from "react-router-dom";
 
-const BASE_URL = "http://localhost:3000";
+const BASE_URL = "http://localhost:5000";
 
 export const useData = ({
   resourceType,
   itemId,
-  hasPagination = false,
   defaultFilters = {
     searchTerm: "",
     searchById: "",
@@ -18,6 +18,24 @@ export const useData = ({
   const [filters, setFilters] = useState(defaultFilters);
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
+  const { userId } = useParams();
+
+  const getAuthToken = () => {
+    const currentUser = localStorage.getItem("currentUser");
+    if (currentUser) {
+      const { token } = JSON.parse(currentUser);
+      return token;
+    }
+    return null;
+  };
+
+  const createAuthHeaders = () => {
+    const token = getAuthToken();
+    return {
+      "Content-Type": "application/json",
+      "Authorization": token ? `Bearer ${token}` : "",
+    };
+  };
 
   const parentIdField = {
     todos: "userId",
@@ -27,46 +45,39 @@ export const useData = ({
 
   const fetchData = useCallback(async () => {
     setIsLoading(true);
+
     try {
-      let url = `${BASE_URL}/${resourceType}?${parentIdField}=${itemId}`;
+      let url = `${BASE_URL}/users/${itemId}/${resourceType}`;
 
-      if (hasPagination) {
-        url += `&_page=${page}&_per_page=4`;
+      if (resourceType === 'comments') {
+        url = `${BASE_URL}/users/${userId}/posts/${itemId}/${resourceType}`
       }
+      const response = await fetch(url, {
+        headers: createAuthHeaders(),
+      });
 
-      const response = await fetch(url);
       if (!response.ok) throw new Error("Error");
 
       const result = await response.json();
-
-      if (hasPagination) {
-        setData((prev) => [...prev, ...result.data]);
-        setHasMore((result.pages !== page) & result.pages);
-        setPage((prev) => prev + 1);
-      } else {
-        setData(result);
-      }
+      setData(result);
     } catch (error) {
       console.error(`Error fetching ${resourceType}:`, error);
     }
     setIsLoading(false);
-  }, [resourceType, itemId, page, hasPagination, parentIdField]);
+  }, [resourceType, itemId, page, parentIdField]);
 
   useEffect(() => {
-    if (!hasPagination) {
-      fetchData();
-    }
-  }, [fetchData, hasPagination]);
+    fetchData();
+  }, [fetchData]);
 
   const addItem = async (itemData) => {
     try {
-      const response = await fetch(`${BASE_URL}/${resourceType}`, {
+      const response = await fetch(`${BASE_URL}/users/${itemData.userId}/${resourceType}`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: createAuthHeaders(),
         body: JSON.stringify({
           [parentIdField]: itemId,
           ...itemData,
-          // ...(resourceType === "photos" ? { thumbnailUrl: itemData.url } : {}),
         }),
       });
       if (!response.ok) throw new Error("Error");
@@ -80,9 +91,9 @@ export const useData = ({
 
   const editItem = async (id, updates) => {
     try {
-      const response = await fetch(`${BASE_URL}/${resourceType}/${id}`, {
+      const response = await fetch(`${BASE_URL}/users/${updates.userId}/${resourceType}/${id}`, {
         method: "PUT",
-        headers: { "Content-Type": "application/json" },
+        headers: createAuthHeaders(),
         body: JSON.stringify({
           id,
           [parentIdField]: itemId,
@@ -100,45 +111,49 @@ export const useData = ({
     }
   };
 
-  const deleteItem = async (id) => {
+  const deleteItem = async (itemData) => {
     try {
-      await fetch(`${BASE_URL}/${resourceType}/${id}`, {
+      await fetch(`${BASE_URL}/users/${itemData.userId}/${resourceType}/${itemData.id}`, {
         method: "DELETE",
+        headers: createAuthHeaders(),
       });
 
-      // if (resourceType === "posts") {
-      //   const comments = await fetch(`${BASE_URL}/comments?postId=${id}`).then(
-      //     (res) => res.json()
-      //   );
-      //   for (const comment of comments) {
-      //     await fetch(`${BASE_URL}/comments/${comment.id}`, {
-      //       method: "DELETE",
-      //     });
-      //   }
-      // }
+      if (resourceType === "posts") {
+        const comments = await fetch(`${BASE_URL}/comments?postId=${itemData.id}`, {
+          headers: createAuthHeaders(),
+        }).then(
+          (res) => res.json()
+        );
+        for (const comment of comments) {
+          await fetch(`${BASE_URL}/comments/${comment.id}`, {
+            method: "DELETE",
+            headers: createAuthHeaders(),
+          });
+        }
+      }
 
-      setData((prev) => prev.filter((item) => item.id !== id));
+      setData((prev) => prev.filter((i) => i.id !== itemData.id));
     } catch (error) {
       console.error(`Error deleting ${resourceType}:`, error);
     }
   };
 
-  const toggleItem = async (item) => {
+  const toggleItem = async (itemData) => {
     if (resourceType !== "todos") return;
 
     try {
-      const response = await fetch(`${BASE_URL}/todos/${item.id}`, {
+      const response = await fetch(`${BASE_URL}/users/${itemData.userId}/todos/${itemData.id}`, {
         method: "PUT",
-        headers: { "Content-Type": "application/json" },
+        headers: createAuthHeaders(),
         body: JSON.stringify({
-          ...item,
-          completed: !item.completed,
+          ...itemData,
+          completed: !itemData.completed,
         }),
       });
       if (!response.ok) throw new Error("Error");
       const updatedItem = await response.json();
       setData((prev) =>
-        prev.map((todo) => (todo.id === item.id ? updatedItem : todo))
+        prev.map((todo) => (todo.id === itemData.id ? updatedItem : todo))
       );
       return updatedItem;
     } catch (error) {
@@ -156,7 +171,9 @@ export const useData = ({
     try {
       let url = `${BASE_URL}/${resourceType}`;
 
-      const response = await fetch(url);
+      const response = await fetch(url, {
+        headers: createAuthHeaders(),
+      });
       if (!response.ok) throw new Error("Error");
       const result = await response.json();
 
@@ -200,7 +217,6 @@ export const useData = ({
     filters,
     setFilters,
     hasMore,
-    fetchMore: hasPagination ? fetchData : undefined,
     add: addItem,
     edit: editItem,
     delete: deleteItem,

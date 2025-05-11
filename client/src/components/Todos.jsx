@@ -21,7 +21,7 @@ function Todos() {
     itemId: userId,
   });
 
-  const [newTodo, setNewTodo] = useState({ title: "", completed: false });
+  const [newTodo, setNewTodo] = useState({ title: "", completed: false, userId: userId });
   const [showIncomplete, setShowIncomplete] = useState(false);
   const [isFormVisible, setIsFormVisible] = useState(false);
 
@@ -44,9 +44,8 @@ function Todos() {
             setIsFormVisible={setIsFormVisible}
           >
             <button
-              className={`btn ${
-                showIncomplete ? "btnPrimary" : "btnSecondary"
-              }`}
+              className={`btn ${showIncomplete ? "btnPrimary" : "btnSecondary"
+                }`}
               onClick={() => {
                 setShowIncomplete((prev) => !prev);
                 setFilters((prev) => ({

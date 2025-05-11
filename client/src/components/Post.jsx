@@ -37,13 +37,12 @@ function Post(props) {
   return (
     <div className={`${!showModal && "itemCard"}`}>
       <div className="itemHeader">
-        <span className="itemId">#{post.id}</span>
         <h3 className="itemTitle">{post.title}</h3>
         <div className="itemActions">
           <button
             className="btn btnSecondary"
             onClick={() => {
-              navigate(post.id);
+              navigate(String(post.id));
             }}
           >
             <MdZoomIn />
@@ -93,16 +92,17 @@ function Post(props) {
                     location.pathname.includes("comments")
                       ? navigate(location.pathname.replace("/comments", ""))
                       : navigate("comments");
+
                   }}
                 >
                   <MdComment />
                 </button>
                 <button
-                          className="btn"
-                          onClick={() => setIsExpanded((prev) => !prev)}
-                        >
-                          {isExpanded ? <MdVisibilityOff /> : <MdVisibility />}
-                        </button>
+                  className="btn"
+                  onClick={() => setIsExpanded((prev) => !prev)}
+                >
+                  {isExpanded ? <MdVisibilityOff /> : <MdVisibility />}
+                </button>
                 {userId == post.userId && (
                   <>
                     {!isEditing ? (
@@ -116,7 +116,7 @@ function Post(props) {
                         <button
                           className="btn btnDanger"
                           onClick={() => {
-                            onDelete(post.id);
+                            onDelete(post);
                             const index = location.pathname.indexOf("posts");
                             if (index !== -1) {
                               const newPath = location.pathname.substring(

@@ -15,7 +15,7 @@ const COMMENTS_PER_POST = 5;
 const seed = async () => {
     try {
 
-        await sequelize.sync({ force: true }); // איפוס כל הטבלאות
+        await sequelize.sync({ force: true }); 
 
         for (let i = 0; i < NUM_USERS; i++) {
             const user = await User.create({
@@ -27,7 +27,7 @@ const seed = async () => {
 
             await Password.create({
                 userId: user.id,
-                hashedPassword: '123456', // תוצפן אוטומטית לפי ההוק
+                hashedPassword: '123456', 
             });
 
             for (let j = 0; j < POSTS_PER_USER; j++) {

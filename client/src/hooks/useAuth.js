@@ -1,5 +1,4 @@
 import { useState } from "react";
-
 const BASE_URL = "http://localhost:5000";
 
 export const useAuth = () => {
@@ -16,7 +15,6 @@ export const useAuth = () => {
         setError("The password is incorrect");
         return false;
       }
-
       try {
         const response = await fetch(
           `${BASE_URL}/login`,
@@ -28,9 +26,7 @@ export const useAuth = () => {
             body: JSON.stringify({ email, password }),
           }
         );
-
         if (response.ok) throw new Error("Error");
-
         setFlag(true);
         return true;
       } catch (error) {
@@ -38,7 +34,6 @@ export const useAuth = () => {
         return false;
       }
     },
-
     finalregister: async (data, password) => {
       try {
         const response = await fetch(`${BASE_URL}/register`, {
@@ -51,8 +46,8 @@ export const useAuth = () => {
           }),
         });
         if (!response.ok) throw new Error("Error");
-
         const newUser = await response.json();
+
         localStorage.setItem("currentUser", JSON.stringify(newUser));
         setUserData(newUser);
         return newUser;
@@ -61,7 +56,6 @@ export const useAuth = () => {
         return null;
       }
     },
-
     login: async (data) => {
       try {
         const response = await fetch(
@@ -73,7 +67,6 @@ export const useAuth = () => {
             },
             body: JSON.stringify(data),
           }
-          // `${BASE_URL}/users?username=${data.username}&website=${data.password}`
         );
         if (!response.ok) throw new Error("Error");
         const user = await response.json();
@@ -86,11 +79,18 @@ export const useAuth = () => {
         return null;
       }
     },
-
     logout: () => {
       localStorage.removeItem("currentUser");
       setUserData(null);
     },
+    getToken: () => {
+      const currentUser = localStorage.getItem("currentUser");
+      if (currentUser) {
+        const { token } = JSON.parse(currentUser);
+        return token;
+      }
+      return null;
+    }
   };
 
   return {

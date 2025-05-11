@@ -1,6 +1,5 @@
-// middleware/auth.js
 const jwt = require('jsonwebtoken');
-const JWT_SECRET = 'your_jwt_secret_key';
+const JWT_SECRET = process.env.JWT_SECRET;
 
 exports.generateToken = (user) => {
     return jwt.sign({ userId: user.id }, JWT_SECRET, { expiresIn: '1h' });
@@ -17,7 +16,6 @@ exports.verifyToken = (req, res, next) => {
         const decoded = jwt.verify(token, JWT_SECRET);
         req.user = decoded;
 
-        // 🛡️ בדיקה: האם userId שבראוט תואם ל־userId שבטוקן
         if (req.params.userId && String(req.params.userId) !== String(decoded.userId)) {
             return res.status(403).json({ error: 'Access denied: user ID mismatch' });
         }

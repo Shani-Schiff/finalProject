@@ -6,12 +6,25 @@ function Error() {
   const navigate = useNavigate();
 
   return (
-    <div className="error-modal show">
-      <h1>Page Not Found</h1>
+    <div className="errorContainer">
+      <div className="errorContent">
+        <div className="errorAnimation">
+          <div className="error404">404</div>
+          <div className="errorGhost">
+            <div className="errorGhostBody">
+              <div className="errorGhostEyes"></div>
+              <div className="errorGhostWaves"></div>
+            </div>
+          </div>
+        </div>
 
-      <button className="" onClick={() => navigate(-1)}>
-        Go Back
-      </button>
+        <h1>Page Not Found</h1>
+        <p>Oops! The page youre looking for doesnt exist.</p>
+
+        <button className="btn btnPrimary" onClick={() => navigate(-1)}>
+          Go Back
+        </button>
+      </div>
     </div>
   );
 }

@@ -15,7 +15,6 @@ function Todo(props) {
           className={`customCheckbox ${todo.completed ? "checked" : ""}`}
           onClick={() => onToggle(todo)}
         />
-        <span className="itemId">#{todo.id}</span>
         {isEditing ? (
           <input
             type="text"
@@ -54,7 +53,7 @@ function Todo(props) {
             >
               <MdEdit />
             </button>
-            <button className="btn btnDanger" onClick={() => onDelete(todo.id)}>
+            <button className="btn btnDanger" onClick={() => onDelete(todo)}>
               <MdDelete />
             </button>
           </>

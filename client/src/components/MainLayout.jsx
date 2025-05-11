@@ -60,12 +60,10 @@ function MainLayout() {
         <Info userInfo={userData} onClose={() => setShowInfo(false)} />
       )}
       {!userData && (
-        <div className="modal-overlay">
-          <div className="modal-content">
-            <h2>You are not authorized to access this page</h2>
-            <NavLink to="/login" id="modal-link">Go to Login</NavLink>
-            <button onClick={() => navigate(-1)} id="modal-link">Go Back</button>
-          </div>
+        <div className="error">
+          <h2>Authentication Required</h2>
+          <p>You must be logged in to access this site.</p>
+          <NavLink to="/login">Go to Login</NavLink>
         </div>
       )}
       <main className="mainContent">

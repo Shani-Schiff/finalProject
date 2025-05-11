@@ -3,7 +3,6 @@ const bcrypt = require('bcrypt');
 const sequelize = require("../../dataBase/dataBase");  // חיבור למסד נתונים
 const Users = require('./Users'); // קשר עם טבלת משתמשים
 
-// מודל Password
 const Passwords = sequelize.define('Passwords', {
   id: {
     type: DataTypes.INTEGER,
@@ -25,7 +24,6 @@ const Passwords = sequelize.define('Passwords', {
   },
 }, {
   hooks: {
-    // טריק: לפני יצירת סיסמה, אנחנו מאפיינים אותה כ־hash
     beforeCreate: async (passwordRecord) => {
       if (passwordRecord.hashedPassword) {
         passwordRecord.hashedPassword = await bcrypt.hash(passwordRecord.hashedPassword, 10);
@@ -38,11 +36,6 @@ const Passwords = sequelize.define('Passwords', {
     },
   },
 });
-
-// // פונקציה לבדוק אם הסיסמה שהוזנה נכונה
-// Password.prototype.validPassword = async function(password) {
-//   return bcrypt.compare(password, this.hashedPassword);
-// };
 
 Passwords.belongsTo(Users, { foreignKey: 'userId' });
 
