@@ -1,7 +1,7 @@
-const { Sequelize, DataTypes } = require('sequelize');
+const { DataTypes } = require('sequelize');
 const bcrypt = require('bcrypt');
-const sequelize = require("../../dataBase/dataBase");  // חיבור למסד נתונים
-const Users = require('./Users'); // קשר עם טבלת משתמשים
+const sequelize = require("../../dataBase/dataBase");  
+const Users = require('./Users'); 
 
 const Passwords = sequelize.define('Passwords', {
   id: {
@@ -23,18 +23,18 @@ const Passwords = sequelize.define('Passwords', {
     allowNull: false,
   },
 }, {
-  hooks: {
-    beforeCreate: async (passwordRecord) => {
-      if (passwordRecord.hashedPassword) {
-        passwordRecord.hashedPassword = await bcrypt.hash(passwordRecord.hashedPassword, 10);
-      }
-    },
-    beforeUpdate: async (passwordRecord) => {
-      if (passwordRecord.hashedPassword) {
-        passwordRecord.hashedPassword = await bcrypt.hash(passwordRecord.hashedPassword, 10);
-      }
-    },
-  },
+  // hooks: {
+  //   beforeCreate: async (passwordRecord) => {
+  //     if (passwordRecord.hashedPassword) {
+  //       passwordRecord.hashedPassword = await bcrypt.hash(passwordRecord.hashedPassword, 10);
+  //     }
+  //   },
+  //   beforeUpdate: async (passwordRecord) => {
+  //     if (passwordRecord.hashedPassword) {
+  //       passwordRecord.hashedPassword = await bcrypt.hash(passwordRecord.hashedPassword, 10);
+  //     }
+  //   },
+  // },
 });
 
 Passwords.belongsTo(Users, { foreignKey: 'userId' });

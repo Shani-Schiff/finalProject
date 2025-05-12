@@ -19,6 +19,7 @@ export const useData = ({
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
   const { userId } = useParams();
+  const navigate = useNavigate();
 
   const getAuthToken = () => {
     const currentUser = localStorage.getItem("currentUser");
@@ -35,6 +36,13 @@ export const useData = ({
       "Content-Type": "application/json",
       "Authorization": token ? `Bearer ${token}` : "",
     };
+  };
+
+  const handleTokenExpiration = (error) => {
+    if (error.redirectToLogin) {
+      localStorage.removeItem("currentUser");
+      navigate("/login", { state: { message: "Your session has expired. Please login again." } });
+    }
   };
 
   const parentIdField = {
@@ -56,7 +64,14 @@ export const useData = ({
         headers: createAuthHeaders(),
       });
 
-      if (!response.ok) throw new Error("Error");
+      if (!response.ok) {
+        const errorData = await response.json();
+        if (errorData.redirectToLogin) {
+          handleTokenExpiration(errorData);
+          return;
+        }
+        throw new Error("Error");
+      }
 
       const result = await response.json();
       setData(result);
@@ -64,7 +79,7 @@ export const useData = ({
       console.error(`Error fetching ${resourceType}:`, error);
     }
     setIsLoading(false);
-  }, [resourceType, itemId, page, parentIdField]);
+  }, [resourceType, itemId, page, parentIdField, userId]);
 
   useEffect(() => {
     fetchData();
@@ -80,7 +95,16 @@ export const useData = ({
           ...itemData,
         }),
       });
-      if (!response.ok) throw new Error("Error");
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        if (errorData.redirectToLogin) {
+          handleTokenExpiration(errorData);
+          return;
+        }
+        throw new Error("Error");
+      }
+
       const newItem = await response.json();
       setData((prev) => [newItem, ...prev]);
       return newItem;
@@ -100,7 +124,16 @@ export const useData = ({
           ...updates,
         }),
       });
-      if (!response.ok) throw new Error("Error");
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        if (errorData.redirectToLogin) {
+          handleTokenExpiration(errorData);
+          return;
+        }
+        throw new Error("Error");
+      }
+
       const updatedItem = await response.json();
       setData((prev) =>
         prev.map((item) => (item.id === id ? updatedItem : item))
@@ -113,23 +146,18 @@ export const useData = ({
 
   const deleteItem = async (itemData) => {
     try {
-      await fetch(`${BASE_URL}/users/${itemData.userId}/${resourceType}/${itemData.id}`, {
+      const deleteResponse = await fetch(`${BASE_URL}/users/${itemData.userId}/${resourceType}/${itemData.id}`, {
         method: "DELETE",
         headers: createAuthHeaders(),
       });
 
-      if (resourceType === "posts") {
-        const comments = await fetch(`${BASE_URL}/comments?postId=${itemData.id}`, {
-          headers: createAuthHeaders(),
-        }).then(
-          (res) => res.json()
-        );
-        for (const comment of comments) {
-          await fetch(`${BASE_URL}/comments/${comment.id}`, {
-            method: "DELETE",
-            headers: createAuthHeaders(),
-          });
+      if (!deleteResponse.ok) {
+        const errorData = await deleteResponse.json();
+        if (errorData.redirectToLogin) {
+          handleTokenExpiration(errorData);
+          return;
         }
+        throw new Error("Error");
       }
 
       setData((prev) => prev.filter((i) => i.id !== itemData.id));
@@ -150,7 +178,16 @@ export const useData = ({
           completed: !itemData.completed,
         }),
       });
-      if (!response.ok) throw new Error("Error");
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        if (errorData.redirectToLogin) {
+          handleTokenExpiration(errorData);
+          return;
+        }
+        throw new Error("Error");
+      }
+
       const updatedItem = await response.json();
       setData((prev) =>
         prev.map((todo) => (todo.id === itemData.id ? updatedItem : todo))
@@ -174,9 +211,17 @@ export const useData = ({
       const response = await fetch(url, {
         headers: createAuthHeaders(),
       });
-      if (!response.ok) throw new Error("Error");
-      const result = await response.json();
 
+      if (!response.ok) {
+        const errorData = await response.json();
+        if (errorData.redirectToLogin) {
+          handleTokenExpiration(errorData);
+          return;
+        }
+        throw new Error("Error");
+      }
+
+      const result = await response.json();
       setData(result);
     } catch (error) {
       console.error(`Error fetching ${resourceType}:`, error);

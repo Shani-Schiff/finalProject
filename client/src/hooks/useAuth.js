@@ -1,4 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+
 const BASE_URL = "http://localhost:5000";
 
 export const useAuth = () => {
@@ -8,6 +10,28 @@ export const useAuth = () => {
     const saved = localStorage.getItem("currentUser");
     return saved ? JSON.parse(saved) : null;
   });
+  const navigate = useNavigate();
+
+  const handleTokenExpiration = (errorData) => {
+    if (errorData && errorData.redirectToLogin) {
+      localStorage.removeItem("currentUser");
+      setUserData(null);
+      navigate("/login", {
+        state: { message: errorData.error || "Your session has expired. Please login again." }
+      });
+    }
+  };
+
+  const handleResponse = async (response) => {
+    if (!response.ok) {
+      const errorData = await response.json();
+      if (errorData.redirectToLogin) {
+        handleTokenExpiration(errorData);
+      }
+      throw new Error(errorData.error || "An error occurred");
+    }
+    return await response.json();
+  };
 
   const authActions = {
     checkExistingUser: async (email, password, verifyPassword) => {
@@ -34,6 +58,7 @@ export const useAuth = () => {
         return false;
       }
     },
+
     finalregister: async (data, password) => {
       try {
         const response = await fetch(`${BASE_URL}/register`, {
@@ -45,9 +70,8 @@ export const useAuth = () => {
             ...data,
           }),
         });
-        if (!response.ok) throw new Error("Error");
-        const newUser = await response.json();
 
+        const newUser = await handleResponse(response);
         localStorage.setItem("currentUser", JSON.stringify(newUser));
         setUserData(newUser);
         return newUser;
@@ -56,6 +80,7 @@ export const useAuth = () => {
         return null;
       }
     },
+
     login: async (data) => {
       try {
         const response = await fetch(
@@ -68,9 +93,8 @@ export const useAuth = () => {
             body: JSON.stringify(data),
           }
         );
-        if (!response.ok) throw new Error("Error");
-        const user = await response.json();
 
+        const user = await handleResponse(response);
         localStorage.setItem("currentUser", JSON.stringify(user));
         setUserData(user);
         return user;
@@ -79,10 +103,13 @@ export const useAuth = () => {
         return null;
       }
     },
+
     logout: () => {
       localStorage.removeItem("currentUser");
       setUserData(null);
+      navigate("/login");
     },
+
     getToken: () => {
       const currentUser = localStorage.getItem("currentUser");
       if (currentUser) {
@@ -90,8 +117,42 @@ export const useAuth = () => {
         return token;
       }
       return null;
+    },
+
+    checkTokenValidity: async () => {
+      const token = authActions.getToken();
+      if (!token) {
+        navigate("/login");
+        return false;
+      }
+
+      try {
+        const response = await fetch(`${BASE_URL}/verify-token`, {
+          headers: {
+            "Authorization": `Bearer ${token}`,
+          },
+        });
+
+        if (!response.ok) {
+          const errorData = await response.json();
+          if (errorData.redirectToLogin) {
+            handleTokenExpiration(errorData);
+            return false;
+          }
+        }
+        return true;
+      } catch (error) {
+        console.error("Error verifying token:", error);
+        return false;
+      }
     }
   };
+
+  useEffect(() => {
+    if (userData) {
+      authActions.checkTokenValidity();
+    }
+  }, []);
 
   return {
     error,

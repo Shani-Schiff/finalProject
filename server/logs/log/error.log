@@ -25,3 +25,9 @@
 2025-05-11 21:45:38 [error]: Error retrieving todos: Unknown column 'deletedAt' in 'field list'
 2025-05-11 21:45:44 [error]: Error retrieving posts: Unknown column 'deletedAt' in 'field list'
 2025-05-11 21:45:44 [error]: Error retrieving posts: Unknown column 'deletedAt' in 'field list'
+2025-05-11 22:49:42 [error]: Error retrieving posts: Unknown column 'deletedAt' in 'field list'
+2025-05-11 22:49:43 [error]: Error retrieving posts: Unknown column 'deletedAt' in 'field list'
+2025-05-11 22:59:06 [error]: Error retrieving undefined: Cannot read properties of undefined (reading 'toLowerCase')
+2025-05-11 22:59:06 [error]: Error retrieving undefined: Cannot read properties of undefined (reading 'toLowerCase')
+2025-05-11 22:59:13 [error]: Error retrieving undefined: Cannot read properties of undefined (reading 'toLowerCase')
+2025-05-11 22:59:13 [error]: Error retrieving undefined: Cannot read properties of undefined (reading 'toLowerCase')

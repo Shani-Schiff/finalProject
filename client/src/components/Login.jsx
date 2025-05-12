@@ -7,7 +7,7 @@ function Login() {
   const navigate = useNavigate();
   const { register, handleSubmit } = useForm({
     defaultValues: {
-      email: "Thurman18@gmail.com",
+      email: "Adeline70@hotmail.com",
       password: "123456",
     },
   });

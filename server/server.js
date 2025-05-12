@@ -10,7 +10,6 @@ const sequelize = require('../dataBase/dataBase');
 const app = express();
 app.use(express.json());
 app.use(cors());
-// צריך לכתוב רק איזה כתובות הוא יכול לגשת
 
 const port = process.env.SERVER_PORT;
 const hostname = process.env.SERVER_HOSTNAME;
