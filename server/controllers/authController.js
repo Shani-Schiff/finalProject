@@ -1,6 +1,6 @@
 const bcrypt = require('bcrypt');
-const Users = require('../models/Users');
-const Passwords = require('../models/Passwords');
+const Users = require('../models/User');
+const Passwords = require('../models/UserPassword');
 const { generateToken } = require('../middleware/auth');
 const logger = require('../logs/logger');
 
