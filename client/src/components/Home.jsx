@@ -1,28 +1,15 @@
-import { useUser } from "../contexts/useUser";
-import "../style/Error.css";
+import '../styles/home.css';
+// import React from 'react';
 
-const Home = () => {
-  const { userData } = useUser();
-
+export default function Home() {
   return (
-    <div className="userControls">
-      <h2 className="welcomeMessageTypewriter">
-        {userData &&
-          [
-            `Welcome ${userData.name} To the site`,
-            "Ready to start an exciting new project?",
-            "Organize tasks effortlessly and create content tailored just for you.",
-            "Discover inspiration and unique ideas from our community.",
-            "Share your creations and add your personal touch.",
-            "Express your message with images and a style that reflects you.",
-          ].map((line, index) => (
-            <span key={index} style={{ "--line-index": index }}>
-              {line}
-            </span>
-          ))}
-      </h2>
-    </div>
-  );
-};
-
-export default Home;
+    <section className="home-container">
+      <h1>ברוכים הבאים ל"לומדים יחד"</h1>
+      <p>פלטפורמה חכמה ללמידה לקראת בגרויות, עם מורים מעולים ושיעורים איכותיים!</p>
+      <div className="cta-buttons">
+        <button>צפה בשיעורים</button>
+        <button>הירשם עכשיו</button>
+      </div>
+    </section>
+  )
+}

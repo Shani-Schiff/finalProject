@@ -1,10 +1,9 @@
 const jwt = require('jsonwebtoken');
 const JWT_SECRET = process.env.JWT_SECRET;
-
 const logger = require('../logs/logger');
 
 exports.generateToken = (user) => {
-    return jwt.sign({ userId: user.id }, JWT_SECRET, { expiresIn: '1h' });
+    return jwt.sign({ userId: user.userId, role: user.role }, JWT_SECRET, { expiresIn: '1h' });
 };
 
 exports.verifyToken = (req, res, next) => {
@@ -19,7 +18,11 @@ exports.verifyToken = (req, res, next) => {
     const token = authHeader.split(' ')[1];
     try {
         const decoded = jwt.verify(token, JWT_SECRET);
-        req.user = decoded;
+
+        req.user = {
+            userId: decoded.userId,
+            role: decoded.role
+        };
 
         if (req.params.userId && String(req.params.userId) !== String(decoded.userId)) {
             logger.warn(`User ID mismatch: token user ${decoded.userId}, requested user ${req.params.userId}`);

@@ -1,28 +1,25 @@
-import { Route, Routes } from "react-router-dom";
-import { UserProvider } from "./contexts/UserProvider";
-import Login from "./components/Login";
-import Register from "./components/Register";
-import Home from "./components/Home";
-import Error from "./components/Error";
-import Todos from "./components/Todos";
-import Posts from "./components/Posts";
-import MainLayout from "./components/MainLayout";
+import './App.css'
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import Navbar from '../src/components/Navbar'
+import Home from '../src/components/Home'
+import Login from '../src/components/Login'
+import Register from '../src/components/Register'
 
 function App() {
   return (
-    <UserProvider>
+    <BrowserRouter>
+      <Navbar />
       <Routes>
-        <Route path="/users/:userId/*" element={<MainLayout />}>
-          <Route path="home/*" element={<Home />} />
-          <Route path="todos/*" element={<Todos />} />
-          <Route path="posts/*" element={<Posts />} />
-        </Route>
+        <Route path="/" element={<Home />} />
+        {/* <Route path="/lessons" element={<Lessons />} /> */}
+        {/* <Route path="/teachers" element={<Teachers />} /> */}
+        {/* <Route path="/faq" element={<Questions />} /> */}
+        {/* <Route path="/contactUs" element={<ContactUs />} /> */}
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/" element={<MainLayout />} />
-        <Route path="/*" element={<Error />} />
       </Routes>
-    </UserProvider>
+    </BrowserRouter>
   );
 }
-export default App;
+
+export default App

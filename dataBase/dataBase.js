@@ -12,7 +12,7 @@ console.log('DB_USER:', process.env.DB_USER);
   const connection = await mysql.createConnection({
     host: process.env.SERVER_HOSTNAME,
     user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD||'' });
+    password: '' });
 
   await connection.query("CREATE DATABASE IF NOT EXISTS `privateLessons`;");
   await connection.end();

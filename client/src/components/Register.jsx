@@ -1,130 +1,67 @@
-import { useNavigate, Link } from "react-router-dom";
-import { useForm } from "react-hook-form";
-import { useAuth } from "../hooks/useAuth";
-import "../style/Register.css";
 import { useState } from "react";
+import "../styles/auth.css";
 
-function Register() {
-  const navigate = useNavigate();
-  const [password, setPassword] = useState("");
-  const [verifyPassword, setVerifyPassword] = useState("");
-  const { register, handleSubmit } = useForm({
-    defaultValues: {
-      userName: "",
-      email: "",
-      phoneNumber: "",
-      website: "",
-      password: ""
-    },
+export default function Register() {
+  const [form, setForm] = useState({
+    name: "",
+    email: "",
+    password: "",
+    role: "student",
   });
 
-  const { error, flag, setFlag, checkExistingUser, finalregister } = useAuth();
-
-  const onInitSubmit = async (data) => {
-    const success = await checkExistingUser(
-      data.email,
-      password,
-      verifyPassword
-    );
-    if (success) {
-      setFlag(true);
-    }
+  const handleChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const onSubmit = async (data) => {
-    const user = await finalregister(data, password);
-    if (user) {
-      navigate(`/users/${user.id}/home`);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const res = await fetch("http://localhost:3001/api/auth/register", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(form),
+    });
+    const data = await res.json();
+    if (res.ok) {
+      alert("נרשמת בהצלחה!");
+    } else {
+      alert(data.message || "שגיאה בהרשמה");
     }
-  };
-
-  const registerOptions = {
-    userName: { required: true },
-    password: { required: true },
-    verifyPassword: {
-      required: true,
-      validate: (value) => value === password || "Passwords do not match",
-    },
-    email: { required: true, pattern: /^\S+@\S+$/i },
-    phone: { required: true, pattern: /^[0-9]{10}$/ },
   };
 
   return (
-    <div className="formContainer">
-      <div className="formCard">
-        <h2 className="formTitle">Register</h2>
-        {!flag && (
-          <form onSubmit={handleSubmit(onInitSubmit)} className="form">
-            <div className="formGroup">
-              <label>Email</label>
-              <input
-                className="formInput"
-                {...register("email", registerOptions.email)}
-              />
-            </div>
-            <div className="formGroup">
-              <label>Password</label>
-              <input
-                type="password"
-                className="formInput"
-                onChange={(e) => setPassword(e.target.value)}
-              />
-            </div>
-            <div className="formGroup">
-              <label>Verify Password</label>
-              <input
-                type="password"
-                className="formInput"
-                onChange={(e) => setVerifyPassword(e.target.value)}
-              />
-            </div>
-            <div className="errorMessage">{error}</div>
-            <button type="submit" className="btn btnPrimary">
-              Next
-            </button>
-          </form>
-        )}
-
-        {flag && (
-          <form onSubmit={handleSubmit(onSubmit)} className="form">
-            <div className="formGroup">
-              <label>Name</label>
-              <input
-                type="text"
-                className="formInput"
-                {...register("name", registerOptions.userName)}
-              />
-            </div>
-            <div className="formGroup">
-              <label>Phone</label>
-              <input
-                type="tel"
-                className="formInput"
-                {...register("phoneNumber", registerOptions.phoneNumber)}
-              />
-            </div>
-            <div className="formGroup">
-              <label>Websit</label>
-              <input
-                type="txt"
-                className="formInput"
-                {...register("websit", registerOptions.websit)}
-              />
-            </div>
-            <div className="errorMessage">{error}</div>
-            <button type="submit" className="btn btnPrimary">
-              Complete Registration
-            </button>
-          </form>
-        )}
-        <p className="formFooter">
-          <Link to="/login" className="formLink">
-            Already have an account? Login here
-          </Link>
-        </p>
-      </div>
+    <div className="auth-container">
+      <form onSubmit={handleSubmit} className="auth-form register-form">
+        <h2>הרשמה</h2>
+        <input
+          name="name"
+          type="text"
+          placeholder="שם מלא"
+          value={form.name}
+          onChange={handleChange}
+          required
+        />
+        <input
+          name="email"
+          type="email"
+          placeholder="אימייל"
+          value={form.email}
+          onChange={handleChange}
+          required
+        />
+        <input
+          name="password"
+          type="password"
+          placeholder="סיסמה"
+          value={form.password}
+          onChange={handleChange}
+          required
+        />
+        <select name="role" value={form.role} onChange={handleChange}>
+          <option value="student">תלמיד</option>
+          <option value="teacher">מורה</option>
+        </select>
+        <button type="submit">הירשם</button>
+      </form>
     </div>
   );
 }
-
-export default Register;
