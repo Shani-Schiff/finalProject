@@ -1,28 +1,31 @@
+// src/pages/Register.jsx
 import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import "../styles/auth.css";
 
 export default function Register() {
-  const [form, setForm] = useState({
-    name: "",
+  const [formData, setFormData] = useState({
+    userName: "",
     email: "",
     password: "",
-    role: "student",
+    phoneNumber: "",
   });
 
-  const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
-  };
+
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const res = await fetch("http://localhost:3001/api/auth/register", {
+    const res = await fetch("http://localhost:5000/register", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(form),
+      body: JSON.stringify(formData),
     });
     const data = await res.json();
+
     if (res.ok) {
       alert("נרשמת בהצלחה!");
+      navigate("/");
     } else {
       alert(data.message || "שגיאה בהרשמה");
     }
@@ -30,37 +33,40 @@ export default function Register() {
 
   return (
     <div className="auth-container">
-      <form onSubmit={handleSubmit} className="auth-form register-form">
+      <form onSubmit={handleSubmit} className="auth-form">
         <h2>הרשמה</h2>
         <input
-          name="name"
           type="text"
           placeholder="שם מלא"
-          value={form.name}
-          onChange={handleChange}
+          value={formData.name}
+          onChange={(e) => setFormData({ ...formData, name: e.target.value })}
           required
         />
         <input
-          name="email"
           type="email"
           placeholder="אימייל"
-          value={form.email}
-          onChange={handleChange}
+          value={formData.email}
+          onChange={(e) => setFormData({ ...formData, email: e.target.value })}
           required
         />
         <input
-          name="password"
-          type="password"
-          placeholder="סיסמה"
-          value={form.password}
-          onChange={handleChange}
+          type="text"
+          placeholder="טלפון"
+          value={formData.phoneNumber}
+          onChange={(e) => setFormData({ ...formData, phoneNumber: e.target.value })}
           required
         />
-        <select name="role" value={form.role} onChange={handleChange}>
-          <option value="student">תלמיד</option>
-          <option value="teacher">מורה</option>
-        </select>
+        <input
+          type="password"
+          placeholder="סיסמה"
+          value={formData.password}
+          onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+          required
+        />
         <button type="submit">הירשם</button>
+        <p className="toggle-text">
+          כבר רשומים? <Link to="/login">להתחברות</Link>
+        </p>
       </form>
     </div>
   );
