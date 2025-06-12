@@ -1,6 +1,6 @@
-// src/pages/Login.jsx
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import "../styles/auth.css";
 
 export default function Login({ onLogin }) {
@@ -9,17 +9,21 @@ export default function Login({ onLogin }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const res = await fetch("http://localhost:5000/login", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(formData),
-    });
-    const data = await res.json();
-    if (res.ok) {
-      onLogin(data.user);
-      navigate("/");
-    } else {
-      alert(data.message || "שגיאה בהתחברות");
+    try {
+      const res = await fetch("http://localhost:5000/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+      const data = await res.json();
+      if (res.ok) {
+        if (onLogin) onLogin(data.user);
+        navigate("/");
+      } else {
+        toast.error(data.message || "שגיאה בהתחברות", { position: "top-center", autoClose: 3000 });
+      }
+    } catch (err) {
+      toast.error("שגיאה בשרת. נסה שוב מאוחר יותר.", { position: "top-center", autoClose: 3000 });
     }
   };
 

@@ -46,7 +46,6 @@ exports.getSubItems = async (req, res) => {
     }
 };
 
-// קבלת אובייקטים כללית
 exports.getAll = async (req, res) => {
     const { type } = req.params;
     try {

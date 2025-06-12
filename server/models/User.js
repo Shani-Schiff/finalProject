@@ -3,9 +3,9 @@ const sequelize = require('../../dataBase/dataBase');
 
 const User = sequelize.define('User', {
   userId: { type: DataTypes.INTEGER, autoIncrement: true, primaryKey: true },
-  name: { type: DataTypes.STRING, allowNull: false },
+  userName: { type: DataTypes.STRING, allowNull: false },
   email: { type: DataTypes.STRING, allowNull: false, unique: true },
-  role: { type: DataTypes.STRING(50), allowNull: false },
+  role: { type: DataTypes.STRING, allowNull: false, defaultValue: 'student'},
   active_status: { type: DataTypes.BOOLEAN, defaultValue: true },
   date_created: { type: DataTypes.DATE, defaultValue: DataTypes.NOW }
 });

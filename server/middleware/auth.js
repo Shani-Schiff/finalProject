@@ -3,7 +3,7 @@ const JWT_SECRET = process.env.JWT_SECRET;
 const logger = require('../logs/logger');
 
 exports.generateToken = (user) => {
-    return jwt.sign({ userId: user.userId, role: user.role }, JWT_SECRET, { expiresIn: '1h' });
+    return jwt.sign({ userId: user.userId, role: user.role}, JWT_SECRET, { expiresIn: '1h' });
 };
 
 exports.verifyToken = (req, res, next) => {

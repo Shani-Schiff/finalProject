@@ -4,7 +4,7 @@ const sequelize = require('../../dataBase/dataBase');
 
 const UserPassword = sequelize.define('UserPassword', {
   userId: { type: DataTypes.INTEGER, primaryKey: true },
-  password: { type: DataTypes.STRING, allowNull: false },
+  hashedPassword: { type: DataTypes.STRING, allowNull: false },
   is_deleted: { type: DataTypes.BOOLEAN, defaultValue: false }
 });
 UserPassword.associate = (models) => {

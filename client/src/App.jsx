@@ -1,5 +1,6 @@
 import './App.css'
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { ToastContainer } from "react-toastify";
 import Navbar from '../src/components/Navbar'
 import Home from '../src/components/Home'
 import Login from '../src/components/Login'
@@ -9,6 +10,7 @@ function App() {
   return (
     <BrowserRouter>
       <Navbar />
+      <ToastContainer />{/* חלונית הודעות - עיצוב */}
       <Routes>
         <Route path="/" element={<Home />} />
         {/* <Route path="/lessons" element={<Lessons />} /> */}

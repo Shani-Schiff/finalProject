@@ -27,7 +27,7 @@ async function init() {
         const adminEmail = 'admin@system.com';
         const adminPassword = 'Admin123!';
         const hashedPassword = await bcrypt.hash(adminPassword, 10);
-        const admin = await User.create({ name: 'System Admin', email: adminEmail, role: 'admin' });
+        const admin = await User.create({ userName: 'System Admin', email: adminEmail, role: 'admin' });
         await UserPassword.create({ userId: admin.userId, password: hashedPassword });
         console.log(`Admin created: ${adminEmail} / ${adminPassword}`);
 
@@ -36,7 +36,7 @@ async function init() {
 
         for (let i = 0; i < 50; i++) {
             const user = await User.create({
-                name: faker.person.fullName(),
+                userName: faker.person.fullName(),
                 email: faker.internet.email(),
                 role: 'student'
             });
@@ -45,7 +45,7 @@ async function init() {
 
         for (let i = 0; i < 10; i++) {
             const user = await User.create({
-                name: faker.person.fullName(),
+                userName: faker.person.fullName(),
                 email: faker.internet.email(),
                 role: 'teacher'
             });

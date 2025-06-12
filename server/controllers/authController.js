@@ -29,8 +29,8 @@ const createUserWithPassword = async (userData) => {
     const user = await Users.create({ userName, email, phoneNumber });
 
     await Passwords.create({
-        userId: user.id,
-        hashedPassword
+        userId: user.userId,
+        hashedPassword: hashedPassword
     });
 
     return user;
@@ -38,8 +38,8 @@ const createUserWithPassword = async (userData) => {
 
 const prepareUserResponse = (user, token) => {
     return {
-        id: user.id,
-        name: user.userName || user.dataValues.userName,
+        id: user.userId,
+        userName: user.userName || user.dataValues.userName,
         email: user.email,
         phoneNumber: user.phoneNumber,
         token
@@ -63,7 +63,7 @@ exports.register = async (req, res) => {
         const user = await createUserWithPassword(req.body);
 
         const token = generateToken(user);
-        logger.info(`User registered successfully: ${user.id}`);
+        logger.info(`User registered successfully: ${user.userId}`);
 
         const response = {
             message: 'User registered successfully',
@@ -81,7 +81,7 @@ exports.register = async (req, res) => {
 async function verifyUserCredentials(email, password) {
     const user = await Users.findOne({
         where: { email },
-        attributes: ['id', 'userName', 'email', 'phoneNumber']
+        attributes: ['userId', 'userName', 'email', 'phoneNumber']
     });
 
     if (!user) {
@@ -89,15 +89,15 @@ async function verifyUserCredentials(email, password) {
         return { error: 'Invalid credentials', status: 401 };
     }
 
-    const passwordRecord = await Passwords.findOne({ where: { userId: user.id } });
+    const passwordRecord = await Passwords.findOne({ where: { userId: user.userId } });
     if (!passwordRecord) {
-        logger.warn(`User ${user.id} has no password record`);
+        logger.warn(`User ${user.userId} has no password record`);
         return { error: 'Invalid credentials', status: 401 };
     }
 
     const match = await bcrypt.compare(password, passwordRecord.hashedPassword);
     if (!match) {
-        logger.warn(`Failed login attempt for user ${user.id}`);
+        logger.warn(`Failed login attempt for user ${user.userId}`);
         return { error: 'Invalid credentials', status: 401 };
     }
 
@@ -119,7 +119,7 @@ exports.login = async (req, res) => {
         }
 
         const token = generateToken(authResult.user);
-        logger.info(`User logged in successfully: ${authResult.user.id}`);
+        logger.info(`User logged in successfully: ${authResult.user.userId}`);
 
         res.json(prepareUserResponse(authResult.user, token));
     } catch (err) {

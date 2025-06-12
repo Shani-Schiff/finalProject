@@ -31,3 +31,28 @@
 2025-05-11 22:59:06 [error]: Error retrieving undefined: Cannot read properties of undefined (reading 'toLowerCase')
 2025-05-11 22:59:13 [error]: Error retrieving undefined: Cannot read properties of undefined (reading 'toLowerCase')
 2025-05-11 22:59:13 [error]: Error retrieving undefined: Cannot read properties of undefined (reading 'toLowerCase')
+2025-06-11 19:14:17 [error]: Registration error: notNull Violation: User.name cannot be null,
+notNull Violation: User.role cannot be null
+2025-06-11 19:21:17 [error]: Registration error: notNull Violation: User.name cannot be null,
+notNull Violation: User.role cannot be null
+2025-06-11 19:27:29 [error]: Registration error: notNull Violation: User.name cannot be null,
+notNull Violation: User.role cannot be null
+2025-06-12 18:37:15 [error]: Registration error: notNull Violation: User.name cannot be null,
+notNull Violation: User.role cannot be null
+2025-06-12 18:38:16 [error]: Registration error: notNull Violation: User.name cannot be null,
+notNull Violation: User.role cannot be null
+2025-06-12 18:38:31 [error]: Registration error: notNull Violation: User.name cannot be null,
+notNull Violation: User.role cannot be null
+2025-06-12 18:46:28 [error]: Registration error: Unknown column 'userName' in 'field list'
+2025-06-12 18:51:54 [error]: Registration error: Unknown column 'userName' in 'field list'
+2025-06-12 19:04:38 [error]: Registration error: Unknown column 'userName' in 'field list'
+2025-06-12 19:16:44 [error]: Registration error: Unknown column 'userName' in 'field list'
+2025-06-12 19:16:55 [error]: Registration error: Unknown column 'userName' in 'field list'
+2025-06-12 19:17:38 [error]: Registration error: Unknown column 'userName' in 'field list'
+2025-06-12 19:28:59 [error]: Registration error: notNull Violation: User.role cannot be null
+2025-06-12 21:07:40 [error]: Login error: Unknown column 'id' in 'field list'
+2025-06-12 21:08:08 [error]: Login error: Unknown column 'id' in 'field list'
+2025-06-12 21:13:35 [error]: Login error: Unknown column 'id' in 'field list'
+2025-06-12 21:13:59 [error]: Login error: Unknown column 'id' in 'field list'
+2025-06-12 21:21:03 [error]: Login error: Unknown column 'phoneNumber' in 'field list'
+2025-06-12 21:26:43 [error]: Login error: data and hash arguments required
