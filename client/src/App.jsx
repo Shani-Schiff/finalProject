@@ -5,6 +5,7 @@ import Navbar from '../src/components/Navbar'
 import Home from '../src/components/Home'
 import Login from '../src/components/Login'
 import Register from '../src/components/Register'
+import Lessons from './components/Lessons';
 
 function App() {
   return (
@@ -13,7 +14,7 @@ function App() {
       <ToastContainer />{/* חלונית הודעות - עיצוב */}
       <Routes>
         <Route path="/" element={<Home />} />
-        {/* <Route path="/lessons" element={<Lessons />} /> */}
+        <Route path="/lessons" element={<Lessons />} />
         {/* <Route path="/teachers" element={<Teachers />} /> */}
         {/* <Route path="/faq" element={<Questions />} /> */}
         {/* <Route path="/contactUs" element={<ContactUs />} /> */}

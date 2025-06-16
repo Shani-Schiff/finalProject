@@ -3,13 +3,14 @@ const router = express.Router();
 const controller = require('../controllers/controller');
 const authController = require('../controllers/authController');
 const { verifyToken } = require('../middleware/auth');
+const Lessons = require('../models/Lesson');
 
 console.log('authController:', authController);
 console.log('controller:', controller);
 
 router.post('/register', authController.register);
 router.post('/login', authController.login);
-router.get('/posts', controller.getAll);
+router.get('/:type', controller.getAll);
 
 router.use(verifyToken);
 
