@@ -1,0 +1,81 @@
+.lessons-container {
+    padding: 40px;
+    direction: rtl;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #f5f9ff;
+    min-height: 100vh;
+}
+
+.lessons-title {
+    text-align: center;
+    font-size: 2.5rem;
+    color: #1e3a8a;
+    margin-bottom: 40px;
+    position: relative;
+}
+
+.lessons-title::after {
+    content: "";
+    width: 80px;
+    height: 4px;
+    background-color: #60a5fa;
+    display: block;
+    margin: 10px auto 0;
+    border-radius: 2px;
+}
+
+.no-lessons {
+    text-align: center;
+    color: #555;
+    font-size: 1.2rem;
+}
+
+.lessons-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 30px;
+}
+
+.lesson-card {
+    position: relative;
+    background-color: rgb(255, 244, 244);
+    padding: 30px 60px;
+    border-radius: 15px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    text-align: center;
+    overflow: hidden;
+}
+
+.lesson-title {
+    font-size: 1.5rem;
+    color: #1e40af;
+    margin-bottom: 10px;
+    z-index: 2;
+    position: relative;
+}
+
+.details-button {
+    opacity: 0;
+    transition: 0.3s ease;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #3b82f6;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 1rem;
+    border-radius: 8px;
+    z-index: 3;
+}
+
+.lesson-card:hover {
+    opacity: 0.9;
+    transform: translateY(-5px);
+}
+
+.lesson-card:hover .details-button {
+    opacity: 1;
+}

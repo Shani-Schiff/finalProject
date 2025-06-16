@@ -1,34 +1,89 @@
 .navbar {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  background: linear-gradient(90deg, #6a11cb, #2575fc);
-  padding: 1rem 2rem;
-  color: white;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  justify-content: space-between;
+  background: linear-gradient(to right, #355eff, #7695fd, #b8c2ff);
+  padding: 1rem 1rem;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
   position: sticky;
   top: 0;
   z-index: 999;
+  direction: rtl;
 }
 
-.logo {
-  font-size: 1.5rem;
-  font-weight: bold;
+.navbar-section {
+  flex: 1;
+}
+
+.logo-section {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.login-section {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.navbar-logo-picture {
+  width: 100px;
+  height: auto;
+  margin: 0rem;
 }
 
 .nav-links {
+  flex: 2;
   list-style: none;
   display: flex;
-  gap: 1.5rem;
+  justify-content: center;
+  gap: 3rem;
+  margin: 0;
+  padding: 0;
 }
 
 .nav-links li a {
   color: white;
   text-decoration: none;
-  font-weight: 500;
-  transition: color 0.3s ease-in-out;
+  font-weight: 600;
+  font-family: 'Rubik', sans-serif;
+  font-size: 1.3rem;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.nav-links li a::after {
+  content: '';
+  position: absolute;
+  width: 0%;
+  height: 2px;
+  bottom: -4px;
+  left: 0;
+  background-color: #ffb0ea;
+  transition: width 0.3s ease;
+}
+
+.nav-links li a:hover::after {
+  width: 100%;
 }
 
 .nav-links li a:hover {
-  color: #ffcc70;
+  color: #ffb0ea;
+}
+
+.login-button {
+  background: transparent;
+  border: 2px solid #ffffffcc;
+  padding: 0.4rem 1rem;
+  border-radius: 25px;
+  color: white;
+  font-weight: bold;
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
+  text-decoration: none;
+}
+
+.login-button:hover {
+  background: #ffb0ea;
+  color: #1c1f2b;
+  transform: scale(1.05);
 }

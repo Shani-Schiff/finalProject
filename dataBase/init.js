@@ -28,8 +28,8 @@ async function init() {
         const adminPassword = 'Admin123!';
         const hashedPassword = await bcrypt.hash(adminPassword, 10);
         const admin = await User.create({ userName: 'System Admin', email: adminEmail, role: 'admin' });
-        await UserPassword.create({ userId: admin.userId, password: hashedPassword });
-        console.log(`Admin created: ${adminEmail} / ${adminPassword}`);
+        await UserPassword.create({ userId: admin.userId, hashedPassword: hashedPassword });
+        console.log("Admin created: ${adminEmail} / ${adminPassword}");
 
         const studentIds = [];
         const teacherIds = [];
@@ -53,8 +53,8 @@ async function init() {
 
             const password = faker.internet.password();
             const hashed = await bcrypt.hash(password, 10);
-            await UserPassword.create({ userId: user.userId, password: hashed });
-            console.log(`Teacher password for ${user.userId}: ${password}`);
+            await UserPassword.create({ userId: user.userId, hashedPassword: hashed });
+            console.log("Teacher password for ${user.userId}: ${password}");
         }
 
         const subjects = ['Math', 'English', 'Science', 'History', 'Art'];

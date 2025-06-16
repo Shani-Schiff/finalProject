@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import '../styles/lessons.css';
 
 export default function Lessons() {
     const [lessons, setLessons] = useState([]);
@@ -11,16 +12,20 @@ export default function Lessons() {
     }, []);
 
     return (
-        <div>
-            <h2>שיעורים</h2>
+        <div className="lessons-container">
+            <h2 className="lessons-title">📚 שיעורים זמינים</h2>
+
             {lessons.length === 0 ? (
-                <p>לא נמצאו שיעורים</p>
+                <p className="no-lessons">לא נמצאו שיעורים</p>
             ) : (
-                <ul>
+                <div className="lessons-grid">
                     {lessons.map(lesson => (
-                        <li key={lesson.id}>{lesson.title}</li>
+                        <div className="lesson-card" key={lesson.id}>
+                            <h3 className="lesson-title">{lesson.title}</h3>
+                            <button className="details-button">לפרטים</button>
+                        </div>
                     ))}
-                </ul>
+                </div>
             )}
         </div>
     );
