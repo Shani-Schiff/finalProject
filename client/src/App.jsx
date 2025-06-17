@@ -8,6 +8,8 @@ import Register from '../src/components/Register'
 import Lessons from './components/Lessons';
 import ContactUs from './components/ContactUs';
 import Questions from './components/Questions';
+import Teachers from './components/Teachers';
+
 
 function App() {
   return (
@@ -17,7 +19,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/lessons" element={<Lessons />} />
-        {/* <Route path="/teachers" element={<Teachers />} /> */}
+        <Route path="/teachers" element={<Teachers />} />
         <Route path="/questions" element={<Questions />} />
         <Route path="/contactUs" element={<ContactUs />} />
         <Route path="/login" element={<Login />} />

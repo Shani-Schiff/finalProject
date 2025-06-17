@@ -57,3 +57,6 @@ notNull Violation: User.role cannot be null
 2025-06-12 21:21:03 [error]: Login error: Unknown column 'phoneNumber' in 'field list'
 2025-06-12 21:26:43 [error]: Login error: data and hash arguments required
 2025-06-12 21:34:26 [error]: Login error: Unknown column 'hashedPassword' in 'field list'
+2025-06-17 11:14:49 [error]: שגיאה בשליפת : Cannot read properties of undefined (reading 'findAll')
+2025-06-17 11:14:49 [error]: שגיאה בשליפת : Cannot read properties of undefined (reading 'findAll')
+2025-06-17 11:15:35 [error]: שגיאה בשליפת : Cannot read properties of undefined (reading 'findAll')

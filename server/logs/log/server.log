@@ -230,3 +230,6 @@ notNull Violation: User.role cannot be null
 2025-06-15 13:58:30 [info]: User logged in successfully: 63
 2025-06-15 13:58:46 [warn]: Login attempt with non-existent email: f@d
 2025-06-17 10:54:36 [info]: User registered successfully: 67
+2025-06-17 11:14:49 [error]: שגיאה בשליפת : Cannot read properties of undefined (reading 'findAll')
+2025-06-17 11:14:49 [error]: שגיאה בשליפת : Cannot read properties of undefined (reading 'findAll')
+2025-06-17 11:15:35 [error]: שגיאה בשליפת : Cannot read properties of undefined (reading 'findAll')

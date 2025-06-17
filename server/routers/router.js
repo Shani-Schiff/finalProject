@@ -11,7 +11,8 @@ router.post('/login', authController.login);
 router.post('/contact', controller.sendContactForm);
 
 // שיעורים ציבוריים
-router.get('/lessons', controller.getAllLessons);
+router.get('/lessons', controller.getAllGeneric);
+router.get('/teachers', controller.getAllGeneric);
 
 // כל השאר מוגנים
 router.use(verifyToken);

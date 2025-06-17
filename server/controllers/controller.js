@@ -11,6 +11,7 @@ const models = {
     login: Users,
     users: Users,
     lessons: Lessons,
+    teachers: Users,
     TeacherApplication: TeacherApplication,
     notifications: Notifications,
     Review: Review,
@@ -47,13 +48,14 @@ exports.getSubItems = async (req, res) => {
     }
 };
 
-exports.getAllLessons = async (req, res) => {
+exports.getAllGeneric = async (req, res) => {
     try {
-        const lessons = await Lessons.findAll();
+        const type = req.url.split('/')[1];
+        const lessons = await models[type].findAll();
         res.json(lessons);
     } catch (err) {
-        logger.error("שגיאה בשליפת שיעורים:", err);
-        res.status(500).json({ message: 'שגיאה בטעינת שיעורים' });
+        logger.error("שגיאה בשליפת :", err);
+        res.status(500).json({ message: 'שגיאה בטעינת ' });
     }
 };
 
