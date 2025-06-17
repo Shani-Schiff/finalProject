@@ -5,6 +5,7 @@ const Notifications = require('../models/Notification');
 const Review = require('../models/Review');
 const Media = require('../models/Media');
 const logger = require('../logs/logger');
+const nodemailer = require('nodemailer');
 
 const models = {
     login: Users,
@@ -43,6 +44,54 @@ exports.getSubItems = async (req, res) => {
     } catch (error) {
         logger.error(`שגיאה בקבלת ${subType} מתוך ${type} ${id}:`, error);
         res.status(500).json({ message: 'שגיאה בשרת' });
+    }
+};
+
+exports.getAllLessons = async (req, res) => {
+    try {
+        const lessons = await Lessons.findAll();
+        res.json(lessons);
+    } catch (err) {
+        logger.error("שגיאה בשליפת שיעורים:", err);
+        res.status(500).json({ message: 'שגיאה בטעינת שיעורים' });
+    }
+};
+
+// טיפול בטופס צור קשר
+exports.sendContactForm = async (req, res) => {
+    const { name, email, message } = req.body;
+
+    try {
+        await Notifications.create({
+            user_id: 1,
+            content: `התקבלה פנייה מ-${name} (${email}):\n${message}`,
+        });
+
+        const transporter = nodemailer.createTransport({
+            service: 'gmail',
+            auth: {
+                user: process.env.MANAGER_EMAIL,
+                pass: process.env.MANAGER_EMAIL_PASSWORD,
+            },
+            tls: {
+                rejectUnauthorized: false
+            }
+        });
+
+        await transporter.sendMail({
+            from: email,
+            to: process.env.MANAGER_EMAIL,
+            subject: 'פנייה חדשה מהאתר',
+            html: `<h2>פנייה חדשה התקבלה</h2>
+             <p><strong>שם:</strong> ${name}</p>
+             <p><strong>אימייל:</strong> ${email}</p>
+             <p><strong>הודעה:</strong><br/>${message}</p>`
+        });
+
+        res.json({ message: 'הפנייה נשלחה בהצלחה' });
+    } catch (error) {
+        logger.error('שגיאה בשליחת טופס צור קשר:', error);
+        res.status(500).json({ message: 'שגיאה בשליחת הטופס' });
     }
 };
 

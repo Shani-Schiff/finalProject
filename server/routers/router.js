@@ -3,34 +3,40 @@ const router = express.Router();
 const controller = require('../controllers/controller');
 const authController = require('../controllers/authController');
 const { verifyToken } = require('../middleware/auth');
-const Lessons = require('../models/Lesson');
-
-console.log('authController:', authController);
-console.log('controller:', controller);
 
 router.post('/register', authController.register);
 router.post('/login', authController.login);
-router.get('/:type', controller.getAll);
 
+// צור קשר
+router.post('/contact', controller.sendContactForm);
+
+// שיעורים ציבוריים
+router.get('/lessons', controller.getAllLessons);
+
+// כל השאר מוגנים
 router.use(verifyToken);
 
+// נתיבי גישה כלליים לפי משתמש
 const userBasePath = '/users/:userId/:type';
+
 router.route(userBasePath)
     .get(controller.getAll)
-//     .post(controller.create);
+    .post(controller.create);
 
-// router.route(`${userBasePath}/:id`)
-//     .get(controller.getById)
-//     .put(controller.update)
-//     .delete(controller.delete);
+router.route(`${userBasePath}/:id`)
+    .get(controller.getAll) // אופציונלי – אם יש getById
+    .put(controller.update)
+    .delete(controller.delete);
 
-// const subItemPath = `${userBasePath}/:id/:subtype`;
-// router.route(subItemPath)
-//     .get(controller.getSubItems)
-//     .post(controller.create);
+// תתי ישויות
+const subItemPath = `${userBasePath}/:id/:subtype`;
 
-// router.route(`${subItemPath}/:subId`)
-//     .put(controller.update)
-//     .delete(controller.delete);
+router.route(subItemPath)
+    .get(controller.getSubItems)
+    .post(controller.create);
+
+router.route(`${subItemPath}/:subId`)
+    .put(controller.update)
+    .delete(controller.delete);
 
 module.exports = router;
