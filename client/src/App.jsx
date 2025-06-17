@@ -9,6 +9,7 @@ import Lessons from './components/Lessons';
 import ContactUs from './components/ContactUs';
 import Questions from './components/Questions';
 import Teachers from './components/Teachers';
+import ApplyTeacher from './components/ApplyTeacher';
 
 
 function App() {
@@ -20,6 +21,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/lessons" element={<Lessons />} />
         <Route path="/teachers" element={<Teachers />} />
+        <Route path="/apply" element={<ApplyTeacher />} />
         <Route path="/questions" element={<Questions />} />
         <Route path="/contactUs" element={<ContactUs />} />
         <Route path="/login" element={<Login />} />

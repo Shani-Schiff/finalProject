@@ -1,11 +1,25 @@
+const path = require('path');
+const multer = require('multer');
+const nodemailer = require('nodemailer');
+const logger = require('../logs/logger');
+
 const Users = require('../models/User');
 const Lessons = require('../models/Lesson');
 const TeacherApplication = require('../models/TeacherApplication');
 const Notifications = require('../models/Notification');
 const Review = require('../models/Review');
 const Media = require('../models/Media');
-const logger = require('../logs/logger');
-const nodemailer = require('nodemailer');
+
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => cb(null, path.join(__dirname, '..', 'uploads')),
+    filename: (req, file, cb) => cb(null, Date.now() + '-' + file.originalname)
+});
+const upload = multer({ storage });
+
+exports.uploadMiddleware = upload.fields([
+    { name: 'image', maxCount: 1 },
+    { name: 'cv', maxCount: 1 }
+]);
 
 const models = {
     login: Users,
@@ -24,7 +38,6 @@ const childRelations = {
     students: ['lessons'],
 };
 
-// קבלת תתי אובייקטים
 exports.getSubItems = async (req, res) => {
     const { type, id, subType } = req.params;
 
@@ -59,7 +72,40 @@ exports.getAllGeneric = async (req, res) => {
     }
 };
 
-// טיפול בטופס צור קשר
+exports.applyTeacher = async (req, res) => {
+    try {
+        const {
+            fullName,
+            email,
+            phone,
+            subjects,
+            description,
+            experience,
+            location
+        } = req.body;
+
+        const imagePath = req.files?.image?.[0]?.path || null;
+        const cvPath = req.files?.cv?.[0]?.path || null;
+
+        await TeacherApplication.create({
+            fullName,
+            email,
+            phone,
+            subjects,
+            description,
+            experience,
+            location,
+            image: imagePath,
+            cv: cvPath
+        });
+
+        res.json({ message: 'הבקשה נשלחה בהצלחה!' });
+    } catch (error) {
+        logger.error('שגיאה בהגשת בקשת מורה:', error);
+        res.status(500).json({ message: 'שגיאה בשליחת הבקשה' });
+    }
+};
+
 exports.sendContactForm = async (req, res) => {
     const { name, email, message } = req.body;
 
@@ -108,7 +154,6 @@ exports.getAll = async (req, res) => {
     }
 };
 
-// יצירה
 exports.create = async (req, res) => {
     const { type } = req.params;
     try {
@@ -120,7 +165,6 @@ exports.create = async (req, res) => {
     }
 };
 
-// עדכון
 exports.update = async (req, res) => {
     const { type, id } = req.params;
     try {
@@ -137,7 +181,6 @@ exports.update = async (req, res) => {
     }
 };
 
-// מחיקה
 exports.delete = async (req, res) => {
     const { type, id } = req.params;
     try {

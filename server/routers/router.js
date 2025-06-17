@@ -7,6 +7,9 @@ const { verifyToken } = require('../middleware/auth');
 router.post('/register', authController.register);
 router.post('/login', authController.login);
 
+// הגשת בקשה להיות מורה
+router.post('/apply-teacher', controller.uploadMiddleware, controller.applyTeacher);
+
 // צור קשר
 router.post('/contact', controller.sendContactForm);
 
