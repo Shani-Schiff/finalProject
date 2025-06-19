@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import '../styles/lessons.css';
+import { Link } from "react-router-dom"; // הוספה בראש הקובץ
 
 export default function Lessons() {
     const [lessons, setLessons] = useState([]);
@@ -22,7 +23,7 @@ export default function Lessons() {
                     {lessons.map(lesson => (
                         <div className="lesson-card" key={lesson.id}>
                             <h3 className="lesson-title">{lesson.title}</h3>
-                            <button className="details-button">לפרטים</button>
+                            <Link to={`/lessons/${lesson.id}`} className="details-button">לפרטים</Link>
                         </div>
                     ))}
                 </div>

@@ -9,6 +9,7 @@ const TeacherApplication = require('../models/TeacherApplication');
 const Notifications = require('../models/Notification');
 const Review = require('../models/Review');
 const Media = require('../models/Media');
+const { where } = require('sequelize');
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => cb(null, path.join(__dirname, '..', 'uploads')),
@@ -145,11 +146,28 @@ exports.sendContactForm = async (req, res) => {
 
 exports.getAll = async (req, res) => {
     const { type } = req.params;
+
     try {
         const data = await models[type].findAll();
         res.json(data);
     } catch (error) {
         logger.error(`שגיאה בקבלת כל ${type}:`, error);
+        res.status(500).json({ message: 'שגיאה בשרת' });
+    }
+};
+
+exports.getGenericById = async (req, res) => {
+    const { id } = req.params;
+    const type = 'lessons'; // מאחר וזה נתיב קבוע /lessons/:id
+
+    try {
+        const item = await models[type].findByPk(id);
+        if (!item) {
+            return res.status(404).json({ message: 'שיעור לא נמצא' });
+        }
+        res.json(item);
+    } catch (error) {
+        logger.error(`שגיאה בקבלת ${type} עם מזהה ${id}:`, error);
         res.status(500).json({ message: 'שגיאה בשרת' });
     }
 };

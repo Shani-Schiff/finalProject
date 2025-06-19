@@ -10,16 +10,18 @@ import ContactUs from './components/ContactUs';
 import Questions from './components/Questions';
 import Teachers from './components/Teachers';
 import ApplyTeacher from './components/ApplyTeacher';
+import LessonPage from './components/LessonPage'
 
 
 function App() {
   return (
     <BrowserRouter>
       <Navbar />
-      <ToastContainer />{/* חלונית הודעות - עיצוב */}
+      <ToastContainer />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/lessons" element={<Lessons />} />
+        <Route path="/lessons/:id" element={<LessonPage />} />
         <Route path="/teachers" element={<Teachers />} />
         <Route path="/apply" element={<ApplyTeacher />} />
         <Route path="/questions" element={<Questions />} />

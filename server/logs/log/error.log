@@ -60,3 +60,7 @@ notNull Violation: User.role cannot be null
 2025-06-17 11:14:49 [error]: שגיאה בשליפת : Cannot read properties of undefined (reading 'findAll')
 2025-06-17 11:14:49 [error]: שגיאה בשליפת : Cannot read properties of undefined (reading 'findAll')
 2025-06-17 11:15:35 [error]: שגיאה בשליפת : Cannot read properties of undefined (reading 'findAll')
+2025-06-20 01:18:54 [error]: שגיאה בקבלת כל undefined: Cannot read properties of undefined (reading 'findAll')
+2025-06-20 01:18:54 [error]: שגיאה בקבלת כל undefined: Cannot read properties of undefined (reading 'findAll')
+2025-06-20 01:18:55 [error]: שגיאה בקבלת כל undefined: Cannot read properties of undefined (reading 'findAll')
+2025-06-20 01:18:55 [error]: שגיאה בקבלת כל undefined: Cannot read properties of undefined (reading 'findAll')

@@ -15,6 +15,8 @@ router.post('/contact', controller.sendContactForm);
 
 // שיעורים ציבוריים
 router.get('/lessons', controller.getAllGeneric);
+router.get('/lessons/:id', controller.getGenericById);
+
 router.get('/teachers', controller.getAllGeneric);
 
 // כל השאר מוגנים
@@ -28,7 +30,7 @@ router.route(userBasePath)
     .post(controller.create);
 
 router.route(`${userBasePath}/:id`)
-    .get(controller.getAll) // אופציונלי – אם יש getById
+    .get(controller.getAll)
     .put(controller.update)
     .delete(controller.delete);
 
