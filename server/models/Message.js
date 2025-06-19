@@ -9,10 +9,8 @@ const Message = sequelize.define('Message', {
   content: DataTypes.TEXT,
   timestamp: { type: DataTypes.DATE, defaultValue: DataTypes.NOW },
   is_read: { type: DataTypes.BOOLEAN, defaultValue: false }
+}, {
+  timestamps: true
 });
-Message.associate = (models) => {
-Message.belongsTo(User, { foreignKey: 'sender_id', as: 'sender' });
-Message.belongsTo(User, { foreignKey: 'receiver_id', as: 'receiver' });
-};
-module.exports = Message;
 
+module.exports = Message;

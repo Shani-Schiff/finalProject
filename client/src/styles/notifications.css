@@ -1,0 +1,92 @@
+.notifications-container {
+    max-width: 600px;
+    margin: 2rem auto;
+    background: #f9f9ff;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 0 12px rgba(0,0,0,0.1);
+    direction: rtl;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+.receiver-section {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1rem;
+}
+
+.receiver-section input {
+    padding: 0.5rem;
+    margin-top: 0.3rem;
+    margin-bottom: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+}
+
+.receiver-section button {
+    align-self: start;
+    padding: 0.4rem 1rem;
+    background-color: #4c8bf5;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.chat-box {
+    border: 1px solid #ddd;
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 1rem;
+    max-height: 300px;
+    overflow-y: auto;
+    margin-bottom: 1rem;
+}
+
+.message {
+    margin-bottom: 0.6rem;
+}
+
+.message.me {
+    background-color: #d9fdd3;
+    padding: 0.5rem;
+    border-radius: 6px;
+}
+
+.message.other {
+    background-color: #f1f1f1;
+    padding: 0.5rem;
+    border-radius: 6px;
+}
+
+.timestamp {
+    font-size: 0.75rem;
+    color: gray;
+    margin-top: 0.2rem;
+}
+
+textarea {
+    width: 100%;
+    padding: 0.5rem;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    resize: vertical;
+    min-height: 60px;
+}
+
+.send-button {
+    margin-top: 0.5rem;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 0.6rem 1.2rem;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.error-message {
+    color: red;
+    font-size: 0.9rem;
+    margin-top: 0.3rem;
+}
