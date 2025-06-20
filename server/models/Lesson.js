@@ -1,9 +1,9 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../../dataBase/dataBase');
-// const User = require('./User');
-// const Media = require('./Media');
-// const Review = require('./Review');
-// const LessonStudent = require('./LessonStudent');
+const User = require('./User');
+const Media = require('./Media');
+const Review = require('./Review');
+const LessonStudent = require('./LessonStudent');
 // const LessonTeacher = require('./LessonTeacher');
 
 const Lesson = sequelize.define('Lesson', {

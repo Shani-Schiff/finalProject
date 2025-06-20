@@ -19,9 +19,9 @@ export default function Teachers() {
                 <p className="no-lessons">לא נמצאו מורים</p>
             ) : (
                 <div className="lessons-grid">
-                    {lessons.map(lesson => (
-                        <div className="lesson-card" key={lesson.id}>
-                            <h3 className="lesson-title">{lesson.title}</h3>
+                    {lessons.map(teacher => (
+                        <div className="lesson-card" key={teacher.userId}>
+                            <h3 className="lesson-title">{teacher.userName}</h3>
                             <button className="details-button">לפרטים</button>
                         </div>
                     ))}

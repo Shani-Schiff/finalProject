@@ -4,6 +4,14 @@ const controller = require('../controllers/controller');
 const authController = require('../controllers/authController');
 const { verifyToken } = require('../middleware/auth');
 
+const messageController = require('../controllers/messageController');
+const { Op } = require('sequelize');
+
+router.get('/users', controller.getAllUsers);
+router.post('/messages', messageController.sendMessage);
+router.get('/messages/:user1/:user2', messageController.getConversation);
+router.post('/messages/by-email', messageController.sendMessageByEmail);
+
 router.post('/register', authController.register);
 router.post('/login', authController.login);
 

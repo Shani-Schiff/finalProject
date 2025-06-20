@@ -61,10 +61,14 @@ exports.getSubItems = async (req, res) => {
         res.status(500).json({ message: 'שגיאה בשרת' });
     }
 };
-
+//students
 exports.getAllGeneric = async (req, res) => {
     try {
-        const type = req.url.split('/')[1];
+        // const type = req.url.split('/')[1];
+        const type = req.path.split('/')[1].toLowerCase();
+        if (!models[type]) {
+            return res.status(400).json({ message: `המודל '${type}' לא קיים` });
+        }
         const lessons = await models[type].findAll();
         res.json(lessons);
     } catch (err) {
@@ -72,6 +76,32 @@ exports.getAllGeneric = async (req, res) => {
         res.status(500).json({ message: 'שגיאה בטעינת ' });
     }
 };
+//teachers
+exports.getAllTeachers = async (req, res) => {
+    try {
+        const teachers = await models.teachers.findAll({
+            where: { role: 'teacher' },
+            attributes: ['userId', 'userName', 'email']
+        });
+        res.json(teachers);
+    } catch (err) {
+        logger.error("שגיאה בשליפת המורים:", err);
+        res.status(500).json({ message: 'שגיאה בטעינת המורים' });
+    }
+};
+
+//messages
+exports.getAllUsers = async (req, res) => {
+    try {
+        const users = await Users.findAll({
+            attributes: ['userId', 'email']
+        });
+        res.json(users);
+    } catch (err) {
+        res.status(500).json({ message: 'שגיאה בקבלת משתמשים' });
+    }
+};
+
 
 exports.applyTeacher = async (req, res) => {
     try {
@@ -98,6 +128,11 @@ exports.applyTeacher = async (req, res) => {
             location,
             image: imagePath,
             cv: cvPath
+        });
+
+        await Notifications.create({
+            user_id: 1, // מזהה מנהל
+            content: `בקשת הצטרפות חדשה התקבלה מ-${fullName} (${email})`
         });
 
         res.json({ message: 'הבקשה נשלחה בהצלחה!' });

@@ -9,6 +9,7 @@ import Lessons from './components/Lessons';
 import ContactUs from './components/ContactUs';
 import Questions from './components/Questions';
 import Teachers from './components/Teachers';
+import Notifications from './components/Notifications';
 import ApplyTeacher from './components/ApplyTeacher';
 import LessonPage from './components/LessonPage'
 
@@ -24,6 +25,7 @@ function App() {
         <Route path="/lessons/:id" element={<LessonPage />} />
         <Route path="/teachers" element={<Teachers />} />
         <Route path="/apply" element={<ApplyTeacher />} />
+        <Route path="/notifications" element={<Notifications />} />
         <Route path="/questions" element={<Questions />} />
         <Route path="/contactUs" element={<ContactUs />} />
         <Route path="/login" element={<Login />} />

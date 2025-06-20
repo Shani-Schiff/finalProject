@@ -233,8 +233,11 @@ notNull Violation: User.role cannot be null
 2025-06-17 11:14:49 [error]: שגיאה בשליפת : Cannot read properties of undefined (reading 'findAll')
 2025-06-17 11:14:49 [error]: שגיאה בשליפת : Cannot read properties of undefined (reading 'findAll')
 2025-06-17 11:15:35 [error]: שגיאה בשליפת : Cannot read properties of undefined (reading 'findAll')
-2025-06-20 00:37:16 [info]: User registered successfully: 1
-2025-06-20 01:18:54 [error]: שגיאה בקבלת כל undefined: Cannot read properties of undefined (reading 'findAll')
-2025-06-20 01:18:54 [error]: שגיאה בקבלת כל undefined: Cannot read properties of undefined (reading 'findAll')
-2025-06-20 01:18:55 [error]: שגיאה בקבלת כל undefined: Cannot read properties of undefined (reading 'findAll')
-2025-06-20 01:18:55 [error]: שגיאה בקבלת כל undefined: Cannot read properties of undefined (reading 'findAll')
+2025-06-17 19:28:09 [error]: שגיאה בשליפת : Cannot read properties of undefined (reading 'findAll')
+2025-06-17 19:28:09 [error]: שגיאה בשליפת : Cannot read properties of undefined (reading 'findAll')
+2025-06-17 19:28:18 [error]: שגיאה בשליפת : Cannot read properties of undefined (reading 'findAll')
+2025-06-17 19:28:18 [error]: שגיאה בשליפת : Cannot read properties of undefined (reading 'findAll')
+2025-06-19 11:10:06 [error]: שגיאה בשליפת המורים: Unknown column 'id' in 'field list'
+2025-06-19 11:10:06 [error]: שגיאה בשליפת המורים: Unknown column 'id' in 'field list'
+2025-06-19 11:10:13 [error]: שגיאה בשליפת המורים: Unknown column 'id' in 'field list'
+2025-06-19 11:10:13 [error]: שגיאה בשליפת המורים: Unknown column 'id' in 'field list'
