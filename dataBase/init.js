@@ -36,7 +36,7 @@ async function init() {
 
         for (let i = 0; i < 50; i++) {
             const user = await User.create({
-                user_name: faker.person.full_name(),
+                user_name: faker.person.fullName(),
                 email: faker.internet.email(),
                 role: 'student'
             });
@@ -45,7 +45,7 @@ async function init() {
 
         for (let i = 0; i < 10; i++) {
             const user = await User.create({
-                user_name: faker.person.full_name(),
+                user_name: faker.person.fullName(),
                 email: faker.internet.email(),
                 role: 'teacher'
             });
@@ -64,7 +64,7 @@ async function init() {
                 const max_participants = isPrivate ? 1 : faker.number.int({ min: 3, max: 8 });
 
                 const lesson = await Lesson.create({
-                    title: `${subject} Lesson`,
+                    title: '${subject} Lesson',
                     subject,
                     level: 'Beginner',
                     teacher_id: teacher_id,

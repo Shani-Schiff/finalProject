@@ -12,7 +12,14 @@ export default function Teachers() {
     useEffect(() => {
         fetch('http://localhost:5000/teachers')
             .then(response => response.json())
-            .then(data => setTeachers(data))
+            .then(data => {
+                if (!Array.isArray(data)) {
+                    console.error('נתונים לא תקינים:', data);
+                    setTeachers([]);
+                    return;
+                }
+                setTeachers(data);
+            })
             .catch(err => console.error('שגיאה בטעינת המורים:', err));
     }, []);
 

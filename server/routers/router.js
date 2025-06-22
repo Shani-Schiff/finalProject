@@ -25,7 +25,7 @@ router.post('/contact', controller.sendContactForm);
 router.get('/lessons', controller.getAllGeneric);
 router.get('/lessons/:id', controller.getGenericById);
 
-router.get('/teachers', controller.getAllGeneric);
+router.get('/teachers', controller.getAllTeachers);
 
 // כל השאר מוגנים
 router.use(verifyToken);

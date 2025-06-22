@@ -64,7 +64,6 @@ exports.getSubItems = async (req, res) => {
 //students
 exports.getAllGeneric = async (req, res) => {
     try {
-        // const type = req.url.split('/')[1];
         const type = req.path.split('/')[1].toLowerCase();
         if (!models[type]) {
             return res.status(400).json({ message: `המודל '${type}' לא קיים` });
@@ -79,16 +78,19 @@ exports.getAllGeneric = async (req, res) => {
 //teachers
 exports.getAllTeachers = async (req, res) => {
     try {
+        console.log("מנסה לשלוף את כל המורים...");
         const teachers = await Users.findAll({
             where: { role: 'teacher' },
             attributes: ['user_id', 'user_name', 'email']
         });
+        console.log("נמצאו מורים:", teachers);
         res.json(teachers);
     } catch (err) {
-        logger.error("שגיאה בשליפת המורים:", err);
+        console.error("שגיאה בשליפת המורים:", err);
         res.status(500).json({ message: 'שגיאה בטעינת המורים' });
     }
 };
+
 
 //messages
 exports.getAllUsers = async (req, res) => {
@@ -101,7 +103,6 @@ exports.getAllUsers = async (req, res) => {
         res.status(500).json({ message: 'שגיאה בקבלת משתמשים' });
     }
 };
-
 
 exports.applyTeacher = async (req, res) => {
     try {

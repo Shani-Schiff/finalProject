@@ -33,6 +33,9 @@ export default function Register() {
           theme: "colored",
         });
       } else {
+        localStorage.setItem("user", JSON.stringify(data.user));
+        localStorage.setItem("token", data.token);
+
         toast.success("נרשמת בהצלחה! 🎉", {
           position: "top-center",
           autoClose: 3000,
@@ -40,6 +43,7 @@ export default function Register() {
         });
         setTimeout(() => navigate("/"), 3000);
       }
+
     } catch (err) {
       toast.error("קרתה שגיאה בשרת, נסה שוב מאוחר יותר", {
         position: "top-center",
