@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { useUser } from "../components/UserContext";
-import { canViewLessonDetails, canRegisterToLesson } from '../helpers/authHelpers';
-import { toast } from "react-toastify";
+import { canViewDetails } from '../helpers/authHelpers';
 import "../styles/lessonPage.css";
 
 export default function LessonPage() {
@@ -14,7 +13,7 @@ export default function LessonPage() {
     const [registered, setRegistered] = useState(false);
 
     useEffect(() => {
-        if (!canViewLessonDetails(user)) {
+        if (!canViewDetails(user)) {
             setError("אין לך הרשאה לצפות בפרטי שיעור. יש להתחבר עם משתמש מתאים.");
             setLoading(false);
             return;
@@ -36,27 +35,15 @@ export default function LessonPage() {
     }, [id, user]);
 
     const handleRegister = () => {
-        if (!canRegisterToLesson(user)) {
-            toast.error(
-              <div>
-                עליך להתחבר כלקוח (תלמיד) כדי להירשם לשיעור. <br />
-                <Link to="/login" style={{ color: '#61dafb', textDecoration: 'underline' }}>
-                  להתחברות
-                </Link>
-              </div>,
-              { autoClose: 3000 }
-            );
-            return;
-        }
         setRegistered(true);
     };
 
     if (loading) return <p className="loading">טוען...</p>;
     if (error) return (
-      <div className="lesson-page-container">
-        <p className="error">⚠️ {error}</p>
-        {!user && <Link to="/login" style={{ color: '#61dafb', textDecoration: 'underline' }}>התחבר כאן</Link>}
-      </div>
+        <div className="lesson-page-container">
+            <p className="error">⚠️ {error}</p>
+            {!user && <Link to="/login" style={{ color: '#61dafb', textDecoration: 'underline' }}>התחבר כאן</Link>}
+        </div>
     );
     if (!lesson) return <p className="not-found">לא נמצא שיעור</p>;
 

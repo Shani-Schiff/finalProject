@@ -3,7 +3,7 @@ import logo from '../media/logo.png';
 import { useUser } from "./UserContext";
 import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { isLoggedIn, isAdmin, isTeacher, isStudent, canCreateLesson, canManageLessons, canManageTeachers, canAccessMessages } from '../helpers/authHelpers';
+import { isLoggedIn, isTeacher, isStudent, canCreateLesson, canManageTeachers, canAccessMessages } from '../helpers/authHelpers';
 
 export default function Navbar() {
   const { user, logout } = useUser();

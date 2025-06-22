@@ -29,7 +29,7 @@ async function init() {
         const hashed_password = await bcrypt.hash(adminPassword, 10);
         const admin = await User.create({ user_name: 'System Admin', email: adminEmail, role: 'admin' });
         await UserPassword.create({ user_id: admin.user_id, hashed_password: hashed_password });
-        console.log("Admin created: ${adminEmail} / ${adminPassword}");
+        console.log(`Admin created: ${adminEmail} / ${adminPassword}`);
 
         const student_ids = [];
         const teacher_ids = [];
@@ -54,7 +54,7 @@ async function init() {
             const password = faker.internet.password();
             const hashed = await bcrypt.hash(password, 10);
             await UserPassword.create({ user_id: user.user_id, hashed_password: hashed });
-            console.log("Teacher password for ${user.user_id}: ${password}");
+            console.log(`Teacher password for ${user.user_id}: ${password}`);
         }
 
         const subjects = ['Math', 'English', 'Science', 'History', 'Art'];
@@ -64,7 +64,7 @@ async function init() {
                 const max_participants = isPrivate ? 1 : faker.number.int({ min: 3, max: 8 });
 
                 const lesson = await Lesson.create({
-                    title: '${subject} Lesson',
+                    title: `${subject} Lesson`,
                     subject,
                     level: 'Beginner',
                     teacher_id: teacher_id,
@@ -85,7 +85,7 @@ async function init() {
             }
         }
 
-        console.log("Database seeded successfully!");
+        console.log(`Database seeded successfully!`);
         await sequelize.close();
     } catch (err) {
         console.error('Seeding error:', err);
