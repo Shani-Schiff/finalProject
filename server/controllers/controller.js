@@ -79,9 +79,9 @@ exports.getAllGeneric = async (req, res) => {
 //teachers
 exports.getAllTeachers = async (req, res) => {
     try {
-        const teachers = await models.teachers.findAll({
+        const teachers = await Users.findAll({
             where: { role: 'teacher' },
-            attributes: ['userId', 'userName', 'email']
+            attributes: ['user_id', 'user_name', 'email']
         });
         res.json(teachers);
     } catch (err) {
@@ -94,7 +94,7 @@ exports.getAllTeachers = async (req, res) => {
 exports.getAllUsers = async (req, res) => {
     try {
         const users = await Users.findAll({
-            attributes: ['userId', 'email']
+            attributes: ['user_id', 'email']
         });
         res.json(users);
     } catch (err) {
@@ -106,7 +106,7 @@ exports.getAllUsers = async (req, res) => {
 exports.applyTeacher = async (req, res) => {
     try {
         const {
-            fullName,
+            full_name,
             email,
             phone,
             subjects,
@@ -115,24 +115,24 @@ exports.applyTeacher = async (req, res) => {
             location
         } = req.body;
 
-        const imagePath = req.files?.image?.[0]?.path || null;
-        const cvPath = req.files?.cv?.[0]?.path || null;
+        const image = req.files?.image?.[0]?.path || null;
+        const cv = req.files?.cv?.[0]?.path || null;
 
         await TeacherApplication.create({
-            fullName,
+            full_name,
             email,
             phone,
             subjects,
             description,
             experience,
             location,
-            image: imagePath,
-            cv: cvPath
+            image: image,
+            cv: cv
         });
 
         await Notifications.create({
             user_id: 1, // מזהה מנהל
-            content: `בקשת הצטרפות חדשה התקבלה מ-${fullName} (${email})`
+            content: `בקשת הצטרפות חדשה התקבלה מ-${full_name} (${email})`
         });
 
         res.json({ message: 'הבקשה נשלחה בהצלחה!' });

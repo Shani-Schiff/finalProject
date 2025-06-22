@@ -31,7 +31,7 @@ router.get('/teachers', controller.getAllGeneric);
 router.use(verifyToken);
 
 // נתיבי גישה כלליים לפי משתמש
-const userBasePath = '/users/:userId/:type';
+const userBasePath = '/users/:user_id/:type';
 
 router.route(userBasePath)
     .get(controller.getAll)

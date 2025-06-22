@@ -1,8 +1,12 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import '../styles/lessonPage.css';
+import { useParams, Link } from "react-router-dom";
+import { useUser } from "../components/UserContext";
+import { canViewLessonDetails, canRegisterToLesson } from '../helpers/authHelpers';
+import { toast } from "react-toastify";
+import "../styles/lessonPage.css";
 
 export default function LessonPage() {
+    const { user } = useUser();
     const { id } = useParams();
     const [lesson, setLesson] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -10,6 +14,12 @@ export default function LessonPage() {
     const [registered, setRegistered] = useState(false);
 
     useEffect(() => {
+        if (!canViewLessonDetails(user)) {
+            setError("אין לך הרשאה לצפות בפרטי שיעור. יש להתחבר עם משתמש מתאים.");
+            setLoading(false);
+            return;
+        }
+
         fetch(`http://localhost:5000/lessons/${id}`)
             .then(res => {
                 if (!res.ok) throw new Error("שגיאה בטעינת השיעור");
@@ -23,15 +33,31 @@ export default function LessonPage() {
                 setError(err.message);
                 setLoading(false);
             });
-    }, [id]);
+    }, [id, user]);
 
     const handleRegister = () => {
-        // אפשרות ל־POST בעתיד
+        if (!canRegisterToLesson(user)) {
+            toast.error(
+              <div>
+                עליך להתחבר כלקוח (תלמיד) כדי להירשם לשיעור. <br />
+                <Link to="/login" style={{ color: '#61dafb', textDecoration: 'underline' }}>
+                  להתחברות
+                </Link>
+              </div>,
+              { autoClose: 3000 }
+            );
+            return;
+        }
         setRegistered(true);
     };
 
     if (loading) return <p className="loading">טוען...</p>;
-    if (error) return <p className="error">⚠️ {error}</p>;
+    if (error) return (
+      <div className="lesson-page-container">
+        <p className="error">⚠️ {error}</p>
+        {!user && <Link to="/login" style={{ color: '#61dafb', textDecoration: 'underline' }}>התחבר כאן</Link>}
+      </div>
+    );
     if (!lesson) return <p className="not-found">לא נמצא שיעור</p>;
 
     return (

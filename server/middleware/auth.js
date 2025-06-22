@@ -3,7 +3,7 @@ const JWT_SECRET = process.env.JWT_SECRET;
 const logger = require('../logs/logger');
 
 exports.generateToken = (user) => {
-    return jwt.sign({ userId: user.userId, role: user.role}, JWT_SECRET, { expiresIn: '1h' });
+    return jwt.sign({ user_id: user.user_id, role: user.role }, JWT_SECRET, { expiresIn: '1h' });
 };
 
 exports.verifyToken = (req, res, next) => {
@@ -20,12 +20,12 @@ exports.verifyToken = (req, res, next) => {
         const decoded = jwt.verify(token, JWT_SECRET);
 
         req.user = {
-            userId: decoded.userId,
+            user_id: decoded.user_id,
             role: decoded.role
         };
 
-        if (req.params.userId && String(req.params.userId) !== String(decoded.userId)) {
-            logger.warn(`User ID mismatch: token user ${decoded.userId}, requested user ${req.params.userId}`);
+        if (req.params.user_id && String(req.params.user_id) !== String(decoded.user_id)) {
+            logger.warn(`User ID mismatch: token user ${decoded.user_id}, requested user ${req.params.user_id}`);
             return res.status(403).json({ error: 'Access denied: user ID mismatch' });
         }
 

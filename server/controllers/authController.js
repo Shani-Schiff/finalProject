@@ -5,8 +5,8 @@ const { generateToken } = require('../middleware/auth');
 const logger = require('../logs/logger');
 
 const validateRegistration = (userData) => {
-    const { userName, email, phoneNumber, password } = userData;
-    if (!userName || !email || !phoneNumber || !password) {
+    const { user_name, email, phone_number, password } = userData;
+    if (!user_name || !email || !phone_number || !password) {
         return 'Missing required fields';
     }
     return null;
@@ -21,16 +21,27 @@ const checkExistingUser = async (email) => {
 
     return null;
 };
+const bcrpt = require('bcrypt');
 
-const createUserWithPassword = async (userData) => {
-    const { userName, email, phoneNumber, password } = userData;
+bcrpt.hash("2", 10).then(hash => {
+    console.log("Hashed password:", hash);
+});
 
-    const hashedPassword = await bcrypt.hash(password, 10);
-    const user = await Users.create({ userName, email, phoneNumber });
+
+const createUserWithPassword = async (userData, currentUserRole = null) => {
+    const { user_name, email, phone_number, password, role } = userData;
+    const hashed_password = await bcrypt.hash(password, 10);
+
+    const user = await Users.create({
+        user_name,
+        email,
+        phone_number,
+        role: currentUserRole === 'admin' && role ? role : 'student'
+    });
 
     await Passwords.create({
-        userId: user.userId,
-        hashedPassword: hashedPassword
+        user_id: user.user_id,
+        hashed_password: hashed_password
     });
 
     return user;
@@ -38,10 +49,11 @@ const createUserWithPassword = async (userData) => {
 
 const prepareUserResponse = (user, token) => {
     return {
-        id: user.userId,
-        userName: user.userName || user.dataValues.userName,
+        user_id: user.user_id,
+        user_name: user.user_name,
         email: user.email,
-        phoneNumber: user.phoneNumber,
+        phone_number: user.phone_number,
+        role: user.role,
         token
     };
 };
@@ -63,7 +75,7 @@ exports.register = async (req, res) => {
         const user = await createUserWithPassword(req.body);
 
         const token = generateToken(user);
-        logger.info(`User registered successfully: ${user.userId}`);
+        logger.info(`User registered successfully: ${user.user_id}`);
 
         const response = {
             message: 'User registered successfully',
@@ -81,7 +93,7 @@ exports.register = async (req, res) => {
 async function verifyUserCredentials(email, password) {
     const user = await Users.findOne({
         where: { email },
-        attributes: ['userId', 'userName', 'email', 'phoneNumber']
+        attributes: ['user_id', 'user_name', 'email', 'phone_number', 'role']
     });
 
     if (!user) {
@@ -89,20 +101,21 @@ async function verifyUserCredentials(email, password) {
         return { error: 'Invalid credentials', status: 401 };
     }
 
-    const passwordRecord = await Passwords.findOne({ where: { userId: user.userId } });
+    const passwordRecord = await Passwords.findOne({ where: { user_id: user.user_id } });
     if (!passwordRecord) {
-        logger.warn(`User ${user.userId} has no password record`);
+        logger.warn(`User ${user.user_id} has no password record`);
         return { error: 'Invalid credentials', status: 401 };
     }
 
-    const match = await bcrypt.compare(password, passwordRecord.hashedPassword);
+    const match = await bcrypt.compare(password, passwordRecord.hashed_password);
     if (!match) {
-        logger.warn(`Failed login attempt for user ${user.userId}`);
+        logger.warn(`Failed login attempt for user ${user.user_id}`);
         return { error: 'Invalid credentials', status: 401 };
     }
 
     return { user, status: 200 };
 }
+
 
 exports.login = async (req, res) => {
     try {
@@ -119,7 +132,7 @@ exports.login = async (req, res) => {
         }
 
         const token = generateToken(authResult.user);
-        logger.info(`User logged in successfully: ${authResult.user.userId}`);
+        logger.info(`User logged in successfully: ${authResult.user.user_id}`);
 
         res.json(prepareUserResponse(authResult.user, token));
     } catch (err) {

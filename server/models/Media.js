@@ -1,6 +1,5 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../../dataBase/dataBase');
-// const Lesson = require('./Lesson');
 
 const Media = sequelize.define('Media', {
   id: { type: DataTypes.INTEGER, autoIncrement: true, primaryKey: true },
@@ -9,7 +8,9 @@ const Media = sequelize.define('Media', {
   file_type: { type: DataTypes.ENUM('pdf', 'video', 'audio') },
   description: DataTypes.TEXT
 });
+
 Media.associate = (models) => {
-Media.belongsTo(Lesson, { foreignKey: 'lesson_id' });
+  Media.belongsTo(models.Lesson, { foreignKey: 'lesson_id' });
 };
+
 module.exports = Media;

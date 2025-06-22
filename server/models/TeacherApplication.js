@@ -2,7 +2,7 @@ const { DataTypes } = require('sequelize');
 const sequelize = require('../../dataBase/dataBase');
 
 const TeacherApplication = sequelize.define('TeacherApplication', {
-  fullName: DataTypes.STRING,
+  full_name: DataTypes.STRING,
   email: DataTypes.STRING,
   phone: DataTypes.STRING,
   subjects: DataTypes.TEXT,

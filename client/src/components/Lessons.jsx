@@ -1,9 +1,13 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { useUser } from "../components/UserContext";
+import { canViewLessonDetails } from '../helpers/authHelpers';
+import { toast } from "react-toastify";
 import '../styles/lessons.css';
-import { Link } from "react-router-dom"; // הוספה בראש הקובץ
 
 export default function Lessons() {
     const [lessons, setLessons] = useState([]);
+    const { user } = useUser();
 
     useEffect(() => {
         fetch('http://localhost:5000/lessons')
@@ -11,6 +15,19 @@ export default function Lessons() {
             .then(data => setLessons(data))
             .catch(err => console.error('שגיאה בטעינת שיעורים:', err));
     }, []);
+
+    const handleRestrictedClick = (e) => {
+      e.preventDefault();
+      toast.info(
+        <div>
+          יש להתחבר או להיות בעל הרשאה כדי לגשת לפרטי השיעור! <br />
+          <Link to="/login" style={{ color: '#61dafb', textDecoration: 'underline' }}>
+            להתחברות
+          </Link>
+        </div>,
+        { autoClose: 3000 }
+      );
+    };
 
     return (
         <div className="lessons-container">
@@ -23,7 +40,11 @@ export default function Lessons() {
                     {lessons.map(lesson => (
                         <div className="lesson-card" key={lesson.id}>
                             <h3 className="lesson-title">{lesson.title}</h3>
-                            <Link to={`/lessons/${lesson.id}`} className="details-button">לפרטים</Link>
+                            {canViewLessonDetails(user) ? (
+                              <Link to={`/lessons/${lesson.id}`} className="details-button">לפרטים</Link>
+                            ) : (
+                              <button onClick={handleRestrictedClick} className="details-button">לפרטים</button>
+                            )}
                         </div>
                     ))}
                 </div>

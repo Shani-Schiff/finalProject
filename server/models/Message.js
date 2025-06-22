@@ -1,6 +1,5 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../../dataBase/dataBase');
-// const User = require('./User');
 
 const Message = sequelize.define('Message', {
   id: { type: DataTypes.INTEGER, autoIncrement: true, primaryKey: true },

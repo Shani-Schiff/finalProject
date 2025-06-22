@@ -24,7 +24,7 @@ exports.sendMessageByEmail = async (req, res) => {
 
         const message = await Message.create({
             sender_id,
-            receiver_id: receiver.userId,
+            receiver_id: receiver.user_id,
             content
         });
 

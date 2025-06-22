@@ -1,14 +1,14 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../../dataBase/dataBase');
-// const User = require('./User');
 
 const UserPassword = sequelize.define('UserPassword', {
-  userId: { type: DataTypes.INTEGER, primaryKey: true },
-  hashedPassword: { type: DataTypes.STRING, allowNull: false },
+  user_id: { type: DataTypes.INTEGER, primaryKey: true },
+  hashed_password: { type: DataTypes.STRING, allowNull: false },
   is_deleted: { type: DataTypes.BOOLEAN, defaultValue: false }
 });
+
 UserPassword.associate = (models) => {
-  UserPassword.belongsTo(models.User, { foreignKey: 'userId' });
+  UserPassword.belongsTo(models.User, { foreignKey: 'user_id' });
 };
 
 module.exports = UserPassword;

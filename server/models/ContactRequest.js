@@ -3,7 +3,7 @@ const sequelize = require('../../dataBase/dataBase');
 
 const ContactRequest = sequelize.define('ContactRequest', {
   id: { type: DataTypes.INTEGER, autoIncrement: true, primaryKey: true },
-  userName: DataTypes.STRING,
+  user_name: DataTypes.STRING,
   email: DataTypes.STRING,
   message: DataTypes.TEXT,
   created_at: { type: DataTypes.DATE, defaultValue: DataTypes.NOW }

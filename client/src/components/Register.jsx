@@ -6,10 +6,10 @@ import "../styles/auth.css";
 
 export default function Register() {
   const [formData, setFormData] = useState({
-    userName: "",
+    user_name: "",
     email: "",
     password: "",
-    phoneNumber: "",
+    phone_number: "",
   });
 
   const navigate = useNavigate();
@@ -38,7 +38,7 @@ export default function Register() {
           autoClose: 3000,
           theme: "colored",
         });
-        setTimeout(() => navigate("/"), 3000); // מעבר אחרי 3 שניות
+        setTimeout(() => navigate("/"), 3000);
       }
     } catch (err) {
       toast.error("קרתה שגיאה בשרת, נסה שוב מאוחר יותר", {
@@ -56,9 +56,9 @@ export default function Register() {
         <input
           type="text"
           placeholder="שם מלא"
-          value={formData.userName}
+          value={formData.user_name}
           onChange={(e) =>
-            setFormData({ ...formData, userName: e.target.value })
+            setFormData({ ...formData, user_name: e.target.value })
           }
           required
         />
@@ -74,9 +74,9 @@ export default function Register() {
         <input
           type="text"
           placeholder="טלפון"
-          value={formData.phoneNumber}
+          value={formData.phone_number}
           onChange={(e) =>
-            setFormData({ ...formData, phoneNumber: e.target.value })
+            setFormData({ ...formData, phone_number: e.target.value })
           }
           required
         />

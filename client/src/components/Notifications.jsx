@@ -1,32 +1,34 @@
 import { useEffect, useState } from "react";
 import '../styles/notifications.css';
-
+import { useUser } from './UserContext';
+import { isLoggedIn } from '../helpers/authHelpers';
 
 export default function Notifications() {
-    const currentUserId = 1; // לדוגמה – המנהל
+    const { user } = useUser();
+    const currentuser_id = user?.user_id;
+
     const [messages, setMessages] = useState([]);
     const [receiverEmail, setReceiverEmail] = useState("");
     const [receiverId, setReceiverId] = useState(null);
     const [newMessage, setNewMessage] = useState("");
     const [error, setError] = useState("");
 
-    // טוען שיחה עם נמען
     useEffect(() => {
-        if (!receiverId) return;
-        fetch(`http://localhost:5000/messages/${currentUserId}/${receiverId}`)
+        if (!receiverId || !currentuser_id) return;
+
+        fetch(`http://localhost:5000/messages/${currentuser_id}/${receiverId}`)
             .then(res => res.json())
             .then(setMessages)
             .catch(console.error);
-    }, [receiverId]);
+    }, [receiverId, currentuser_id]);
 
-    // ממיר אימייל ל־ID
     const fetchReceiverId = async () => {
         try {
             const res = await fetch(`http://localhost:5000/users`);
             const users = await res.json();
             const receiver = users.find(u => u.email === receiverEmail);
             if (receiver) {
-                setReceiverId(receiver.userId);
+                setReceiverId(receiver.user_id);
                 setError("");
             } else {
                 setError("לא נמצא משתמש עם אימייל זה");
@@ -37,24 +39,28 @@ export default function Notifications() {
     };
 
     const sendMessage = () => {
-        if (!receiverId || !newMessage) return;
+        if (!receiverId || !newMessage || !currentuser_id) return;
 
         fetch('http://localhost:5000/messages', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
-                sender_id: currentUserId,
+                sender_id: currentuser_id,
                 receiver_id: receiverId,
                 content: newMessage
             })
         })
-        .then(res => res.json())
-        .then(sent => {
-            setMessages(prev => [...prev, sent]);
-            setNewMessage("");
-        })
-        .catch(console.error);
+            .then(res => res.json())
+            .then(sent => {
+                setMessages(prev => [...prev, sent]);
+                setNewMessage("");
+            })
+            .catch(console.error);
     };
+
+    if (!isLoggedIn(user)) {
+        return <p>יש להתחבר כדי לגשת להודעות</p>;
+    }
 
     return (
         <div className="notifications-container">
@@ -76,10 +82,10 @@ export default function Notifications() {
                 {messages.map(msg => (
                     <div
                         key={msg.id}
-                        className={`message ${msg.sender_id === currentUserId ? 'me' : 'other'}`}
+                        className={`message ${msg.sender_id === currentuser_id ? 'me' : 'other'}`}
                     >
                         <div className="message-content">
-                            <strong>{msg.sender_id === currentUserId ? "🟢 אני" : "🔵 משתמש " + msg.sender_id}:</strong>
+                            <strong>{msg.sender_id === currentuser_id ? "🟢 אני" : "🔵 משתמש " + msg.sender_id}:</strong>
                             <span> {msg.content}</span>
                         </div>
                         <div className="timestamp">
