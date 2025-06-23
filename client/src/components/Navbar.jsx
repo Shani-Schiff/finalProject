@@ -44,7 +44,7 @@ export default function Navbar() {
           </Link>
         </li>
 
-        <li><Link to="/lessons">שיעורים</Link></li>
+        <li><Link to="/subjects">שיעורים</Link></li>
         <li><Link to="/teachers">מורים</Link></li>
         <li><Link to="/questions">שאלות נפוצות</Link></li>
         <li><Link to="/contactUs">צור קשר</Link></li>

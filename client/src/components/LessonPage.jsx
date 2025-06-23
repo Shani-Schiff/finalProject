@@ -93,7 +93,7 @@ export default function LessonPage() {
         <div className="lesson-page-container">
             <h1 className="lesson-page-title">{lesson.title}</h1>
             <p><strong>נושא:</strong> {lesson.subject}</p>
-            <p><strong>רמה:</strong> {lesson.level}</p>
+            <p><strong>מס' יחידות:</strong> {lesson.level}</p>
             <p><strong>סטטוס:</strong> {lesson.status}</p>
             <p><strong>מיקום:</strong> {lesson.location}</p>
             <p><strong>מועדים:</strong> {new Date(lesson.start_date).toLocaleDateString()} - {new Date(lesson.end_date).toLocaleDateString()}</p>

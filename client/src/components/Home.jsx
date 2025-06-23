@@ -54,7 +54,7 @@ export default function Home() {
                 <img src={logo} alt="logoPicture" className="logo-picture" />
                 <p>הדרך שלך להצלחה בבגרויות מתחילה כאן 💡<br />עם מורים מצוינים, שיעורים אונליין, והתאמה אישית לתלמידים מכל הרמות.</p>
                 <div className="cta-buttons">
-                    <Link to="/lessons">
+                    <Link to="/subjects/:id">
                         <button className="primary">📚 צפה בשיעורים</button>
                     </Link>
                     <Link to="/register">

@@ -4,7 +4,7 @@ const sequelize = require('../../dataBase/dataBase');
 const Lesson = sequelize.define('Lesson', {
   id: { type: DataTypes.INTEGER, autoIncrement: true, primaryKey: true },
   title: DataTypes.STRING,
-  subject: DataTypes.STRING,
+  subject_id: DataTypes.INTEGER,
   level: DataTypes.STRING(50),
   teacher_id: DataTypes.INTEGER,
   start_date: DataTypes.DATE,
@@ -18,8 +18,7 @@ const Lesson = sequelize.define('Lesson', {
 
 Lesson.associate = (models) => {
   Lesson.belongsTo(models.User, { foreignKey: 'teacher_id' });
-  Lesson.belongsToMany(models.User, { through: models.LessonStudent, foreignKey: 'lesson_id', as: 'students' });
-  Lesson.belongsToMany(models.User, { through: models.LessonTeacher, foreignKey: 'lesson_id', as: 'teachers' });
+  Lesson.belongsTo(models.Subject, { foreignKey: 'subject_id' });
   Lesson.hasMany(models.Media, { foreignKey: 'lesson_id' });
   Lesson.hasMany(models.Review, { foreignKey: 'lesson_id' });
 };

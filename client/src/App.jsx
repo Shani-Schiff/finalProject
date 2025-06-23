@@ -2,24 +2,21 @@ import './App.css';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { ToastContainer } from "react-toastify";
 import { UserProvider } from './components/UserContext';
-
-// רכיבי עמודים
 import Navbar from './components/Navbar';
 import Home from './components/Home';
 import NotFound from './components/NotFound';
 import Login from './components/Login';
 import Register from './components/Register';
-import Lessons from './components/Lessons';
+import Subjects from './components/Subjects';
+import SubjectsLessons from './components/SubjectsLessons';
 import LessonPage from './components/LessonPage';
 import Teachers from './components/Teachers';
 import TeacherPage from './components/TeacherPage';
 import Questions from './components/Questions';
 import ContactUs from './components/ContactUs';
 import Notifications from './components/Notifications';
-import ApplyTeacher from './components/personal/ApplyTeacher';
 import PersonalArea from './components/PersonalArea';
-
-// תתי רכיבים לאזור האישי
+import ApplyTeacher from './components/personal/ApplyTeacher';
 import Calendar from './components/personal/Calendar';
 import CreateLesson from './components/personal/CreateLesson';
 import ManageStudents from './components/personal/ManageStudents';
@@ -30,11 +27,21 @@ function App() {
     <UserProvider>
       <BrowserRouter>
         <Navbar />
-        <ToastContainer />
+        <ToastContainer position="top-center" rtl />
         <Routes>
+
+          {/* עמוד ראשי */}
           <Route path="/" element={<Home />} />
-          <Route path="*" element={<NotFound />} />
-          
+
+          {/* מקצועות ושיעורים */}
+          <Route path="/subjects" element={<Subjects />} />
+          <Route path="/subjects/:id" element={<SubjectsLessons />} />
+          <Route path="/subjects/lessons/:id" element={<LessonPage />} />
+
+          {/* מורים */}
+          <Route path="/teachers" element={<Teachers />} />
+          <Route path="/teachers/:id" element={<TeacherPage />} />
+
           {/* אזור אישי */}
           <Route path="/personal" element={<PersonalArea />}>
             <Route path="calendar" element={<Calendar />} />
@@ -45,15 +52,14 @@ function App() {
             <Route path="manage-teachers" element={<ManageTeachers />} />
           </Route>
 
-          {/* עמודים נוספים */}
-          <Route path="/lessons" element={<Lessons />} />
-          <Route path="/lessons/:id" element={<LessonPage />} />
-          <Route path="/teachers" element={<Teachers />} />
-          <Route path="/teachers/:id" element={<TeacherPage />} />
+          {/* עמודים כלליים */}
           <Route path="/questions" element={<Questions />} />
           <Route path="/contactUs" element={<ContactUs />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+
+          {/* 404 */}
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
     </UserProvider>

@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { useUser } from "../UserContext";
-
-import '../styles/ApplyTeacher.css';
+import '../../styles/personalArea.css';
 
 export default function ApplyTeacher() {
   const [formData, setFormData] = useState({
