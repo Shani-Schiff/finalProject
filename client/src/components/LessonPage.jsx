@@ -86,10 +86,6 @@ export default function LessonPage() {
             <p className="error">⚠️ {error}</p>
             {!user && <Link to="/login" style={{ color: '#61dafb', textDecoration: 'underline' }}>התחבר כאן</Link>}
         </div>
-        <div className="lesson-page-container">
-            <p className="error">⚠️ {error}</p>
-            {!user && <Link to="/login" style={{ color: '#61dafb', textDecoration: 'underline' }}>התחבר כאן</Link>}
-        </div>
     );
     if (!lesson) return <p className="not-found">לא נמצא שיעור</p>;
 

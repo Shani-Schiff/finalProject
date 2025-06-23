@@ -1,5 +1,7 @@
 import { useState } from 'react';
-import '../../styles/personalArea.css';
+import { useUser } from "../UserContext";
+
+import '../styles/ApplyTeacher.css';
 
 export default function ApplyTeacher() {
   const [formData, setFormData] = useState({
@@ -13,6 +15,7 @@ export default function ApplyTeacher() {
     image: null,
     cv: null
   });
+  const { user } = useUser();
 
   const handleChange = (e) => {
     const { name, value, files } = e.target;
@@ -22,66 +25,57 @@ export default function ApplyTeacher() {
     }));
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const body = new FormData();
-    for (const key in formData) {
-      body.append(key, formData[key]);
-    }
+  const handleSubmit = () => {
+    const body = {
+      sender_id: user.user_id,
+      receiver_id: 1,
+      content: JSON.stringify(formData),
+      is_request: true,
+    };
 
-    try {
-      const res = await fetch('http://localhost:5000/apply-teacher', {
-        method: 'POST',
-        body
-      });
-      const result = await res.json();
-      alert(result.message);
-    } catch (err) {
-      alert('שגיאה בשליחת הטופס');
-    }
+    fetch("http://localhost:5000/messages", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(body),
+    })
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error("שגיאה בטעינת השיעור");
+        }
+        return res.json();
+      })
+      .then((data) => {
+        setLesson(data);
+        setLoading(false);
+      })
+      .catch((err) => {
+        setError(err.message);
+        setLoading(false);
+      })
+
   };
 
   return (
-    <div className="personal-page form-page">
-      <h2>📝 הגשת מועמדות להוראה</h2>
-      <form onSubmit={handleSubmit}>
-        <div className="form-group">
-          <label>שם מלא</label>
-          <input name="full_name" onChange={handleChange} required />
-        </div>
-        <div className="form-group">
-          <label>אימייל</label>
-          <input name="email" type="email" onChange={handleChange} required />
-        </div>
-        <div className="form-group">
-          <label>טלפון</label>
-          <input name="phone" type="tel" onChange={handleChange} required />
-        </div>
-        <div className="form-group">
-          <label>מקצועות לימוד (מופרדים בפסיקים)</label>
-          <input name="subjects" onChange={handleChange} required />
-        </div>
-        <div className="form-group">
-          <label>ספר על עצמך</label>
-          <textarea name="description" onChange={handleChange} required />
-        </div>
-        <div className="form-group">
-          <label>ניסיון קודם בהוראה</label>
-          <textarea name="experience" onChange={handleChange} required />
-        </div>
-        <div className="form-group">
-          <label>איזור מגורים</label>
-          <input name="location" onChange={handleChange} required />
-        </div>
-        <div className="form-group">
-          <label>תמונת פרופיל:</label>
-          <input type="file" name="image" accept="image/*" onChange={handleChange} />
-        </div>
-        <div className="form-group">
-          <label>קובץ קו"ח:</label>
-          <input type="file" name="cv" accept=".pdf,.doc,.docx" onChange={handleChange} />
-        </div>
-        <button type="submit" className="primary-btn">📨 שלח בקשה</button>
+    <div className="teacher-form-container">
+      <h2>הגשת מועמדות למורה</h2>
+      <form onSubmit={handleSubmit} className="teacher-form">
+        <input name="full_name" placeholder="שם מלא" onChange={handleChange} required />
+        <input name="email" type="email" placeholder="אימייל" onChange={handleChange} required />
+        <input name="phone" type="tel" placeholder="מספר טלפון" onChange={handleChange} required />
+        <input name="subjects" placeholder="מקצועות לימוד (מופרדים בפסיקים)" onChange={handleChange} required />
+        <textarea name="description" placeholder="ספר על עצמך..." onChange={handleChange} required />
+        <textarea name="experience" placeholder="ניסיון קודם בהוראה..." onChange={handleChange} required />
+        <input name="location" placeholder="איזור מגורים" onChange={handleChange} required />
+
+        <label>תמונת פרופיל:</label>
+        <input type="file" name="image" accept="image/*" onChange={handleChange} />
+
+        <label>קובץ קו"ח (PDF או Word):</label>
+        <input type="file" name="cv" accept=".pdf,.doc,.docx" onChange={handleChange} />
+
+        <button type="submit" >שלח בקשה</button>
       </form>
     </div>
   );
