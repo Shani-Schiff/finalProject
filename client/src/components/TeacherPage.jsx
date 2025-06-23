@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { useUser } from "../components/UserContext";
-import { canViewTeacherDetails } from '../helpers/authHelpers';
+import { canViewDetails } from '../helpers/authHelpers';
 import '../styles/lessonPage.css';
 
 export default function TeacherPage() {
@@ -17,7 +17,7 @@ export default function TeacherPage() {
         if (!userLoaded) return;
 
         // אם אין הרשאה - נציג הודעה
-        if (!canViewTeacherDetails(user)) {
+        if (!canViewDetails(user)) {
             setError(!user ? "יש להתחבר כדי לצפות בפרטי המורה." : "אין לך הרשאה לצפות בפרטי המורה.");
             setLoading(false);
             return;

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { useUser } from "../components/UserContext";
-import { canViewLessonDetails, canRegisterToLesson } from '../helpers/authHelpers';
+import { canViewDetails } from '../helpers/authHelpers';
 import { toast } from "react-toastify";
 import "../styles/lessonPage.css";
 
@@ -14,7 +14,7 @@ export default function LessonPage() {
     const [registered, setRegistered] = useState(false);
 
     useEffect(() => {
-        if (!canViewLessonDetails(user)) {
+        if (!canViewDetails(user)) {
             setError("אין לך הרשאה לצפות בפרטי שיעור. יש להתחבר עם משתמש מתאים.");
             setLoading(false);
             return;
@@ -82,6 +82,10 @@ export default function LessonPage() {
 
     if (loading) return <p className="loading">טוען...</p>;
     if (error) return (
+        <div className="lesson-page-container">
+            <p className="error">⚠️ {error}</p>
+            {!user && <Link to="/login" style={{ color: '#61dafb', textDecoration: 'underline' }}>התחבר כאן</Link>}
+        </div>
         <div className="lesson-page-container">
             <p className="error">⚠️ {error}</p>
             {!user && <Link to="/login" style={{ color: '#61dafb', textDecoration: 'underline' }}>התחבר כאן</Link>}

@@ -11,26 +11,23 @@ router.get('/users', controller.getAllUsers);
 router.post('/messages', messageController.sendMessage);
 router.get('/messages/:user1/:user2', messageController.getConversation);
 router.post('/messages/by-email', messageController.sendMessageByEmail);
+router.get('/teachers/:id', controller.getTeacherById);
 
 router.post('/register', authController.register);
 router.post('/login', authController.login);
 
-// הגשת בקשה להיות מורה
 router.post('/apply-teacher', controller.uploadMiddleware, controller.applyTeacher);
-
-// צור קשר
 router.post('/contact', controller.sendContactForm);
 
-// שיעורים ציבוריים
 router.get('/lessons', controller.getAllGeneric);
 router.get('/lessons/:id', controller.getGenericById);
-
 router.get('/teachers', controller.getAllTeachers);
 
-// כל השאר מוגנים
+router.get('/users/:user_id/lessons', controller.getUserLessons);
+router.get('/teachers/:id/lessons', controller.getTeacherLessons);
+
 router.use(verifyToken);
 
-// נתיבי גישה כלליים לפי משתמש
 const userBasePath = '/users/:user_id/:type';
 
 router.route(userBasePath)
@@ -42,7 +39,6 @@ router.route(`${userBasePath}/:id`)
     .put(controller.update)
     .delete(controller.delete);
 
-// תתי ישויות
 const subItemPath = `${userBasePath}/:id/:subtype`;
 
 router.route(subItemPath)

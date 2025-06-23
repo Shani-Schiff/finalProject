@@ -18,42 +18,26 @@ export function isStudent(user) {
   return hasRole(user, 'student');
 }
 
-export function canViewLessonDetails(user) {
-  // תלמיד, מורה ומנהל יכולים לצפות בפרטי שיעור
-  return isStudent(user) || isTeacher(user) || isAdmin(user);
-}
-
-export function canViewTeacherDetails(user) {
-  // תלמיד ומנהל יכולים לצפות בפרטי מורה
-  return isStudent(user) || isAdmin(user);
-}
-
-export function canRegisterToLesson(user) {
-  // רק תלמיד יכול להירשם לשיעור
-  return isStudent(user);
+export function canViewDetails(user) {
+  return isLoggedIn(user);
 }
 
 export function canCreateLesson(user) {
-  // רק מורה יכול ליצור שיעור
-  return isTeacher(user);
+  return isTeacher(user) || isAdmin(user);
 }
 
 export function canAccessMessages(user) {
-  // כל משתמש מחובר יכול לגשת להודעות
   return isLoggedIn(user);
 }
 
 export function canManageTeachers(user) {
-  // רק מנהל יכול לנהל מורים
   return isAdmin(user);
 }
 
 export function canManageLessons(user) {
-  // רק מנהל יכול לנהל שיעורים
   return isAdmin(user);
 }
 
 export function canRespondToContact(user) {
-  // רק מנהל יכול לטפל בפניות צור קשר
   return isAdmin(user);
 }

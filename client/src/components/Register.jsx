@@ -8,6 +8,7 @@ import "../styles/auth.css";
 export default function Register() {
   const { setUser } = useUser();
 
+
   const [formData, setFormData] = useState({
     user_name: "",
     email: "",
@@ -44,6 +45,8 @@ export default function Register() {
           role: data.user.role,
           token: data.token
         });
+
+        localStorage.setItem("token", data.token);
 
 
 

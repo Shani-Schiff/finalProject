@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useUser } from "../components/UserContext";
-import { canViewTeacherDetails } from '../helpers/authHelpers';
+import { canViewDetails } from '../helpers/authHelpers';
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import '../styles/lessons.css';
@@ -47,7 +47,7 @@ export default function Teachers() {
                     {teachers.map(teacher => (
                         <div className="lesson-card" key={teacher.user_id}>
                             <h3 className="lesson-title">{teacher.user_name}</h3>
-                            {canViewTeacherDetails(user) ? (
+                            {canViewDetails(user) ? (
                                 <Link to={`/teachers/${teacher.user_id}`} className="details-button">לפרטים</Link>
                             ) : (
                                 <button onClick={handleRestrictedClick} className="details-button">לפרטים</button>

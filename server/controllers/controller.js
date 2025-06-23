@@ -104,6 +104,39 @@ exports.getAllUsers = async (req, res) => {
     }
 };
 
+// שיעורים של תלמיד
+exports.getUserLessons = async (req, res) => {
+  try {
+    const userId = req.params.user_id;
+    const user = await Users.findByPk(userId);
+    if (!user) return res.status(404).json({ message: 'משתמש לא נמצא' });
+
+    const lessons = await user.getStudentLessons({
+      include: [{ model: Users, as: 'teacher', attributes: ['user_name'] }]
+    });
+
+    res.json(lessons);
+  } catch (error) {
+    logger.error("שגיאה בשליפת שיעורי תלמיד:", error);
+    res.status(500).json({ message: 'שגיאה בשרת' });
+  }
+};
+
+// שיעורים של מורה
+exports.getTeacherLessons = async (req, res) => {
+  try {
+    const userId = req.params.id;
+    const teacher = await Users.findByPk(userId);
+    if (!teacher) return res.status(404).json({ message: 'מורה לא נמצא' });
+
+    const lessons = await teacher.getTeachingLessons();
+    res.json(lessons);
+  } catch (error) {
+    logger.error("שגיאה בשליפת שיעורי מורה:", error);
+    res.status(500).json({ message: 'שגיאה בשרת' });
+  }
+};
+
 exports.applyTeacher = async (req, res) => {
     try {
         const {
@@ -204,6 +237,26 @@ exports.getGenericById = async (req, res) => {
         res.json(item);
     } catch (error) {
         logger.error(`שגיאה בקבלת ${type} עם מזהה ${id}:`, error);
+        res.status(500).json({ message: 'שגיאה בשרת' });
+    }
+};
+
+exports.getTeacherById = async (req, res) => {
+    const { id } = req.params;
+
+    try {
+        const teacher = await Users.findByPk(id, {
+            attributes: ['user_id', 'user_name', 'email', 'phone_number', 'role'],
+            where: { role: 'teacher' }
+        });
+
+        if (!teacher) {
+            return res.status(404).json({ message: 'מורה לא נמצא' });
+        }
+
+        res.json(teacher);
+    } catch (error) {
+        console.error('שגיאה בקבלת פרטי מורה לפי ID:', error);
         res.status(500).json({ message: 'שגיאה בשרת' });
     }
 };
