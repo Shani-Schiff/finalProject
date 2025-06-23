@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import { useUser } from "../components/UserContext";
+
 import '../styles/ApplyTeacher.css';
 
 export default function ApplyTeacher() {
@@ -13,6 +15,7 @@ export default function ApplyTeacher() {
     image: null,
     cv: null
   });
+  const { user } = useUser();
 
   const handleChange = (e) => {
     const { name, value, files } = e.target;
@@ -22,23 +25,36 @@ export default function ApplyTeacher() {
     }));
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const body = new FormData();
-    for (const key in formData) {
-      body.append(key, formData[key]);
-    }
+  const handleSubmit = () => {
+    const body = {
+      sender_id: user.user_id,
+      receiver_id: 1,
+      content: JSON.stringify(formData),
+      is_request: true,
+    };
 
-    try {
-      const res = await fetch('http://localhost:5000/apply-teacher', {
-        method: 'POST',
-        body
-      });
-      const result = await res.json();
-      alert(result.message);
-    } catch (err) {
-      alert('שגיאה בשליחת הטופס');
-    }
+    fetch("http://localhost:5000/messages", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(body),
+    })
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error("שגיאה בטעינת השיעור");
+        }
+        return res.json();
+      })
+      .then((data) => {
+        setLesson(data);
+        setLoading(false);
+      })
+      .catch((err) => {
+        setError(err.message);
+        setLoading(false);
+      })
+
   };
 
   return (
@@ -59,7 +75,7 @@ export default function ApplyTeacher() {
         <label>קובץ קו"ח (PDF או Word):</label>
         <input type="file" name="cv" accept=".pdf,.doc,.docx" onChange={handleChange} />
 
-        <button type="submit">שלח בקשה</button>
+        <button type="submit" >שלח בקשה</button>
       </form>
     </div>
   );

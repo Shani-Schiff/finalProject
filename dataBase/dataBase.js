@@ -12,14 +12,14 @@ console.log('DB_USER:', process.env.DB_USER);
   const connection = await mysql.createConnection({
     host: process.env.SERVER_HOSTNAME,
     user: process.env.DB_USER,
-    password: ''
+    password: process.env.DB_PASSWORD,
   });
 
   await connection.query("CREATE DATABASE IF NOT EXISTS `privateLessons`;");
   await connection.end();
 })();
 
-const sequelize = new Sequelize("privateLessons", process.env.DB_USER, '', {
+const sequelize = new Sequelize("privateLessons", process.env.DB_USER, process.env.DB_PASSWORD, {
   host: process.env.SERVER_HOSTNAME,
   dialect: process.env.DB_DIALECT,
   port: process.env.DB_PORT,

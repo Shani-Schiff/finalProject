@@ -311,3 +311,27 @@ notNull Violation: User.role cannot be null
 2025-06-22 17:38:52 [error]: שגיאה בשליפת : Unknown database 'privatelessons'
 2025-06-22 17:38:56 [error]: שגיאה בשליפת : Unknown database 'privatelessons'
 2025-06-22 17:38:56 [error]: שגיאה בשליפת : Unknown database 'privatelessons'
+2025-06-22 18:38:09 [error]: Login error: Unknown column 'phone_number' in 'field list'
+2025-06-22 18:38:19 [warn]: Registration attempt with existing email: m@m
+2025-06-22 18:38:29 [error]: Login error: Unknown column 'phone_number' in 'field list'
+2025-06-22 18:38:46 [info]: User registered successfully: 63
+2025-06-22 18:39:15 [error]: Login error: Unknown column 'phone_number' in 'field list'
+2025-06-22 18:41:19 [error]: Login error: Unknown column 'phone_number' in 'field list'
+2025-06-22 18:41:39 [info]: User registered successfully: 62
+2025-06-22 18:42:01 [error]: Login error: Unknown column 'phone_number' in 'field list'
+2025-06-22 18:45:36 [info]: User registered successfully: 63
+2025-06-22 18:45:54 [info]: User logged in successfully: 63
+2025-06-22 19:04:41 [info]: User registered successfully: 64
+2025-06-22 19:08:14 [warn]: Failed login attempt for user 1
+2025-06-22 19:08:27 [info]: User logged in successfully: 1
+2025-06-22 19:14:04 [info]: User logged in successfully: 64
+2025-06-22 19:25:24 [info]: User logged in successfully: 1
+2025-06-22 20:19:37 [info]: User logged in successfully: 64
+2025-06-22 20:20:36 [info]: User logged in successfully: 1
+2025-06-22 20:23:06 [error]: Login error: Unknown column 'phone_number' in 'field list'
+2025-06-22 20:23:19 [info]: User registered successfully: 62
+2025-06-22 20:23:54 [error]: Login error: Unknown column 'phone_number' in 'field list'
+2025-06-22 20:24:48 [error]: Login error: Unknown column 'phone_number' in 'field list'
+2025-06-22 20:26:11 [error]: Login error: Unknown column 'phone_number' in 'field list'
+2025-06-22 20:27:18 [info]: User logged in successfully: 1
+2025-06-22 20:33:51 [info]: User logged in successfully: 62

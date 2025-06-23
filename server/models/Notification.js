@@ -6,7 +6,8 @@ const Notification = sequelize.define('Notification', {
   user_id: DataTypes.INTEGER,
   content: DataTypes.TEXT,
   created_at: { type: DataTypes.DATE, defaultValue: DataTypes.NOW },
-  read_status: { type: DataTypes.BOOLEAN, defaultValue: false }
+  read_status: { type: DataTypes.BOOLEAN, defaultValue: false },
+  is_request: { type: DataTypes.BOOLEAN, defaultValue: false },
 });
 
 Notification.associate = (models) => {

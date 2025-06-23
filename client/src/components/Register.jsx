@@ -1,10 +1,13 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { useUser } from "./UserContext";
 import "react-toastify/dist/ReactToastify.css";
 import "../styles/auth.css";
 
 export default function Register() {
+  const { setUser } = useUser();
+
   const [formData, setFormData] = useState({
     user_name: "",
     email: "",
@@ -33,8 +36,16 @@ export default function Register() {
           theme: "colored",
         });
       } else {
-        localStorage.setItem("user", JSON.stringify(data.user));
-        localStorage.setItem("token", data.token);
+        setUser({
+          user_id: data.user.user_id,
+          user_name: data.user.user_name,
+          email: data.user.email,
+          phone_number: data.user.phone_number,
+          role: data.user.role,
+          token: data.token
+        });
+
+
 
         toast.success("נרשמת בהצלחה! 🎉", {
           position: "top-center",

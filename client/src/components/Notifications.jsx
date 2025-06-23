@@ -62,6 +62,24 @@ export default function Notifications() {
         return <p>יש להתחבר כדי לגשת להודעות</p>;
     }
 
+    const handleRequest=(sender_id)=>{
+        fetch('http://localhost:5000/messages', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                sender_id: receiverId,
+                receiver_id: sender_id,
+                content: 'בקשתך אושרה.'
+            })
+        })
+            .then(res => res.json())
+            .then(sent => {
+                setMessages(prev => [...prev, sent]);
+                setNewMessage("");
+            })
+            .catch(console.error);
+    }
+
     return (
         <div className="notifications-container">
             <h2>📬 ההודעות שלי</h2>
@@ -91,6 +109,9 @@ export default function Notifications() {
                         <div className="timestamp">
                             {new Date(msg.timestamp).toLocaleString()}
                         </div>
+                        {msg.is_request && (
+                            <button onClick={()=>handleRequest(msg.sender_id)} className="request-badge">אישור</button>   
+                        )}
                     </div>
                 ))}
             </div>
