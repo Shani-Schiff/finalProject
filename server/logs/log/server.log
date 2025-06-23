@@ -367,3 +367,6 @@ notNull Violation: User.role cannot be null
 2025-06-23 18:58:37 [error]: שגיאה בטעינת שיעורים לפי מקצוע: Unknown column 'subject_id' in 'field list'
 2025-06-23 18:58:48 [error]: שגיאה בטעינת שיעורים לפי מקצוע: Unknown column 'subject_id' in 'field list'
 2025-06-23 18:58:48 [error]: שגיאה בטעינת שיעורים לפי מקצוע: Unknown column 'subject_id' in 'field list'
+2025-06-24 00:20:25 [info]: User registered successfully: 62
+2025-06-24 00:21:37 [warn]: Login attempt with non-existent email: s0534107188@gmail.com
+2025-06-24 00:22:34 [info]: User logged in successfully: 1

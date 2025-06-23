@@ -297,3 +297,26 @@ exports.getSubItems = async (req, res) => {
         res.status(500).json({ message: 'שגיאה בשרת' });
     }
 };
+exports.updateUserRole = async (req, res) => {
+    const { userId } = req.params;
+    const { role } = req.body;
+
+    if (!role) {
+        return res.status(400).send({ error: 'חסר role' });
+    }
+
+    try {
+        const user = await Users.findByPk(userId);
+        if (!user) {
+            return res.status(404).send({ error: 'משתמש לא נמצא' });
+        }
+
+        user.role = role;
+        await user.save();
+
+        res.json(user);
+    } catch (error) {
+        console.error(error);
+        res.status(500).send({ error: 'שגיאת שרת' });
+    }
+};

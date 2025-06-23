@@ -35,6 +35,9 @@ router.get('/users', controller.getAllUsers); // כל המשתמשים
 router.post('/messages', messageController.sendMessage);
 router.post('/messages/by-email', messageController.sendMessageByEmail);
 router.get('/messages/:user1/:user2', messageController.getConversation);
+router.put('/users/:userId', controller.updateUserRole);
+
+router.get('/users/:user_id', controller.getUserLessons); // כל השיעורים של המשתמש (כמורה או תלמיד)
 
 // ==========================
 // 🔐 נתיבים מוגנים – דורשים טוקן
@@ -42,7 +45,6 @@ router.get('/messages/:user1/:user2', messageController.getConversation);
 router.use(verifyToken);
 
 // 👤 מידע אישי של משתמש
-router.get('/users/:user_id', controller.getUserLessons); // כל השיעורים של המשתמש (כמורה או תלמיד)
 
 // 👨‍🏫 מורה - כל שיעוריו
 router.get('/teachers/:id', controller.getTeacherLessons);

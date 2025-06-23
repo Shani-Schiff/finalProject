@@ -62,23 +62,53 @@ export default function Notifications() {
         return <p>יש להתחבר כדי לגשת להודעות</p>;
     }
 
-    const handleRequest=(sender_id)=>{
-        fetch('http://localhost:5000/messages', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                sender_id: receiverId,
-                receiver_id: sender_id,
-                content: 'בקשתך אושרה.'
-            })
-        })
-            .then(res => res.json())
-            .then(sent => {
-                setMessages(prev => [...prev, sent]);
-                setNewMessage("");
-            })
-            .catch(console.error);
+    const handleRequest = async (sender_id) => {
+    if (!user || !user.role) {
+        console.error("User role not available");
+        return;
     }
+
+    // הודעת התשובה שנשלח
+    let content;
+    if (user.role === "admin") {
+        content = "אישור המנהל התקבל. התפקיד שלך שונה למורה.";
+    } else if (user.role === "teacher") {
+        content = "אישור המורה התקבל.";
+    } else {
+        console.warn("למשתמש אין הרשאות לאשר");
+        return;
+    }
+
+    try {
+        // ✅ אם המשתמש הנוכחי הוא מנהל -> עדכן את התפקיד של המשתמש
+        if (user.role === "admin") {
+            const roleResponse = await fetch(`http://localhost:5000/users/${sender_id}`, {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ role: "teacher" })
+            });
+            if (!roleResponse.ok) {
+                console.error("שגיאה בעדכון התפקיד");
+                return;
+            }
+        }
+
+        // ✅ שלח הודעת אישור
+        const messageResponse = await fetch("http://localhost:5000/messages", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                sender_id: currentuser_id,
+                receiver_id: sender_id,
+                content
+            })
+        });
+        const sent = await messageResponse.json();
+        setMessages((prev) => [...prev, sent]);
+    } catch (error) {
+        console.error(error);
+    }
+};
 
     return (
         <div className="notifications-container">
@@ -109,9 +139,7 @@ export default function Notifications() {
                         <div className="timestamp">
                             {new Date(msg.timestamp).toLocaleString()}
                         </div>
-                        {msg.is_request && (
                             <button onClick={()=>handleRequest(msg.sender_id)} className="request-badge">אישור</button>   
-                        )}
                     </div>
                 ))}
             </div>
