@@ -5,7 +5,7 @@ const User = sequelize.define('User', {
   user_id: { type: DataTypes.INTEGER, autoIncrement: true, primaryKey: true, field: 'user_id' },
   user_name: { type: DataTypes.STRING, allowNull: false },
   email: { type: DataTypes.STRING, allowNull: false, unique: true },
-  phone_number: { type: DataTypes.STRING, allowNull: true }, // ⬅️ הוספה כאן
+  phone_number: { type: DataTypes.STRING, allowNull: true },
   role: { type: DataTypes.STRING, allowNull: false, defaultValue: 'student' },
   active_status: { type: DataTypes.BOOLEAN, defaultValue: true },
   date_created: { type: DataTypes.DATE, defaultValue: DataTypes.NOW }

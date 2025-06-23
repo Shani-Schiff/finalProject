@@ -23,7 +23,7 @@ export function canViewDetails(user) {
 }
 
 export function canCreateLesson(user) {
-  return isTeacher(user);
+  return isTeacher(user) || isAdmin(user);
 }
 
 export function canAccessMessages(user) {

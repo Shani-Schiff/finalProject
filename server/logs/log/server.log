@@ -331,3 +331,15 @@ notNull Violation: User.role cannot be null
 2025-06-22 18:28:42 [info]: User logged in successfully: 1
 2025-06-22 18:30:36 [info]: User logged in successfully: 1
 2025-06-22 18:32:51 [info]: User logged in successfully: 1
+2025-06-22 18:47:10 [info]: User registered successfully: 62
+2025-06-22 18:50:01 [info]: User logged in successfully: 62
+2025-06-22 18:52:40 [info]: User registered successfully: 63
+2025-06-22 18:53:01 [info]: User logged in successfully: 63
+2025-06-22 19:04:23 [warn]: Failed login attempt for user 63
+2025-06-22 19:04:26 [info]: User logged in successfully: 63
+2025-06-22 19:53:53 [info]: User logged in successfully: 1
+2025-06-22 23:22:23 [warn]: Login attempt with non-existent email: s@s
+2025-06-22 23:22:50 [info]: User registered successfully: 64
+2025-06-23 11:41:20 [info]: User logged in successfully: 64
+2025-06-23 11:44:21 [info]: User logged in successfully: 1
+2025-06-23 12:44:04 [info]: User logged in successfully: 64
