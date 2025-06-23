@@ -14,8 +14,8 @@ export default function Calendar() {
   const fetchLessons = async () => {
     try {
       const url = user.role === 'teacher'
-        ? `/api/teachers/${user.user_id}/lessons`
-        : `/api/users/${user.user_id}/lessons`;
+        ? `/teachers/${user.user_id}`
+        : `/users/${user.user_id}`;
 
       const res = await axios.get(url);
 

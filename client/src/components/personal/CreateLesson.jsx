@@ -1,13 +1,14 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
 import '../../styles/personalArea.css';
 import { useUser } from '../UserContext';
 
 export default function CreateLesson() {
   const { user } = useUser();
+  const [subjects, setSubjects] = useState([]);
   const [form, setForm] = useState({
     title: '',
-    subject: '',
+    subject_id: '',
     level: '',
     max_participants: '',
     start_date: '',
@@ -17,6 +18,18 @@ export default function CreateLesson() {
     location: '',
     number_per_week: '',
   });
+
+  useEffect(() => {
+    axios.get('/api/subjects')
+      .then(res => {
+        const data = Array.isArray(res.data) ? res.data : res.data.data;
+        setSubjects(data || []);
+      })
+      .catch(err => {
+        console.error('שגיאה בטעינת מקצועות:', err);
+        alert('אירעה שגיאה בטעינת רשימת המקצועות');
+      });
+  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -36,9 +49,9 @@ export default function CreateLesson() {
       };
 
       await axios.post(`/api/users/${user.user_id}/lessons`, body);
-      alert('השיעור נוצר בהצלחה!');
+      alert('✅ השיעור נוצר בהצלחה!');
     } catch (err) {
-      console.error('שגיאה ביצירת שיעור:', err);
+      console.error('❌ שגיאה ביצירת שיעור:', err);
       alert('אירעה שגיאה ביצירת השיעור.');
     }
   };
@@ -54,7 +67,12 @@ export default function CreateLesson() {
 
         <div className="form-group">
           <label>מקצוע</label>
-          <input name="subject" value={form.subject} onChange={handleChange} required />
+          <select name="subject_id" value={form.subject_id} onChange={handleChange} required>
+            <option value="">בחר מקצוע</option>
+            {subjects.map((s) => (
+              <option key={s.id} value={s.id}>{s.subject_name}</option>
+            ))}
+          </select>
         </div>
 
         <div className="form-group">
