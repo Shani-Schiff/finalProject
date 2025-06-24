@@ -370,3 +370,9 @@ notNull Violation: User.role cannot be null
 2025-06-24 00:20:25 [info]: User registered successfully: 62
 2025-06-24 00:21:37 [warn]: Login attempt with non-existent email: s0534107188@gmail.com
 2025-06-24 00:22:34 [info]: User logged in successfully: 1
+2025-06-24 09:15:52 [warn]: Login attempt with non-existent email: s@s
+2025-06-24 09:16:10 [info]: User registered successfully: 62
+2025-06-24 09:16:26 [info]: User logged in successfully: 62
+2025-06-24 09:19:15 [info]: User logged in successfully: 1
+2025-06-24 09:20:07 [info]: User logged in successfully: 62
+2025-06-24 09:31:24 [info]: User registered successfully: 63

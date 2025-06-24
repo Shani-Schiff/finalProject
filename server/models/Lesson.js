@@ -2,25 +2,39 @@ const { DataTypes } = require('sequelize');
 const sequelize = require('../../dataBase/dataBase');
 
 const Lesson = sequelize.define('Lesson', {
-  id: { type: DataTypes.INTEGER, autoIncrement: true, primaryKey: true },
-  title: DataTypes.STRING,
-  subject_id: DataTypes.INTEGER,
-  level: DataTypes.STRING(50),
-  teacher_id: DataTypes.INTEGER,
-  start_date: DataTypes.DATE,
-  end_date: DataTypes.DATE,
-  schedule: DataTypes.TEXT,
-  max_participants: DataTypes.INTEGER,
-  price: DataTypes.DECIMAL(10, 2),
-  location: DataTypes.STRING,
-  status: DataTypes.STRING(50)
+  id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+  title: { type: DataTypes.STRING, allowNull: false },
+  subject_id: { type: DataTypes.INTEGER, allowNull: false },
+  level: { type: DataTypes.INTEGER, allowNull: false },
+  teacher_id: { type: DataTypes.INTEGER, allowNull: false },
+  start_date: { type: DataTypes.DATE, allowNull: false },
+  end_date: { type: DataTypes.DATE, allowNull: false },
+  max_participants: { type: DataTypes.INTEGER, allowNull: false },
+  price: { type: DataTypes.DECIMAL(10, 2), allowNull: false },
+  location: { type: DataTypes.STRING, allowNull: false },
+  status: { type: DataTypes.STRING, allowNull: false }
+}, {
+  tableName: 'lessons',
+  underscored: true,
+  timestamps: false
 });
 
-Lesson.associate = (models) => {
-  Lesson.belongsTo(models.User, { foreignKey: 'teacher_id' });
+Lesson.associate = models => {
+  Lesson.belongsTo(models.User, { foreignKey: 'teacher_id', as: 'teacher' });
   Lesson.belongsTo(models.Subject, { foreignKey: 'subject_id' });
-  Lesson.hasMany(models.Media, { foreignKey: 'lesson_id' });
-  Lesson.hasMany(models.Review, { foreignKey: 'lesson_id' });
+
+  Lesson.belongsToMany(models.User, {
+    through: models.LessonStudent,
+    foreignKey: 'lesson_id',
+    as: 'students'
+  });
+
+  Lesson.hasMany(models.Media, {
+    foreignKey: 'lesson_id',
+    as: 'media',
+    onDelete: 'SET NULL',
+    onUpdate: 'CASCADE'
+  });
 };
 
 module.exports = Lesson;

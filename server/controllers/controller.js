@@ -1,9 +1,9 @@
-const path = require('path');
 const multer = require('multer');
 const nodemailer = require('nodemailer');
 const logger = require('../logs/logger');
 
 const Users = require('../models/User');
+const UserRole = require('../models/UserRole');
 const Subject = require('../models/Subject');
 const Lesson = require('../models/Lesson');
 const TeacherApplication = require('../models/TeacherApplication');
@@ -11,22 +11,17 @@ const Notifications = require('../models/Notification');
 const Review = require('../models/Review');
 const Media = require('../models/Media');
 
-// === הגדרת multer לקבצים מצורפים ===
-const storage = multer.diskStorage({
-    destination: (req, file, cb) => cb(null, path.join(__dirname, '..', 'uploads')),
-    filename: (req, file, cb) => cb(null, Date.now() + '-' + file.originalname)
-});
+// הגדרת multer לשימוש עם Buffer
+const storage = multer.memoryStorage();
 const upload = multer({ storage });
-
-exports.uploadMiddleware = upload.fields([
-    { name: 'image', maxCount: 1 },
-    { name: 'cv', maxCount: 1 }
-]);
+exports.uploadMiddleware = upload.fields([{ name: 'image' }, { name: 'cv' }]);
 
 // === מודלים ===
 const models = {
     login: Users,
     users: Users,
+    user_role: UserRole,
+    subjects: Subject,
     lessons: Lesson,
     teachers: Users,
     TeacherApplication,
@@ -73,7 +68,7 @@ exports.getLessonsBySubjectId = async (req, res) => {
     }
 };
 
-// === מורים ===
+// === מורים ומשתמשים ===
 exports.getAllTeachers = async (req, res) => {
     try {
         const teachers = await Users.findAll({
@@ -97,12 +92,11 @@ exports.getTeacherById = async (req, res) => {
         }
         res.json(teacher);
     } catch (error) {
-        logger.error('שגיאה בקבלת פרטי מורה לפי ID:', error);
+        logger.error('שגיאה בקבלת פרטי מורה:', error);
         res.status(500).json({ message: 'שגיאה בשרת' });
     }
 };
 
-// === משתמשים ===
 exports.getAllUsers = async (req, res) => {
     try {
         const users = await Users.findAll({ attributes: ['user_id', 'email'] });
@@ -112,24 +106,45 @@ exports.getAllUsers = async (req, res) => {
     }
 };
 
-// === פנייה מהמורה ===
+// === פנייה מהמורה (כולל העלאת קבצים לבסיס נתונים) ===
 exports.applyTeacher = async (req, res) => {
     try {
-        const {
+        const { full_name, email, phone, subjects, description, experience, location } = req.body;
+        const files = req.files;
+        const mediaRecords = [];
+
+        if (files?.image?.[0]) {
+            mediaRecords.push({
+                lesson_id: null,
+                file_type: 'image',
+                file_name: files.image[0].originalname,
+                file_data: files.image[0].buffer,
+                description: 'תמונה למורה'
+            });
+        }
+
+        if (files?.cv?.[0]) {
+            mediaRecords.push({
+                lesson_id: null,
+                file_type: 'pdf',
+                file_name: files.cv[0].originalname,
+                file_data: files.cv[0].buffer,
+                description: 'קורות חיים'
+            });
+        }
+
+        await Media.bulkCreate(mediaRecords);
+
+        await TeacherApplication.create({
             full_name, email, phone, subjects, description, experience, location
-        } = req.body;
-
-        const image = req.files?.image?.[0]?.path || null;
-        const cv = req.files?.cv?.[0]?.path || null;
-
-        await TeacherApplication.create({ full_name, email, phone, subjects, description, experience, location, image, cv });
+        });
 
         await Notifications.create({
             user_id: 1,
             content: `בקשת הצטרפות חדשה התקבלה מ-${full_name} (${email})`
         });
 
-        res.json({ message: 'הבקשה נשלחה בהצלחה!' });
+        res.status(201).json({ message: 'הבקשה נשלחה בהצלחה!' });
     } catch (error) {
         logger.error('שגיאה בהגשת בקשת מורה:', error);
         res.status(500).json({ message: 'שגיאה בשליחת הבקשה' });
@@ -139,18 +154,17 @@ exports.applyTeacher = async (req, res) => {
 // === צור קשר ===
 exports.sendContactForm = async (req, res) => {
     const { name, email, message } = req.body;
-
     try {
         await Notifications.create({
             user_id: 1,
-            content: `התקבלה פנייה מ-${name} (${email}):\n${message}`,
+            content: `התקבלה פנייה מ-${name} (${email}):\n${message}`
         });
 
         const transporter = nodemailer.createTransport({
             service: 'gmail',
             auth: {
                 user: process.env.MANAGER_EMAIL,
-                pass: process.env.MANAGER_EMAIL_PASSWORD,
+                pass: process.env.MANAGER_EMAIL_PASSWORD
             },
             tls: { rejectUnauthorized: false }
         });
