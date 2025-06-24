@@ -21,12 +21,14 @@ router.post('/contact', controller.sendContactForm);
 // 📚 מידע כללי – מורים, שיעורים
 router.get('/lessons', controller.getAllGeneric);           // כל השיעורים
 router.get('/lessons/:id', controller.getGenericById);      // שיעור לפי ID
+router.post('/lessons', controller.createLesson);
+
 
 router.get('/teachers', controller.getAllTeachers);         // כל המורים
 router.get('/teachers/:id', controller.getTeacherById);     // מורה לפי ID
 
 // 📘 מקצועות
-router.get('/subjects', controller.getAllSubjects);               // כל המקצועות
+router.get('/subjects', controller.getAllGeneric);               // כל המקצועות
 router.get('/subjects/:id', controller.getSubjectById);           // מקצוע לפי ID
 router.get('/subjects/:id/lessons', controller.getLessonsBySubjectId); // כל השיעורים של מקצוע מסוים
 
@@ -38,6 +40,9 @@ router.get('/messages/:user1/:user2', messageController.getConversation);
 router.put('/users/:userId', controller.updateUserRole);
 
 router.get('/users/:user_id', controller.getUserLessons); // כל השיעורים של המשתמש (כמורה או תלמיד)
+router.post('/lessons/:lesson_id/register', controller.registerStudentToLesson);
+
+
 
 // ==========================
 // 🔐 נתיבים מוגנים – דורשים טוקן

@@ -10,6 +10,8 @@ const TeacherApplication = require('../models/TeacherApplication');
 const Notifications = require('../models/Notification');
 const Review = require('../models/Review');
 const Media = require('../models/Media');
+const LessonStudent  = require('../models/LessonStudent');
+
 
 // הגדרת multer לשימוש עם Buffer
 const storage = multer.memoryStorage();
@@ -333,4 +335,52 @@ exports.updateUserRole = async (req, res) => {
         console.error(error);
         res.status(500).send({ error: 'שגיאת שרת' });
     }
+};
+
+exports.registerStudentToLesson = async (req, res) => {
+  const { lesson_id } = req.params;
+  const { user_id, status } = req.body;
+
+  try {
+    const result = await LessonStudent.create({ lesson_id, user_id, status });
+    res.json(result);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send({ error: "שגיאה בהרשמה לשיעור" });
+  }
+};
+exports.createLesson = async (req, res) => {
+  try {
+    const {
+      title,
+      subject_id,
+      level,
+      teacher_id,
+      start_date,
+      end_date,
+      max_participants,
+      price,
+      location,
+      status
+    } = req.body;
+
+    // יצירה בטבלה של השיעורים
+    const lesson = await Lesson.create({
+      title,
+      subject_id,
+      level,
+      teacher_id,
+      start_date,
+      end_date,
+      max_participants,
+      price,
+      location,
+      status
+    });
+
+    res.status(201).json(lesson);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'אירעה שגיאה ביצירת השיעור' });
+  }
 };

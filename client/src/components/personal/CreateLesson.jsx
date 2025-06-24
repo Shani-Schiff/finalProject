@@ -20,7 +20,7 @@ export default function CreateLesson() {
   });
 
   useEffect(() => {
-    axios.get('/api/subjects')
+    axios.get('http://localhost:5000/subjects')
       .then(res => {
         const data = Array.isArray(res.data) ? res.data : res.data.data;
         setSubjects(data || []);
@@ -31,6 +31,7 @@ export default function CreateLesson() {
       });
   }, []);
 
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setForm((prev) => ({ ...prev, [name]: value }));
@@ -38,17 +39,23 @@ export default function CreateLesson() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+console.log('Submitting form:', form);
     try {
       const body = {
-        ...form,
+        title: form.title,
+        subject_id: form.subject_id,
+        level: form.level,
         teacher_id: user.user_id,
-        status: 'open',
         start_date: new Date(form.start_date),
-        end_date: new Date(form.end_date)
+        end_date: new Date(form.end_date),
+        max_participants: Number(form.max_participants),
+        price: Number(form.price),
+        location: form.location,
+        status: 'open',
       };
 
-      await axios.post(`/api/users/${user.user_id}/lessons`, body);
+      await axios.post('http://localhost:5000/lessons', body);
+
       alert('✅ השיעור נוצר בהצלחה!');
     } catch (err) {
       console.error('❌ שגיאה ביצירת שיעור:', err);

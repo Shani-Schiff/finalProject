@@ -377,3 +377,16 @@ notNull Violation: User.role cannot be null
 2025-06-24 09:20:07 [info]: User logged in successfully: 62
 2025-06-24 09:31:24 [info]: User registered successfully: 63
 2025-06-24 12:13:04 [info]: User registered successfully: 62
+2025-06-24 12:21:08 [info]: User registered successfully: 62
+2025-06-24 12:23:32 [info]: User logged in successfully: 1
+2025-06-24 12:24:12 [info]: User logged in successfully: 62
+2025-06-24 17:33:45 [info]: User registered successfully: 63
+2025-06-24 17:53:42 [info]: User logged in successfully: 62
+2025-06-24 17:53:42 [info]: User logged in successfully: 62
+2025-06-24 18:25:30 [info]: User registered successfully: 64
+2025-06-24 18:27:33 [info]: User logged in successfully: 62
+2025-06-24 19:04:32 [info]: User registered successfully: 65
+2025-06-24 19:04:32 [error]: Registration error: Validation error
+2025-06-24 19:04:59 [info]: User logged in successfully: 62
+2025-06-24 19:12:28 [info]: User registered successfully: 67
+2025-06-24 19:14:30 [info]: User logged in successfully: 62

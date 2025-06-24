@@ -142,3 +142,4 @@ notNull Violation: User.role cannot be null
 2025-06-23 18:58:37 [error]: שגיאה בטעינת שיעורים לפי מקצוע: Unknown column 'subject_id' in 'field list'
 2025-06-23 18:58:48 [error]: שגיאה בטעינת שיעורים לפי מקצוע: Unknown column 'subject_id' in 'field list'
 2025-06-23 18:58:48 [error]: שגיאה בטעינת שיעורים לפי מקצוע: Unknown column 'subject_id' in 'field list'
+2025-06-24 19:04:32 [error]: Registration error: Validation error
