@@ -24,8 +24,8 @@ async function init() {
   // Default admin
   const hashedPassword = await bcrypt.hash('Admin123!', 10);
   const admin = await User.create({ user_name: 'System Admin', email: 'admin@system.com', role: 'admin' });
-  await UserPassword.create({ user_id: admin.id, hashed_password: hashedPassword });
-  await UserRole.create({ user_id: admin.id, role_id: roles.admin.id });
+  await UserPassword.create({ user_id: admin.user_id, hashed_password: hashedPassword });
+  await UserRole.create({ user_id: admin.user_id, role_id: roles.admin.id });
   console.log('👤 Admin user created');
 
   // Subjects
@@ -37,17 +37,17 @@ async function init() {
   const studentIds = [];
   for (let i = 0; i < 50; i++) {
     const u = await User.create({ user_name: faker.person.fullName(), email: faker.internet.email(), role: 'student' });
-    await UserRole.create({ user_id: u.id, role_id: roles.student.id });
-    studentIds.push(u.id);
+    await UserRole.create({ user_id: u.user_id, role_id: roles.student.id });
+    studentIds.push(u.user_id);
   }
 
   // Teachers
   const teacherIds = [];
   for (let i = 0; i < 10; i++) {
     const u = await User.create({ user_name: faker.person.fullName(), email: faker.internet.email(), role: 'teacher' });
-    await UserPassword.create({ user_id: u.id, hashed_password: await bcrypt.hash(faker.internet.password(),10) });
-    await UserRole.create({ user_id: u.id, role_id: roles.teacher.id });
-    teacherIds.push(u.id);
+    await UserPassword.create({ user_id: u.user_id, hashed_password: await bcrypt.hash(faker.internet.password(),10) });
+    await UserRole.create({ user_id: u.user_id, role_id: roles.teacher.id });
+    teacherIds.push(u.user_id);
   }
 
   // Lessons

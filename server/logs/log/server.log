@@ -376,3 +376,4 @@ notNull Violation: User.role cannot be null
 2025-06-24 09:19:15 [info]: User logged in successfully: 1
 2025-06-24 09:20:07 [info]: User logged in successfully: 62
 2025-06-24 09:31:24 [info]: User registered successfully: 63
+2025-06-24 12:13:04 [info]: User registered successfully: 62
