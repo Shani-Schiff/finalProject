@@ -2,34 +2,23 @@ const multer = require('multer');
 const nodemailer = require('nodemailer');
 const logger = require('../logs/logger');
 
-const User = require('../models/User');
-const UserRole = require('../models/UserRole');
-const Subject = require('../models/Subject');
-const Lesson = require('../models/Lesson');
-const TeacherApplication = require('../models/TeacherApplication');
-const Notifications = require('../models/Notification');
-const Review = require('../models/Review');
-const Media = require('../models/Media');
-
 // הגדרת multer לשימוש עם Buffer
 const storage = multer.memoryStorage();
 const upload = multer({ storage });
 exports.uploadMiddleware = upload.fields([{ name: 'image' }, { name: 'cv' }]);
 
 // === מודלים ===
-const models = {
-    login: User,
-    users: User,
-    user_role: UserRole,
-    subjects: Subject,
-    lessons: Lesson,
-    teachers: User,
-    TeacherApplication,
-    notifications: Notifications,
-    Review,
-    media: Media
-};
-
+const models = require('../models');
+const {
+  User,
+  UserRole,
+  Subject,
+  Lesson,
+  TeacherApplication,
+  Notification,
+  Review,
+  Media
+} = models;
 
 const childRelations = {
     lessons: ['notifications', 'media', 'Review'],
@@ -214,9 +203,19 @@ exports.getGenericById = async (req, res) => {
     const { id } = req.params;
     const type = 'lessons';
     try {
-        const item = await models[type].findByPk(id);
+        const item = await models[type].findByPk(id, {
+            include: [
+                { model: models.User, as: 'teacher', attributes: ['user_id', 'user_name'] },
+                { model: models.Subject, attributes: ['subject_name'] }
+            ]
+        });
         if (!item) return res.status(404).json({ message: 'שיעור לא נמצא' });
-        res.json(item);
+
+        res.json({
+            ...item.toJSON(),
+            teacher: item.teacher?.user_name,
+            subject: item.Subject?.subject_name
+        });
     } catch (error) {
         logger.error("שגיאה בקבלת פריט לפי מזהה:", error);
         res.status(500).json({ message: 'שגיאה בשרת' });

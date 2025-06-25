@@ -12,8 +12,8 @@ const UserRole = sequelize.define('UserRole', {
 });
 
 UserRole.associate = models => {
-  UserRole.belongsTo(models.user);
-  UserRole.belongsTo(models.role);
+  UserRole.belongsTo(models.User);
+  UserRole.belongsTo(models.Role);
 };
 
 module.exports = UserRole;

@@ -1,18 +1,8 @@
-const sequelize = require('../dataBase/dataBase');
-const User = require('../server/models/User');
-const UserPassword = require('../server/models/UserPassword');
-const UserRole = require('../server/models/UserRole');
-const Role = require('../server/models/Role');
-const Subject = require('../server/models/Subject');
-const Lesson = require('../server/models/Lesson');
-const LessonStudent = require('../server/models/LessonStudent');
-const Media = require('../server/models/Media');
-const bcrypt = require('bcrypt');
-const { faker } = require('@faker-js/faker');
-
-User.associate?.({ Lesson, LessonStudent });
-Lesson.associate?.({ User, LessonStudent });
-LessonStudent.associate?.({ User, Lesson });
+const models = require('../server/models');
+const {
+  User, UserPassword, UserRole, Role, Subject,
+  Lesson, LessonStudent, Media
+} = models;
 
 async function init() {
     await sequelize.sync({ force: true });

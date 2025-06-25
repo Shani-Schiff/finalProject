@@ -19,7 +19,7 @@ const Lesson = sequelize.define('Lesson', {
   timestamps: false
 });
 
-Lesson.associate = models => {
+Lesson.associate = (models) => {
   Lesson.belongsTo(models.User, { foreignKey: 'teacher_id', as: 'teacher' });
 };
 

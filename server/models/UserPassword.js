@@ -12,7 +12,7 @@ const UserPassword = sequelize.define('UserPassword', {
 });
 
 UserPassword.associate = models => {
-  UserPassword.belongsTo(models.user, { foreignKey: 'user_id' });
+UserPassword.belongsTo(models.User, { foreignKey: 'user_id' });
 };
 
 module.exports = UserPassword;

@@ -1,7 +1,5 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../../dataBase/dataBase');
-const User = require('./User');
-const Lesson = require('./Lesson');
 
 const Review = sequelize.define('Review', {
   student_id: { type: DataTypes.INTEGER, primaryKey: true },

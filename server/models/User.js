@@ -14,7 +14,7 @@ const User = sequelize.define('User', {
   timestamps: true
 });
 
-User.associate = models => {
+User.associate = (models) => {
   User.hasMany(models.Lesson, { foreignKey: 'teacher_id', as: 'teachingLessons' });
 };
 
