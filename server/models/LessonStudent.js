@@ -29,8 +29,8 @@ const LessonStudent = sequelize.define('LessonStudent', {
 });
 
 LessonStudent.associate = (models) => {
-  LessonStudent.belongsTo(models.User,   { foreignKey: 'student_id', as: 'student' });
-  LessonStudent.belongsTo(models.Lesson, { foreignKey: 'lesson_id',  as: 'lesson'  });
+  LessonStudent.belongsTo(models.User, { foreignKey: 'student_id', as: 'student' });
+  LessonStudent.belongsTo(models.Lesson, { foreignKey: 'lesson_id', as: 'lesson' });
 };
 
 module.exports = LessonStudent;

@@ -14,12 +14,11 @@ import Teachers from './components/Teachers';
 import TeacherPage from './components/TeacherPage';
 import Questions from './components/Questions';
 import ContactUs from './components/ContactUs';
-import Notifications from './components/Notifications';
+import Messages from './components/Messages';
 import PersonalArea from './components/PersonalArea';
 import ApplyTeacher from './components/personal/ApplyTeacher';
 import Calendar from './components/personal/Calendar';
 import CreateLesson from './components/personal/CreateLesson';
-import ManageStudents from './components/personal/ManageStudents';
 import ManageTeachers from './components/personal/ManageTeachers';
 
 function App() {
@@ -46,9 +45,8 @@ function App() {
           <Route path="/personal" element={<PersonalArea />}>
             <Route path="calendar" element={<Calendar />} />
             <Route path="apply" element={<ApplyTeacher />} />
-            <Route path="notifications" element={<Notifications />} />
+            <Route path="messages" element={<Messages />} />
             <Route path="create-lesson" element={<CreateLesson />} />
-            <Route path="manage-students" element={<ManageStudents />} />
             <Route path="manage-teachers" element={<ManageTeachers />} />
           </Route>
 

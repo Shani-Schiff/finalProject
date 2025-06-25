@@ -5,6 +5,7 @@ import { useUser } from '../UserContext';
 
 export default function CreateLesson() {
   const { user } = useUser();
+
   const [subjects, setSubjects] = useState([]);
   const [form, setForm] = useState({
     title: '',
@@ -40,28 +41,43 @@ export default function CreateLesson() {
 
   // שליחת טופס
   const handleSubmit = async (e) => {
+    if (!user) {
+      alert('יש להתחבר כדי ליצור שיעור');
+      return;
+    }
     e.preventDefault();
     try {
+      const startDate = new Date(form.start_date);
+      const endDate = new Date(form.end_date);
+
+      if (isNaN(startDate.getTime()) || isNaN(endDate.getTime())) {
+        alert('פורמט תאריכים שגוי');
+        return;
+      }
+
       const body = {
         title: form.title,
-        subject_id: form.subject_id,
-        level: form.level,
-        teacher_id: user.user_id, // זה עדיין נדרש כדי לשייך את המורה
-        start_date: new Date(form.start_date),
-        end_date: new Date(form.end_date),
+        subject_id: Number(form.subject_id),
+        level: Number(form.level),
+        teacher_id: user.user_id,
+        start_date: startDate,
+        end_date: endDate,
         max_participants: Number(form.max_participants),
-        price: Number(form.price),
-        schedule: form.schedule,
+        price: Number(form.price).toFixed(2),
         location: form.location,
-        number_per_week: Number(form.number_per_week),
+        // number_per_week: Number(form.number_per_week) || 0,
         status: 'open',
       };
+
+      console.log("🟨 form data:", form);
+      console.log("🟦 body:", body);
 
       await axios.post('http://localhost:5000/lessons', body, {
         headers: {
           Authorization: `Bearer ${user.token}`
         }
       });
+
       alert('✅ השיעור נוצר בהצלחה!');
     } catch (err) {
       console.error('❌ שגיאה ביצירת שיעור:', err);
@@ -98,7 +114,7 @@ export default function CreateLesson() {
 
         <div className="form-group">
           <label>רמה / מס' יחידות</label>
-          <input name="level" value={form.level} onChange={handleChange} required />
+          <input name="level" type="number" value={form.level} onChange={handleChange} required />
         </div>
 
         <div className="form-group">

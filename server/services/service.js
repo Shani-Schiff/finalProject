@@ -14,14 +14,15 @@ const {
     UserRole,
     Subject,
     Lesson,
+    LessonStudent,
     TeacherApplication,
-    Notification,
+    Message,
     Review,
     Media
 } = models;
 
 const childRelations = {
-    lessons: ['notifications', 'media', 'Review'],
+    lessons: ['messages', 'media', 'Review'],
     teachers: ['lessons'],
     students: ['lessons'],
 };
@@ -137,7 +138,7 @@ exports.applyTeacher = async (req, res) => {
             full_name, email, phone, subjects, description, experience, location
         });
 
-        await Notifications.create({
+        await messages.create({
             user_id: 1,
             content: `בקשת הצטרפות חדשה התקבלה מ-${full_name} (${email})`
         });
@@ -153,7 +154,7 @@ exports.applyTeacher = async (req, res) => {
 exports.sendContactForm = async (req, res) => {
     const { name, email, message } = req.body;
     try {
-        await Notifications.create({
+        await messages.create({
             user_id: 1,
             content: `התקבלה פנייה מ-${name} (${email}):\n${message}`
         });
@@ -201,7 +202,7 @@ exports.getAllGeneric = async (req, res) => {
 
 exports.getGenericById = async (req, res) => {
     const { id } = req.params;
-    const type = 'lessons';
+    const type = 'Lesson';
 
     if (!models[type]) {
         logger.error(`מודל ${type} לא נמצא ב-models`);
@@ -216,9 +217,7 @@ exports.getGenericById = async (req, res) => {
             ]
         });
 
-        if (!item) {
-            return res.status(404).json({ message: 'שיעור לא נמצא' });
-        }
+        if (!item) return res.status(404).json({ message: 'שיעור לא נמצא' });
 
         res.json({
             ...item.toJSON(),
@@ -230,6 +229,7 @@ exports.getGenericById = async (req, res) => {
         res.status(500).json({ message: 'שגיאה בשרת' });
     }
 };
+
 
 // === שיעורים לפי משתמש או מורה ===
 exports.getUserLessons = async (req, res) => {
@@ -273,6 +273,52 @@ exports.getTeacherLessons = async (req, res) => {
     }
 };
 
+exports.createLesson = async (req, res) => {
+    const type = 'Lesson';
+
+    try {
+        if (!models[type]) {
+            return res.status(400).json({ message: `מודל '${type}' לא קיים` });
+        }
+
+        const newItem = await models[type].create(req.body);
+        res.status(201).json(newItem);
+    } catch (error) {
+        logger.error(`שגיאה ביצירת ${type}:`, error);
+        res.status(500).json({ message: 'שגיאה ביצירה' });
+    }
+};
+
+exports.registerToLesson = async (req, res) => {
+    const { lessonId } = req.params;
+    const { user_id, status } = req.body;
+
+    if (!user_id || !lessonId) {
+        return res.status(400).json({ error: "חסרים פרטים" });
+    }
+
+    try {
+        const exists = await LessonStudent.findOne({
+            where: { lesson_id: lessonId, student_id: user_id }
+        });
+
+        if (exists) {
+            return res.status(400).json({ error: "כבר רשום לשיעור זה" });
+        }
+
+        await LessonStudent.create({
+            lesson_id: lessonId,
+            student_id: user_id,
+            status: status || "registered"
+        });
+
+        res.status(201).json({ message: "נרשמת בהצלחה לשיעור" });
+    } catch (err) {
+        console.error("שגיאה בהרשמה:", err);
+        res.status(500).json({ error: "שגיאה בהרשמה לשיעור" });
+    }
+};
+
 // === ניהול אובייקטים כלליים ותתי אובייקטים ===
 exports.getAll = async (req, res) => {
     const { type } = req.params;
@@ -286,8 +332,15 @@ exports.getAll = async (req, res) => {
 };
 
 exports.create = async (req, res) => {
-    const { type } = req.params;
+    let { type } = req.params;
+
+    type = type.charAt(0).toUpperCase() + type.slice(1).toLowerCase();
+
     try {
+        if (!models[type]) {
+            return res.status(400).json({ message: `מודל '${type}' לא קיים` });
+        }
+
         const newItem = await models[type].create(req.body);
         res.status(201).json(newItem);
     } catch (error) {
@@ -341,6 +394,7 @@ exports.getSubItems = async (req, res) => {
         res.status(500).json({ message: 'שגיאה בשרת' });
     }
 };
+
 exports.updateUserRole = async (req, res) => {
     const { userId } = req.params;
     const { role } = req.body;

@@ -47,6 +47,9 @@ export default function Register() {
           token: data.token
         });
 
+        // localStorage.setItem("user", data.user);
+        localStorage.setItem("user", JSON.stringify(data.user));
+
         localStorage.setItem("token", data.token);
 
         toast.success("נרשמת בהצלחה! 🎉", {

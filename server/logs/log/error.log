@@ -188,3 +188,30 @@ notNull Violation: User.role cannot be null
 2025-06-25 09:37:51 [error]: ⚠️ שגיאה בטעינת שיעורים לפי מקצוע: User is not associated to Lesson!
 2025-06-25 09:37:55 [error]: ⚠️ שגיאה בטעינת שיעורים לפי מקצוע: User is not associated to Lesson!
 2025-06-25 09:37:55 [error]: ⚠️ שגיאה בטעינת שיעורים לפי מקצוע: User is not associated to Lesson!
+2025-06-25 10:39:17 [error]: מודל lessons לא נמצא ב-models
+2025-06-25 10:39:23 [error]: מודל lessons לא נמצא ב-models
+2025-06-25 10:39:23 [error]: מודל lessons לא נמצא ב-models
+2025-06-25 10:40:11 [error]: שגיאה בקבלת פריט לפי מזהה: Cannot read properties of undefined (reading 'findByPk')
+2025-06-25 10:40:11 [error]: שגיאה בקבלת פריט לפי מזהה: Cannot read properties of undefined (reading 'findByPk')
+2025-06-25 10:40:44 [error]: שגיאה בקבלת פריט לפי מזהה: Cannot read properties of undefined (reading 'findByPk')
+2025-06-25 10:40:44 [error]: שגיאה בקבלת פריט לפי מזהה: Cannot read properties of undefined (reading 'findByPk')
+2025-06-25 10:41:27 [error]: שגיאה בקבלת פריט לפי מזהה: Cannot read properties of undefined (reading 'findByPk')
+2025-06-25 10:43:07 [error]: שגיאה בקבלת פריט לפי מזהה: Cannot read properties of undefined (reading 'findByPk')
+2025-06-25 10:43:14 [error]: שגיאה בקבלת פריט לפי מזהה: Cannot read properties of undefined (reading 'findByPk')
+2025-06-25 10:43:14 [error]: שגיאה בקבלת פריט לפי מזהה: Cannot read properties of undefined (reading 'findByPk')
+2025-06-25 10:43:29 [error]: שגיאה בקבלת פריט לפי מזהה: Cannot read properties of undefined (reading 'findByPk')
+2025-06-25 10:44:02 [error]: שגיאה בקבלת פריט לפי מזהה: Cannot read properties of undefined (reading 'findByPk')
+2025-06-25 10:44:10 [error]: שגיאה בקבלת פריט לפי מזהה: Cannot read properties of undefined (reading 'findByPk')
+2025-06-25 10:44:10 [error]: שגיאה בקבלת פריט לפי מזהה: Cannot read properties of undefined (reading 'findByPk')
+2025-06-25 10:46:15 [error]: שגיאה בקבלת פריט לפי מזהה: Cannot read properties of undefined (reading 'findByPk')
+2025-06-25 10:47:15 [error]: שגיאה בקבלת פריט לפי מזהה: Subject is not associated to Lesson!
+2025-06-25 10:47:15 [error]: שגיאה בקבלת פריט לפי מזהה: Subject is not associated to Lesson!
+2025-06-25 10:48:51 [error]: שגיאה בקבלת פריט לפי מזהה: Subject is not associated to Lesson!
+2025-06-25 10:48:57 [error]: שגיאה בקבלת פריט לפי מזהה: Subject is not associated to Lesson!
+2025-06-25 10:48:57 [error]: שגיאה בקבלת פריט לפי מזהה: Subject is not associated to Lesson!
+2025-06-25 11:04:33 [error]: שגיאה בהגשת בקשת מורה: Notifications is not defined
+2025-06-25 11:16:57 [error]: שגיאה בהגשת בקשת מורה: Notifications is not defined
+2025-06-25 12:38:47 [error]: שגיאה בעדכון users: Cannot read properties of undefined (reading 'findByPk')
+2025-06-25 13:13:31 [error]: שגיאה בעדכון users: Cannot read properties of undefined (reading 'findByPk')
+2025-06-25 14:00:01 [error]: שגיאה ביצירת lessons: Cannot read properties of undefined (reading 'create')
+2025-06-25 16:48:57 [error]: שגיאה בשליחת טופס צור קשר: messages is not defined

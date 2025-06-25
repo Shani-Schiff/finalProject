@@ -12,4 +12,9 @@ const Message = sequelize.define('Message', {
   timestamps: true
 });
 
+Message.associate = (models) => {
+  Message.belongsTo(models.User, { foreignKey: 'sender_id', as: 'sender' });
+  Message.belongsTo(models.User, { foreignKey: 'receiver_id', as: 'receiver' });
+};
+
 module.exports = Message;

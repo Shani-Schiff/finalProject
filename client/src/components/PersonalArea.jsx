@@ -12,18 +12,16 @@ export default function PersonalArea() {
   const links = [
     isStudent(user) && { to: "calendar", label: "📅 לוח שנה" },
     isStudent(user) && { to: "apply", label: "📝 הגשת מועמדות להוראה" },
-    isStudent(user) && { to: "notifications", label: "📩 ההודעות שלי" },
+    isStudent(user) && { to: "messages", label: "📩 ההודעות שלי" },
 
     isTeacher(user) && { to: "calendar", label: "📅 לוח שנה" },
     isTeacher(user) && { to: "apply", label: "📝 הגשת מועמדות להוראה" },
-    isTeacher(user) && { to: "notifications", label: "📩 ההודעות שלי" },
+    isTeacher(user) && { to: "messages", label: "📩 ההודעות שלי" },
     isTeacher(user) && { to: "create-lesson", label: "🆕 יצירת שיעור" },
-    isTeacher(user) && { to: "manage-students", label: "👨‍🎓 ניהול תלמידים" },
 
     isAdmin(user) && { to: "calendar", label: "📅 לוח שנה" },
-    isAdmin(user) && { to: "notifications", label: "📩 ההודעות שלי" },
+    isAdmin(user) && { to: "messages", label: "📩 ההודעות שלי" },
     isAdmin(user) && { to: "create-lesson", label: "🆕 יצירת שיעור" },
-    isAdmin(user) && { to: "manage-students", label: "👨‍🎓 ניהול תלמידים" },
     isAdmin(user) && { to: "manage-teachers", label: "👩‍🏫 ניהול מורים" },
   ].filter(Boolean);
 

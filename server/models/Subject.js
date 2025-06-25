@@ -10,7 +10,7 @@ const Subject = sequelize.define('Subject', {
   timestamps: false
 });
 
-Subject.associate = models => {
+Subject.associate = (models) => {
   Subject.hasMany(models.Lesson, { foreignKey: 'subject_id' });
 };
 

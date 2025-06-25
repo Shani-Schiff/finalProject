@@ -14,26 +14,26 @@ exports.sendMessage = async (req, res) => {
 };
 
 exports.getUserConversations = async (req, res) => {
-  const { userId } = req.params;
-  try {
-    const sent = await Message.findAll({ where: { sender_id: userId } });
-    const received = await Message.findAll({ where: { receiver_id: userId } });
+    const { userId } = req.params;
+    try {
+        const sent = await Message.findAll({ where: { sender_id: userId } });
+        const received = await Message.findAll({ where: { receiver_id: userId } });
 
-    const ids = new Set();
-    sent.forEach(m => ids.add(m.receiver_id));
-    received.forEach(m => ids.add(m.sender_id));
-    ids.delete(parseInt(userId)); // להסיר את עצמו מהרשימה
+        const ids = new Set();
+        sent.forEach(m => ids.add(m.receiver_id));
+        received.forEach(m => ids.add(m.sender_id));
+        ids.delete(parseInt(userId)); // להסיר את עצמו מהרשימה
 
-    const users = await User.findAll({
-      where: { user_id: [...ids] },
-      attributes: ['user_id', 'user_name', 'email']
-    });
+        const users = await User.findAll({
+            where: { user_id: [...ids] },
+            attributes: ['user_id', 'user_name', 'email']
+        });
 
-    res.json(users);
-  } catch (err) {
-    console.error("שגיאה בקבלת שיחות:", err);
-    res.status(500).json({ message: "שגיאה בקבלת שיחות" });
-  }
+        res.json(users);
+    } catch (err) {
+        console.error("שגיאה בקבלת שיחות:", err);
+        res.status(500).json({ message: "שגיאה בקבלת שיחות" });
+    }
 };
 
 exports.sendMessageByEmail = async (req, res) => {
