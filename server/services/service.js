@@ -10,14 +10,14 @@ exports.uploadMiddleware = upload.fields([{ name: 'image' }, { name: 'cv' }]);
 // === מודלים ===
 const models = require('../models');
 const {
-  User,
-  UserRole,
-  Subject,
-  Lesson,
-  TeacherApplication,
-  Notification,
-  Review,
-  Media
+    User,
+    UserRole,
+    Subject,
+    Lesson,
+    TeacherApplication,
+    Notification,
+    Review,
+    Media
 } = models;
 
 const childRelations = {
@@ -202,6 +202,12 @@ exports.getAllGeneric = async (req, res) => {
 exports.getGenericById = async (req, res) => {
     const { id } = req.params;
     const type = 'lessons';
+
+    if (!models[type]) {
+        logger.error(`מודל ${type} לא נמצא ב-models`);
+        return res.status(500).json({ message: `מודל ${type} לא נמצא בשרת` });
+    }
+
     try {
         const item = await models[type].findByPk(id, {
             include: [
@@ -209,7 +215,10 @@ exports.getGenericById = async (req, res) => {
                 { model: models.Subject, attributes: ['subject_name'] }
             ]
         });
-        if (!item) return res.status(404).json({ message: 'שיעור לא נמצא' });
+
+        if (!item) {
+            return res.status(404).json({ message: 'שיעור לא נמצא' });
+        }
 
         res.json({
             ...item.toJSON(),
