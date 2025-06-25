@@ -57,10 +57,14 @@ export default function LessonPage() {
         const body = {
             sender_id: user.user_id,
             receiver_id: lesson.teacher_id,
-            content: "בקשה להירשם לשיעור",
+            content: JSON.stringify({
+                text: "!!בקשה להירשם לשיעור",
+                lessonId: lesson.id
+            }),
             is_request: true,
             lesson_id: lesson.id
         };
+
 
         fetch("http://localhost:5000/messages", {
             method: "POST",

@@ -49,7 +49,6 @@ export default function Register() {
         localStorage.setItem("token", data.token);
 
 
-
         toast.success("נרשמת בהצלחה! 🎉", {
           position: "top-center",
           autoClose: 3000,

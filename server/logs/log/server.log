@@ -390,3 +390,20 @@ notNull Violation: User.role cannot be null
 2025-06-24 19:04:59 [info]: User logged in successfully: 62
 2025-06-24 19:12:28 [info]: User registered successfully: 67
 2025-06-24 19:14:30 [info]: User logged in successfully: 62
+2025-06-25 11:44:37 [error]: Registration error: Unknown column 'role' in 'field list'
+2025-06-25 11:47:34 [info]: User registered successfully: 62
+2025-06-25 11:48:56 [info]: User logged in successfully: 1
+2025-06-25 11:51:58 [info]: User logged in successfully: 62
+2025-06-25 11:59:02 [info]: User registered successfully: 63
+2025-06-25 11:59:32 [info]: User logged in successfully: 62
+2025-06-25 12:08:34 [info]: User registered successfully: 64
+2025-06-25 12:08:55 [info]: User logged in successfully: 62
+2025-06-25 12:10:09 [info]: User logged in successfully: 62
+2025-06-25 12:11:24 [info]: User logged in successfully: 62
+2025-06-25 12:11:43 [info]: User logged in successfully: 64
+2025-06-25 12:15:19 [info]: User logged in successfully: 62
+2025-06-25 12:17:04 [info]: User registered successfully: 65
+2025-06-25 12:17:26 [info]: User logged in successfully: 62
+2025-06-25 12:17:58 [info]: User logged in successfully: 65
+2025-06-25 12:36:02 [info]: User logged in successfully: 62
+2025-06-25 12:36:03 [info]: User logged in successfully: 62
