@@ -1,33 +1,37 @@
 import { useEffect, useState } from 'react';
-import { useUser } from '../UserContext';
-import '../../styles/personalArea.css';
 import axios from 'axios';
+import { useUser } from '../UserContext';
+import { useNavigate } from 'react-router-dom';
+import '../../styles/personalArea.css';
 
 export default function Calendar() {
-  const { user } = useUser();
+  const { user, token } = useUser();
   const [lessons, setLessons] = useState([]);
   const [startDate, setStartDate] = useState(new Date());
+  const navigate = useNavigate();
 
   useEffect(() => {
-  if (!user) return;
+    if (!user || !token) return;
 
-  const fetchLessons = async () => {
-    try {
-      const url = user.role === 'teacher'
-        ? `/teachers/${user.user_id}`
-        : `/users/${user.user_id}`;
+    const url = user.role === 'teacher'
+      ? `http://localhost:5000/teachers/${user.user_id}/lessons`
+      : `http://localhost:5000/users/${user.user_id}/lessons`;
 
-      const res = await axios.get(url);
-
-      setLessons(Array.isArray(res.data) ? res.data : []);
-    } catch (err) {
-      console.error('שגיאה בשליפת שיעורים:', err);
-      setLessons([]);
-    }
-  };
-
-  fetchLessons();
-}, [user]);
+    axios.get(url, {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+      .then(res => {
+        const data = Array.isArray(res.data) ? res.data : res.data.lessons || [];
+        setLessons(data);
+      })
+      .catch(err => {
+        console.error('שגיאה בטעינת שיעורים:', err.response?.data || err.message);
+        if (err.response?.data?.redirectToLogin) {
+          navigate('/login');
+        }
+        setLessons([]);
+      });
+  }, [user, token]);
 
   const getNextTwoWeeks = () => {
     const days = [];
@@ -68,9 +72,9 @@ export default function Calendar() {
   return (
     <div className="calendar-container">
       <div className="calendar-header">
-        <button onClick={prevWeek}>&rarr;</button>
+        <button onClick={prevWeek}>&larr;</button>
         <h2>מערכת שיעורים</h2>
-        <button onClick={nextWeek}>&larr;</button>
+        <button onClick={nextWeek}>&rarr;</button>
       </div>
 
       <div className="calendar-grid">

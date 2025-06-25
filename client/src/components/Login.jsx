@@ -12,7 +12,7 @@ export default function Login({ onLogin }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await fetch("http://localhost:5000/login", {
+      const res = await fetch("http://localhost:5000/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
@@ -36,13 +36,13 @@ export default function Login({ onLogin }) {
       } else {
         toast.error(data.message || "שגיאה בהתחברות", {
           position: "top-center",
-          autoClose: 3000,
+          autoClose: 5000,
         });
       }
     } catch (err) {
       toast.error("שגיאה בשרת. נסה שוב מאוחר יותר.", {
         position: "top-center",
-        autoClose: 3000,
+        autoClose: 5000,
       });
     }
   };

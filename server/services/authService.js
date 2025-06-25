@@ -1,5 +1,5 @@
 const bcrypt = require('bcrypt');
-const Users = require('../models/User');
+const User = require('../models/User');
 const Passwords = require('../models/UserPassword');
 const { generateToken } = require('../middleware/auth');
 const logger = require('../logs/logger');
@@ -13,7 +13,7 @@ const validateRegistration = (userData) => {
 };
 
 const checkExistingUser = async (email) => {
-    const existingUser = await Users.findOne({ where: { email } });
+    const existingUser = await User.findOne({ where: { email } });
     if (existingUser) {
         logger.warn(`Registration attempt with existing email: ${email}`);
         return { error: 'Email already in use', status: 409 };
@@ -32,7 +32,7 @@ const createUserWithPassword = async (userData, currentUserRole = null) => {
     const { user_name, email, phone_number, password, role } = userData;
     const hashed_password = await bcrypt.hash(password, 10);
 
-    const user = await Users.create({
+    const user = await User.create({
         user_name,
         email,
         phone_number,
@@ -80,7 +80,7 @@ exports.register = async (req, res) => {
         const response = {
             message: 'User registered successfully',
             token,
-            user: prepareUserResponse(user, null)
+            user: prepareUserResponse(user, token)
         };
 
         res.status(201).json(response);
@@ -91,7 +91,7 @@ exports.register = async (req, res) => {
 };
 
 async function verifyUserCredentials(email, password) {
-    const user = await Users.findOne({
+    const user = await User.findOne({
         where: { email },
         attributes: ['user_id', 'user_name', 'email', 'phone_number', 'role']
     });

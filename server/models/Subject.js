@@ -11,7 +11,7 @@ const Subject = sequelize.define('Subject', {
 });
 
 Subject.associate = models => {
-  Subject.hasMany(models.lesson, { foreignKey: 'subject_id' });
+  Subject.hasMany(models.Lesson, { foreignKey: 'subject_id' });
 };
 
 module.exports = Subject;

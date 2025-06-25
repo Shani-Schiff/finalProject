@@ -19,6 +19,7 @@ export default function CreateLesson() {
     number_per_week: '',
   });
 
+  // טעינת מקצועות
   useEffect(() => {
     axios.get('http://localhost:5000/subjects')
       .then(res => {
@@ -31,31 +32,36 @@ export default function CreateLesson() {
       });
   }, []);
 
-
+  // עדכון טופס
   const handleChange = (e) => {
     const { name, value } = e.target;
     setForm((prev) => ({ ...prev, [name]: value }));
   };
 
+  // שליחת טופס
   const handleSubmit = async (e) => {
     e.preventDefault();
-console.log('Submitting form:', form);
     try {
       const body = {
         title: form.title,
         subject_id: form.subject_id,
         level: form.level,
-        teacher_id: user.user_id,
+        teacher_id: user.user_id, // זה עדיין נדרש כדי לשייך את המורה
         start_date: new Date(form.start_date),
         end_date: new Date(form.end_date),
         max_participants: Number(form.max_participants),
         price: Number(form.price),
+        schedule: form.schedule,
         location: form.location,
+        number_per_week: Number(form.number_per_week),
         status: 'open',
       };
 
-      await axios.post('http://localhost:5000/lessons', body);
-
+      await axios.post('http://localhost:5000/lessons', body, {
+        headers: {
+          Authorization: `Bearer ${user.token}`
+        }
+      });
       alert('✅ השיעור נוצר בהצלחה!');
     } catch (err) {
       console.error('❌ שגיאה ביצירת שיעור:', err);
@@ -76,8 +82,11 @@ console.log('Submitting form:', form);
           <label>מקצוע</label>
           <select name="subject_id" value={form.subject_id} onChange={handleChange} required>
             <option value="">בחר מקצוע</option>
+            {subjects.length === 0 && <option disabled>🔍 אין מקצועות זמינים</option>}
             {subjects.map((s) => (
-              <option key={s.id} value={s.id}>{s.subject_name}</option>
+              <option key={s.id} value={s.id}>
+                {s.subject_name}
+              </option>
             ))}
           </select>
         </div>

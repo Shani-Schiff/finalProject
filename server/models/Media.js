@@ -11,7 +11,7 @@ const Media = sequelize.define('Media', {
     type: DataTypes.INTEGER, 
     allowNull: true,
     references: {
-      model: 'lessons', // השם המדויק של הטבלה של שיעורים במסד הנתונים שלך
+      model: 'lessons',
       key: 'id'
     },
     onDelete: 'SET NULL',

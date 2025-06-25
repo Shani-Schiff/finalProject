@@ -21,20 +21,6 @@ const Lesson = sequelize.define('Lesson', {
 
 Lesson.associate = models => {
   Lesson.belongsTo(models.User, { foreignKey: 'teacher_id', as: 'teacher' });
-  Lesson.belongsTo(models.Subject, { foreignKey: 'subject_id' });
-
-  Lesson.belongsToMany(models.User, {
-    through: models.LessonStudent,
-    foreignKey: 'lesson_id',
-    as: 'students'
-  });
-
-  Lesson.hasMany(models.Media, {
-    foreignKey: 'lesson_id',
-    as: 'media',
-    onDelete: 'SET NULL',
-    onUpdate: 'CASCADE'
-  });
 };
 
 module.exports = Lesson;

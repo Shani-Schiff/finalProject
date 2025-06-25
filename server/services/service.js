@@ -2,7 +2,7 @@ const multer = require('multer');
 const nodemailer = require('nodemailer');
 const logger = require('../logs/logger');
 
-const Users = require('../models/User');
+const User = require('../models/User');
 const UserRole = require('../models/UserRole');
 const Subject = require('../models/Subject');
 const Lesson = require('../models/Lesson');
@@ -10,8 +10,6 @@ const TeacherApplication = require('../models/TeacherApplication');
 const Notifications = require('../models/Notification');
 const Review = require('../models/Review');
 const Media = require('../models/Media');
-const LessonStudent  = require('../models/LessonStudent');
-
 
 // הגדרת multer לשימוש עם Buffer
 const storage = multer.memoryStorage();
@@ -20,17 +18,18 @@ exports.uploadMiddleware = upload.fields([{ name: 'image' }, { name: 'cv' }]);
 
 // === מודלים ===
 const models = {
-    login: Users,
-    users: Users,
+    login: User,
+    users: User,
     user_role: UserRole,
     subjects: Subject,
     lessons: Lesson,
-    teachers: Users,
+    teachers: User,
     TeacherApplication,
     notifications: Notifications,
     Review,
     media: Media
 };
+
 
 const childRelations = {
     lessons: ['notifications', 'media', 'Review'],
@@ -62,10 +61,18 @@ exports.getSubjectById = async (req, res) => {
 
 exports.getLessonsBySubjectId = async (req, res) => {
     try {
-        const lessons = await Lesson.findAll({ where: { subject_id: req.params.id } });
+        const subjectId = req.params.id;
+        const lessons = await Lesson.findAll({
+            where: { subject_id: subjectId },
+            include: [{
+                model: User,
+                as: 'teacher',
+                attributes: ['user_name']
+            }]
+        });
         res.json(lessons);
-    } catch (err) {
-        logger.error("שגיאה בטעינת שיעורים לפי מקצוע:", err);
+    } catch (error) {
+        logger.error('⚠️ שגיאה בטעינת שיעורים לפי מקצוע:', error);
         res.status(500).json({ message: 'שגיאה בטעינת שיעורים לפי מקצוע' });
     }
 };
@@ -73,7 +80,7 @@ exports.getLessonsBySubjectId = async (req, res) => {
 // === מורים ומשתמשים ===
 exports.getAllTeachers = async (req, res) => {
     try {
-        const teachers = await Users.findAll({
+        const teachers = await User.findAll({
             where: { role: 'teacher' },
             attributes: ['user_id', 'user_name', 'email']
         });
@@ -86,7 +93,7 @@ exports.getAllTeachers = async (req, res) => {
 
 exports.getTeacherById = async (req, res) => {
     try {
-        const teacher = await Users.findByPk(req.params.id, {
+        const teacher = await User.findByPk(req.params.id, {
             attributes: ['user_id', 'user_name', 'email', 'phone_number', 'role']
         });
         if (!teacher || teacher.role !== 'teacher') {
@@ -101,7 +108,7 @@ exports.getTeacherById = async (req, res) => {
 
 exports.getAllUsers = async (req, res) => {
     try {
-        const users = await Users.findAll({ attributes: ['user_id', 'email'] });
+        const users = await User.findAll({ attributes: ['user_id', 'email'] });
         res.json(users);
     } catch (err) {
         res.status(500).json({ message: 'שגיאה בקבלת משתמשים' });
@@ -219,22 +226,35 @@ exports.getGenericById = async (req, res) => {
 // === שיעורים לפי משתמש או מורה ===
 exports.getUserLessons = async (req, res) => {
     try {
-        const user = await Users.findByPk(req.params.user_id);
+        const user = await User.findByPk(req.params.user_id);
         if (!user) return res.status(404).json({ message: 'משתמש לא נמצא' });
 
-        const lessons = await user.getStudentLessons({
-            include: [{ model: Users, as: 'teacher', attributes: ['user_name'] }]
-        });
-        res.json(lessons);
+        console.log("typeof user.getStudentLessons:", typeof user.getStudentLessons); // ← הוסיפי כאן
+
+        if (user.role === 'student') {
+            const lessons = await user.getStudentLessons({
+                include: [{ model: User, as: 'teacher', attributes: ['user_name'] }]
+            });
+            return res.json(lessons);
+        }
+
+        if (user.role === 'teacher') {
+            const lessons = await user.getTeachingLessons({
+                include: [{ model: User, as: 'students', attributes: ['user_name'] }]
+            });
+            return res.json(lessons);
+        }
+
+        return res.json([]);
     } catch (error) {
-        logger.error("שגיאה בשליפת שיעורי תלמיד:", error);
+        logger.error("שגיאה בשליפת שיעורי משתמש:", error);
         res.status(500).json({ message: 'שגיאה בשרת' });
     }
 };
 
 exports.getTeacherLessons = async (req, res) => {
     try {
-        const teacher = await Users.findByPk(req.params.id);
+        const teacher = await User.findByPk(req.params.id);
         if (!teacher) return res.status(404).json({ message: 'מורה לא נמצא' });
 
         const lessons = await teacher.getTeachingLessons();
@@ -322,7 +342,7 @@ exports.updateUserRole = async (req, res) => {
     }
 
     try {
-        const user = await Users.findByPk(userId);
+        const user = await User.findByPk(userId);
         if (!user) {
             return res.status(404).send({ error: 'משתמש לא נמצא' });
         }
@@ -335,52 +355,4 @@ exports.updateUserRole = async (req, res) => {
         console.error(error);
         res.status(500).send({ error: 'שגיאת שרת' });
     }
-};
-
-exports.registerStudentToLesson = async (req, res) => {
-  const { lesson_id } = req.params;
-  const { user_id, status } = req.body;
-
-  try {
-    const result = await LessonStudent.create({ lesson_id, user_id, status });
-    res.json(result);
-  } catch (error) {
-    console.error(error);
-    res.status(500).send({ error: "שגיאה בהרשמה לשיעור" });
-  }
-};
-exports.createLesson = async (req, res) => {
-  try {
-    const {
-      title,
-      subject_id,
-      level,
-      teacher_id,
-      start_date,
-      end_date,
-      max_participants,
-      price,
-      location,
-      status
-    } = req.body;
-
-    // יצירה בטבלה של השיעורים
-    const lesson = await Lesson.create({
-      title,
-      subject_id,
-      level,
-      teacher_id,
-      start_date,
-      end_date,
-      max_participants,
-      price,
-      location,
-      status
-    });
-
-    res.status(201).json(lesson);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'אירעה שגיאה ביצירת השיעור' });
-  }
 };

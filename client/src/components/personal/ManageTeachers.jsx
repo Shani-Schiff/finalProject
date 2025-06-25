@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import "../../styles/personalArea.css";
+import '../../styles/personalArea.css';
 
 export default function ManageTeachers() {
   const [teachers, setTeachers] = useState([]);
@@ -7,9 +7,9 @@ export default function ManageTeachers() {
   useEffect(() => {
     async function fetchTeachers() {
       try {
-        const res = await fetch("http://localhost:5000/teachers-with-lessons");
+        const res = await fetch("http://localhost:5000/teachers");
         const data = await res.json();
-        setTeachers(data);
+        setTeachers(Array.isArray(data) ? data : []);
       } catch (err) {
         console.error("שגיאה בטעינת מורים", err);
       }
@@ -25,15 +25,15 @@ export default function ManageTeachers() {
           <tr>
             <th>שם מורה</th>
             <th>מייל</th>
-            <th>שיעורים שהוא מלמד</th>
+            <th>תפקיד/מקצועות</th>
           </tr>
         </thead>
         <tbody>
-          {teachers.map((t) => (
-            <tr key={t.id}>
-              <td>{t.name}</td>
+          {teachers.map(t => (
+            <tr key={t.user_id}>
+              <td>{t.user_name}</td>
               <td>{t.email}</td>
-              <td>{t.subjects?.join(", ")}</td>
+              <td>{t.subjects?.join?.(", ") || "-"}</td>
             </tr>
           ))}
         </tbody>

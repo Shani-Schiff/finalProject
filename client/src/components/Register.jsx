@@ -22,18 +22,19 @@ export default function Register() {
     e.preventDefault();
 
     try {
-      const res = await fetch("http://localhost:5000/register", {
+      const res = await fetch("http://localhost:5000/auth/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
       });
 
       const data = await res.json();
+      console.log(data)
 
       if (!res.ok) {
         toast.error(data.error || "שגיאה בהרשמה ❌", {
           position: "top-center",
-          autoClose: 3000,
+          autoClose: 5000,
           theme: "colored",
         });
       } else {
@@ -48,20 +49,18 @@ export default function Register() {
 
         localStorage.setItem("token", data.token);
 
-
-
         toast.success("נרשמת בהצלחה! 🎉", {
           position: "top-center",
-          autoClose: 3000,
+          autoClose: 5000,
           theme: "colored",
         });
-        setTimeout(() => navigate("/"), 3000);
+        setTimeout(() => navigate("/"), 5000);
       }
 
     } catch (err) {
       toast.error("קרתה שגיאה בשרת, נסה שוב מאוחר יותר", {
         position: "top-center",
-        autoClose: 3000,
+        autoClose: 5000,
         theme: "colored",
       });
     }

@@ -41,3 +41,7 @@ export function canManageLessons(user) {
 export function canRespondToContact(user) {
   return isAdmin(user);
 }
+
+export const canRegisterToLesson = (user) => {
+  return user && user.role === 'student';
+};

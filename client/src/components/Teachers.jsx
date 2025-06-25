@@ -1,61 +1,51 @@
 import { useEffect, useState } from "react";
-import { useUser } from "../components/UserContext";
-import { canViewDetails } from '../helpers/authHelpers';
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
+import { useUser } from "../components/UserContext";
+import { canViewDetails } from '../helpers/authHelpers';
 import '../styles/lessons.css';
 
 export default function Teachers() {
-    const [teachers, setTeachers] = useState([]);
-    const { user } = useUser();
+  const [teachers, setTeachers] = useState([]);
+  const { user } = useUser();
 
-    useEffect(() => {
-        fetch('http://localhost:5000/teachers')
-            .then(response => response.json())
-            .then(data => {
-                if (!Array.isArray(data)) {
-                    console.error('נתונים לא תקינים:', data);
-                    setTeachers([]);
-                    return;
-                }
-                setTeachers(data);
-            })
-            .catch(err => console.error('שגיאה בטעינת המורים:', err));
-    }, []);
+  useEffect(() => {
+    fetch('http://localhost:5000/teachers')
+      .then(res => res.json())
+      .then(data => setTeachers(Array.isArray(data) ? data : []))
+      .catch(err => console.error(err));
+  }, []);
 
-    const handleRestrictedClick = (e) => {
-        e.preventDefault();
-        toast.info(
-            <div>
-                יש להתחבר או להיות בעל הרשאה כדי לצפות בפרטי המורה! <br />
-                <Link to="/login" style={{ color: '#61dafb', textDecoration: 'underline' }}>
-                    להתחברות
-                </Link>
-            </div>,
-            { autoClose: 3000 }
-        );
-    };
-
-    return (
-        <div className="lessons-container">
-            <h2 className="lessons-title">📚 המורים שלנו </h2>
-
-            {teachers.length === 0 ? (
-                <p className="no-lessons">לא נמצאו מורים</p>
-            ) : (
-                <div className="lessons-grid">
-                    {teachers.map(teacher => (
-                        <div className="lesson-card" key={teacher.user_id}>
-                            <h3 className="lesson-title">{teacher.user_name}</h3>
-                            {canViewDetails(user) ? (
-                                <Link to={`/teachers/${teacher.user_id}`} className="details-button">לפרטים</Link>
-                            ) : (
-                                <button onClick={handleRestrictedClick} className="details-button">לפרטים</button>
-                            )}
-                        </div>
-                    ))}
-                </div>
-            )}
-        </div>
+  const handleRestrictedClick = e => {
+    e.preventDefault();
+    toast.info(
+      <>
+        יש להתחבר כדי לצפות בפרטים!<br />
+        <Link to="/login" style={{ color: '#61dafb' }}>התחבר/הרשם</Link>
+      </>,
+      { autoClose: 5000 }
     );
+  };
+
+  return (
+    <div className="lessons-container">
+      <h2 className="lessons-title">📚 המורים שלנו</h2>
+      {teachers.length === 0 ? (
+        <p>לא נמצאו מורים</p>
+      ) : (
+        <div className="lessons-grid">
+          {teachers.map(t => (
+            <div className="lesson-card" key={t.user_id}>
+              <h3>{t.user_name}</h3>
+              {canViewDetails(user) ? (
+                <Link to={`/teachers/${t.user_id}`} className="details-button">לפרטים</Link>
+              ) : (
+                <button onClick={handleRestrictedClick} className="details-button">לפרטים</button>
+              )}
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
 }
